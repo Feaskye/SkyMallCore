@@ -18,26 +18,21 @@ namespace SkyMallCore.Data
         }
 
         public DbSet<SysUser> SysUsers { get; set; }
-        
+        public DbSet<SysArea> SysAreas { get; set; }
+        public DbSet<SysItems> SysItems { get; set; }
+        public DbSet<SysItemsDetail> SysItemsDetails { get; set; }
+        public DbSet<SysModule> SysModules { get; set; }
+        public DbSet<SysModuleButton> SysModuleButtons { get; set; }
+        public DbSet<SysOrganize> SysOrganizes { get; set; }
+        public DbSet<SysRole> SysRoles { get; set; }
+        public DbSet<SysRoleAuthorize> SysRoleAuthorizes { get; set; }
+        public DbSet<SysUserLogOn> SysUserLogOns { get; set; }
+
 
 
 
 
     }
 
-    public interface ISkyMallDbContext : IDbContext
-    {
-
-    }
-    public interface IDbContext
-    {
-        DbSet<TEntity> Set<TEntity>()
-             where TEntity : class;
-
-        EntityEntry<TEntity> Entry<TEntity>(TEntity entity)
-            where TEntity : class;
-
-        int SaveChanges();
-        DatabaseFacade Database { get; }
-    }
+    
 }

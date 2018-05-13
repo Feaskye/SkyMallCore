@@ -12,14 +12,25 @@ namespace SkyMallCore.Data
     {
         int Insert(TEntity entity);
         int Insert(List<TEntity> entitys);
+        int AddOneByOne(IList<TEntity> entitys);
         int Update(TEntity entity);
         int Delete(TEntity entity);
         int Delete(Expression<Func<TEntity, bool>> predicate);
-        TEntity FindEntity(object keyValue);
-        TEntity FindEntity(Expression<Func<TEntity, bool>> predicate);
-        IQueryable<TEntity> IQueryable();
-        IQueryable<TEntity> IQueryable(Expression<Func<TEntity, bool>> predicate);
-        List<TEntity> FindList(Pagination pagination);
-        List<TEntity> FindList(Expression<Func<TEntity, bool>> predicate, Pagination pagination);
+        int Delete(int id);
+        int Delete(List<int> ids);
+        TEntity Get(object id);
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+
+        TResult Max<TResult>(Expression<Func<TEntity, TResult>> maxExpression, ISpecification<TEntity> specification);
+
+        int Count(ISpecification<TEntity> specification);
+
+        IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
+        bool Any(Expression<Func<TEntity, bool>> predicate);
+        List<TEntity> GetPagedList(Pagination pagination);
+        List<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, Pagination pagination);
+
+        List<TEntity> FromSql(string strSql, DbParameter[] dbParameter = null);
     }
 }

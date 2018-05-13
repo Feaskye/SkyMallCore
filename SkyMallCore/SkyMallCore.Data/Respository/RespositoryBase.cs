@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SkyMallCore.Core;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -19,13 +20,13 @@ namespace SkyMallCore.Data
 
 
         public RespositoryBase(ISkyMallDbContext skyMallDbContext) {
-            //_SkyMallDBContext = DbContextFactory.GetDBContext();
             _SkyMallDBContext = skyMallDbContext;
             _DbSet = _SkyMallDBContext.Set<TEntity>();
         }
 
         public int Insert(TEntity entity)
         {
+            _DbSet.Add(entity);
             _SkyMallDBContext.Entry<TEntity>(entity).State = EntityState.Added;
             return _SkyMallDBContext.SaveChanges();
         }
@@ -33,10 +34,23 @@ namespace SkyMallCore.Data
         {
             foreach (var entity in entitys)
             {
+                _DbSet.Add(entity);
                 _SkyMallDBContext.Entry<TEntity>(entity).State = EntityState.Added;
             }
             return _SkyMallDBContext.SaveChanges();
         }
+
+        public virtual int AddOneByOne(IList<TEntity> entitys)
+        {
+            //由于ef core批量写入数据时，采用了批处理方法，但这种方式会导致写入顺序错，暂时没有找到什么方法，所以改成一条条写。
+            entitys.ToList().ForEach(t => {
+                this._DbSet.Add(t);
+                this._SkyMallDBContext.Entry<TEntity>(t).State = EntityState.Added;
+                this._SkyMallDBContext.SaveChanges();
+            });
+            return entitys.Count;
+        }
+
         public int Update(TEntity entity)
         {
             _DbSet.Attach(entity);
@@ -54,34 +68,75 @@ namespace SkyMallCore.Data
         }
         public int Delete(TEntity entity)
         {
-            _DbSet.Attach(entity);
+            _DbSet.Remove(entity);
             _SkyMallDBContext.Entry<TEntity>(entity).State = EntityState.Deleted;
             return _SkyMallDBContext.SaveChanges();
         }
         public int Delete(Expression<Func<TEntity, bool>> predicate)
         {
             var entitys = _DbSet.Where(predicate).ToList();
-            entitys.ForEach(m => _SkyMallDBContext.Entry<TEntity>(m).State = EntityState.Deleted);
+            entitys.ForEach(m =>{
+                _DbSet.Remove(m);
+                _SkyMallDBContext.Entry<TEntity>(m).State = EntityState.Deleted;
+                });
             return _SkyMallDBContext.SaveChanges();
         }
-        public TEntity FindEntity(object keyValue)
+
+        public virtual int Delete(int id)
         {
-            return _DbSet.Find(keyValue);
+            TEntity entity = this.Get(id);
+            _DbSet.Remove(entity);
+            this._SkyMallDBContext.Entry<TEntity>(entity).State = EntityState.Deleted;
+            return this._SkyMallDBContext.SaveChanges();
         }
-        public TEntity FindEntity(Expression<Func<TEntity, bool>> predicate)
+
+        public int Delete(List<int> ids)
+        {
+            ids.ForEach(t => {
+                TEntity entity = this.Get(t);
+                this._DbSet.Remove(entity);
+                this._SkyMallDBContext.Entry<TEntity>(entity).State = EntityState.Deleted;
+            });
+
+            return this._SkyMallDBContext.SaveChanges();
+        }
+
+        public TEntity Get(object id)
+        {
+            return _DbSet.Find(id);
+        }
+        public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
             return _DbSet.FirstOrDefault(predicate);
         }
-        public IQueryable<TEntity> IQueryable()
+
+        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> maxExpression, ISpecification<TEntity> specification)
+        {
+            TResult t = _DbSet.Where(specification.GetExpression()).Max(maxExpression);
+            return t;
+        }
+
+        public IQueryable<TEntity> GetAll()
         {
             return _DbSet;
         }
-        public IQueryable<TEntity> IQueryable(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
         {
             return _DbSet.Where(predicate);
         }
-      
-        public List<TEntity> FindList(Pagination pagination)
+
+        public bool Any(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _DbSet.Any(predicate);
+        }
+
+        public int Count(ISpecification<TEntity> specification)
+        {
+            return _DbSet.Where(specification.GetExpression()).Count();
+        }
+
+
+        public List<TEntity> GetPagedList(Pagination pagination)
         {
             bool isAsc = pagination.sord.ToLower() == "asc" ? true : false;
             string[] _order = pagination.sidx.Split(',');
@@ -109,7 +164,7 @@ namespace SkyMallCore.Data
             tempData = tempData.Skip<TEntity>(pagination.rows * (pagination.page - 1)).Take<TEntity>(pagination.rows).AsQueryable();
             return tempData.ToList();
         }
-        public List<TEntity> FindList(Expression<Func<TEntity, bool>> predicate, Pagination pagination)
+        public List<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, Pagination pagination)
         {
             bool isAsc = pagination.sord.ToLower() == "asc" ? true : false;
             string[] _order = pagination.sidx.Split(',');
@@ -137,5 +192,12 @@ namespace SkyMallCore.Data
             tempData = tempData.Skip<TEntity>(pagination.rows * (pagination.page - 1)).Take<TEntity>(pagination.rows).AsQueryable();
             return tempData.ToList();
         }
+
+
+        public List<TEntity> FromSql(string strSql, DbParameter[] dbParameter)
+        {
+            return _DbSet.FromSql<TEntity>(strSql, dbParameter).ToList();
+        }
+
     }
 }

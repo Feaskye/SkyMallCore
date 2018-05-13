@@ -17,7 +17,7 @@ namespace SkyMallCore.Respository
 
         public IList<SysUser> GetSysUsers()
         {
-            return this.IQueryable().ToList();
+            return this.GetAll().ToList();
         }
     }
 

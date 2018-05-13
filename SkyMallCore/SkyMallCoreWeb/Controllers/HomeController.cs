@@ -17,6 +17,7 @@ namespace SkyMallCoreWeb.Controllers
             _SysUserService = sysUserService;
         }
 
+        //首页
         public IActionResult Index()
         {
             var users = _SysUserService.GetUsers();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,11 +56,25 @@ namespace SkyMallCoreWeb
 
             app.UseMvc(routes =>
             {
+                routes.MapAreaRoute(
+                  name: "SystemManage", areaName: "SystemManage",
+                     template: "SystemManage/{controller=Home}/{action=Index}"
+                );
+
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                    ,defaults: new string[] { "SkyMallCoreWeb.Controllers" }
+                    );
+
+             
+
             });
         }
     }
+
+
     
+
+
 }
