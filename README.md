@@ -1,2 +1,2 @@
 # SkyMallCore
-dotNet Core Demo, Create a Cross Platform System!
+dotNet Core Demo, Create a Cross Platform WebApp System!
