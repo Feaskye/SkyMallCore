@@ -4,14 +4,22 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SkyMallCore.Services;
 using SkyMallCoreWeb.Models;
 
 namespace SkyMallCoreWeb.Controllers
 {
     public class HomeController : Controller
     {
+        ISysUserService _SysUserService;
+        public HomeController(ISysUserService sysUserService)
+        {
+            _SysUserService = sysUserService;
+        }
+
         public IActionResult Index()
         {
+            var users = _SysUserService.GetUsers();
             return View();
         }
 

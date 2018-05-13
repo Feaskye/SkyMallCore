@@ -12,4 +12,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
+    <ProjectReference Include="..\SkyMallCore.Services\SkyMallCore.Services.csproj" />
+  </ItemGroup>
+
 </Project>
