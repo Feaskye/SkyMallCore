@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
     <ProjectReference Include="..\SkyMallCore.Services\SkyMallCore.Services.csproj" />
   </ItemGroup>
@@ -21,7 +22,10 @@
   <ItemGroup>
     <Folder Include="Areas\SystemManage\Data\" />
     <Folder Include="Areas\SystemManage\Models\" />
-    <Folder Include="Areas\SystemManage\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\SystemManage\Views\Login\Index.cshtml" />
   </ItemGroup>
 
 </Project>

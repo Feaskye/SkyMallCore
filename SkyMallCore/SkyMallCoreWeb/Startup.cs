@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SkyMallCore.Core;
 using SkyMallCore.Services;
 namespace SkyMallCoreWeb
 {
@@ -36,12 +38,14 @@ namespace SkyMallCoreWeb
         {
             ServiceFactory.Initialize(services, Configuration);
             //services.AddTransient<ISysUserService, SysUserService>();
-            services.AddMvc(); 
+            services.AddMvc();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            WebHelper.HttpContextAccessor = app.ApplicationServices.GetService<IHttpContextAccessor>();
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
@@ -53,6 +57,8 @@ namespace SkyMallCoreWeb
             }
 
             app.UseStaticFiles();
+            //SEssion
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
