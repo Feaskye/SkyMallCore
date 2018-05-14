@@ -37,24 +37,18 @@ namespace SkyMallCoreWeb
         public void ConfigureServices(IServiceCollection services)
         {
             ServiceFactory.Initialize(services, Configuration);
+            AuthenticationFactory.Initialize(services);
             services.AddMvc();
-
-            //多种登录授权方式，前台/后台 【参考 https://www.cnblogs.com/sky-net/p/8669892.html】
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
-            {
-                o.LoginPath = new PathString("/SystemManage/Login");
-                o.AccessDeniedPath = new PathString("/Error/Forbidden");
-            });
-
-
+            
             services.AddSession();
+            CoreProviderContext.ServiceCollection = services;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            WebHelper.HttpContextAccessor = app.ApplicationServices.GetService<IHttpContextAccessor>();
+            CoreProviderContext.HttpContextAccessor = app.ApplicationServices.GetService<IHttpContextAccessor>();
+            CoreProviderContext.Configuration = Configuration;
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();

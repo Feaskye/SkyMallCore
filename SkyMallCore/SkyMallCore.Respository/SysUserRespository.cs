@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SkyMallCore.Core;
 using SkyMallCore.Data;
 using SkyMallCore.Models;
 using System;
@@ -26,7 +27,15 @@ namespace SkyMallCore.Respository
         public static void Initialize(IServiceCollection services, IConfiguration configuration)
         {
             DbContextFactory.Initialize(services, configuration);
-            services.AddScoped<ISysUserRespository, SysUserRespository>();
+
+            services.AddScoped(typeof(IRespositoryBase<>), typeof(RespositoryBase<>));
+            //services.AddScoped<ISysUserRespository, SysUserRespository>();
+            var scopedServices = Reflector.GetScopedList(typeof(RespositoryFactory).Assembly)
+                .Where(w => w.Interface.Name.EndsWith("Respository")).ToList();
+               scopedServices .ForEach(item =>
+                {
+                    services.AddScoped(item.Interface, item.Class);
+                });
         }
     }
 

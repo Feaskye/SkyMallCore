@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Data\SkyMallCore.Data.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
     <ProjectReference Include="..\SkyMallCore.Respository\SkyMallCore.Respository.csproj" />

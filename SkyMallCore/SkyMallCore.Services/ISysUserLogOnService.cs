@@ -5,11 +5,12 @@ using System.Text;
 
 namespace SkyMallCore.Services
 {
-    public interface ISysUserService
+    public interface ISysUserLogOnService
     {
-        IList<SysUser> GetUsers();
+        SysUserLogOn GetForm(string key);
 
-        SysUser CheckLogin(string userName, string password);
+
+        void UpdateForm(SysUserLogOn userLogOnEntity);
     }
 
 

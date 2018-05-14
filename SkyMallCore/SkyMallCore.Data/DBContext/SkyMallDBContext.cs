@@ -28,7 +28,7 @@ namespace SkyMallCore.Data
         public DbSet<SysRoleAuthorize> SysRoleAuthorizes { get; set; }
         public DbSet<SysUserLogOn> SysUserLogOns { get; set; }
 
-
+        public DbSet<SysLog> SysLogs { get; set; }
 
 
 

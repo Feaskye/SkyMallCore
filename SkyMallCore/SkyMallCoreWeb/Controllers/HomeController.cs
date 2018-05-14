@@ -10,8 +10,7 @@ using SkyMallCoreWeb.Models;
 
 namespace SkyMallCoreWeb.Controllers
 {
-
-    [Authorize(Policy = "CheckLogManage")]
+    
     public class HomeController : Controller
     {
         ISysUserService _SysUserService;
@@ -27,6 +26,7 @@ namespace SkyMallCoreWeb.Controllers
             return View();
         }
 
+        [MemberAuth]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
