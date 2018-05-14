@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
+    
     public class HomeController : Controller
     {
         [Area("SystemManage")]
+        [CheckLoginAttribute]
         public IActionResult Index()
         {
+            
             return Content("SystemManage Page");
             //return View();
         }

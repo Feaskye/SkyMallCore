@@ -18,15 +18,22 @@ namespace SkyMallCore.Core
         /// <returns></returns>
         public static string Md5(string str, int code)
         {
-            var md5 = MD5.Create(str);//todo md5出错
-            var result = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(str)))
-                                .Replace("-", "");
-            string strEncrypt;
+            byte[] bytes;
+            using (var md5 = MD5.Create())
+            {
+                bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
+            }
+
+            var result = new StringBuilder();
+            foreach (byte t in bytes)
+            {
+                result.Append(t.ToString("X2"));
+            }
             if (code == 16)
             {
-                result = result.Substring(8, 16);
+                return result.ToString().Substring(8, 16);
             }
-            return result;
+            return result.ToString();
         }
     }
 }

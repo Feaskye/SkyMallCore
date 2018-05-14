@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkyMallCore.Services;
 using SkyMallCoreWeb.Models;
 
 namespace SkyMallCoreWeb.Controllers
 {
+
+    [Authorize(Policy = "CheckLogManage")]
     public class HomeController : Controller
     {
         ISysUserService _SysUserService;

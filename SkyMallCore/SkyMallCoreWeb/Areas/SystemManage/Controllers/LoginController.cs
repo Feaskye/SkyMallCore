@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkyMallCore.Core;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
+    
     public class LoginController : Controller
     {
         [Area("SystemManage")]
@@ -17,12 +19,14 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
             return View();
         }
         [Area("SystemManage")]
+        [Authorize(Policy = "CheckLogManage")]
         [HttpGet]
         public IActionResult GetAuthCode()
         {
             return File(new VerifyCode().GetVerifyCode(), @"image/Gif");
         }
         [HttpGet]
+        [Authorize(Policy = "CheckLogManage")]
         public IActionResult OutLogin()
         {
             //new LogApp().WriteDbLog(new LogEntity
