@@ -51,8 +51,8 @@ namespace SkyMallCoreWeb
                 o.AccessDeniedPath = new PathString("/SystemManage/Login/Forbidden");
             }).AddCookie(MemberAuthAttribute.MemberAuthScheme, o =>
             {
-                o.LoginPath = new PathString("/Signin");
-                o.AccessDeniedPath = new PathString("/Signin/Forbidden");
+                o.LoginPath = new PathString("/Member/Signin");
+                o.AccessDeniedPath = new PathString("/Member/Forbidden");
             });
 
         }

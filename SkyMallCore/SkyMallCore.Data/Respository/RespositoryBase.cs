@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using SkyMallCore.Core;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Data
 {
-    public class RespositoryBase<TEntity> : IRespositoryBase<TEntity> 
+    public class RespositoryBase<TEntity> : IRespositoryBase<TEntity>
         where TEntity : class,new()
     {
         protected ISkyMallDbContext _SkyMallDBContext;
@@ -23,6 +26,40 @@ namespace SkyMallCore.Data
             _SkyMallDBContext = skyMallDbContext;
             _DbSet = _SkyMallDBContext.Set<TEntity>();
         }
+
+        private IDbContextTransaction _dbTransaction { get; set; }
+        public IDbContextTransaction BeginTransaction()
+        {
+            _dbTransaction = _SkyMallDBContext.Database.BeginTransaction();
+            return _dbTransaction;
+        }
+        public void Commit()
+        {
+            if (_dbTransaction != null)
+            {
+                _dbTransaction.Commit();
+            }
+        }
+
+        public void Rollback()
+        {
+            if (_dbTransaction != null)
+            {
+                this._dbTransaction.Rollback();
+            }
+        }
+
+        //public void Dispose()
+        //{
+        //    if (dbTransaction != null)
+        //    {
+        //        this.dbTransaction.Dispose();
+        //    }
+        //    //todo dispose()
+        //    //this._SkyMallDBContext.Database.Dispose();
+        //}
+
+
 
         public int Insert(TEntity entity)
         {
@@ -54,11 +91,22 @@ namespace SkyMallCore.Data
         public int Update(TEntity entity)
         {
             _DbSet.Attach(entity);
+            _SkyMallDBContext.Entry(entity).State = EntityState.Modified;
+            return _SkyMallDBContext.SaveChanges();
+        }
+
+        public int UpdateFields(TEntity entity, params string[] fields)
+        {
+            _DbSet.Attach(entity);
             PropertyInfo[] props = entity.GetType().GetProperties();
             foreach (PropertyInfo prop in props)
             {
-                if (prop.GetValue(entity, null) != null)
+                if (prop.GetValue(entity, null) != null && prop.GetCustomAttribute(typeof(KeyAttribute))==null)
                 {
+                    //fields
+                    if (fields != null&& fields.Length>0 && !fields.Any(w => w == prop.Name))
+                        continue;
+
                     if (prop.GetValue(entity, null).ToString() == "&nbsp;")
                         _SkyMallDBContext.Entry(entity).Property(prop.Name).CurrentValue = null;
                     _SkyMallDBContext.Entry(entity).Property(prop.Name).IsModified = true;
@@ -82,7 +130,7 @@ namespace SkyMallCore.Data
             return _SkyMallDBContext.SaveChanges();
         }
 
-        public virtual int Delete(int id)
+        public virtual int Delete(object id)
         {
             TEntity entity = this.Get(id);
             _DbSet.Remove(entity);
@@ -130,9 +178,9 @@ namespace SkyMallCore.Data
             return _DbSet.Any(predicate);
         }
 
-        public int Count(ISpecification<TEntity> specification)
+        public int Count(Expression<Func<TEntity, bool>> predicate = null)
         {
-            return _DbSet.Where(specification.GetExpression()).Count();
+            return predicate ==null? _DbSet.Count() : _DbSet.Where(predicate).Count();
         }
 
 

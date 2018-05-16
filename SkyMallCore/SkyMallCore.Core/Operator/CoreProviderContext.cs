@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
+using System.Security.Claims;
 
 namespace SkyMallCore.Core
 {
@@ -39,43 +41,34 @@ namespace SkyMallCore.Core
         {
             return HttpContextAccessor.HttpContext.RequestServices.GetService(type);
         }
+        /// <summary>
+        /// 获取当前登录用户
+        /// </summary>
+        public OperatorModel CurrentSysUser
+        {
+            get
+            {
+                //HttpContext.User.Identities.Where(w => w.AuthenticationType == SysManageAuthAttribute.SysManageAuthScheme).FirstOrDefault();
+                var claimsIdentity = (ClaimsIdentity)HttpContext.User.Identity;
+                if (claimsIdentity == null)
+                {
+                    throw new Exception("用户未登录");
+                }
+                var claims = claimsIdentity.Claims;
+                return new OperatorModel()
+                {
+                    UserId = claims.Where(w => w.Type == ClaimTypes.Sid).Select(u => u.Value).FirstOrDefault(),
+                    Account = claims.Where(w => w.Type == ClaimTypes.Name).Select(u => u.Value).FirstOrDefault(),
+                    RealName = claims.Where(w => w.Type == ClaimTypes.GivenName).Select(u => u.Value).FirstOrDefault(),
+                    OrganizeId = claims.Where(w => w.Type == ClaimTypes.PrimarySid).Select(u => u.Value).FirstOrDefault(),
+                    DepartmentId = claims.Where(w => w.Type == ClaimTypes.PrimaryGroupSid).Select(u => u.Value).FirstOrDefault(),
+                    RoleId = claims.Where(w => w.Type == ClaimTypes.Role).Select(u => u.Value).FirstOrDefault(),
+                    LoginIPAddress = claims.Where(w => w.Type == ClaimTypes.Dns).Select(u => u.Value).FirstOrDefault(),
+                    IsSystem = claims.Where(w => w.Type == ClaimTypes.IsPersistent).Select(u => u.Value).FirstOrDefault().ToBool()
+                };
+            }
+        }
 
-        public OperatorModel GetCurrent()
-        {
-            OperatorModel operatorModel = new OperatorModel();
-            if (LoginProvider == "Cookie")
-            {
-                operatorModel = DESEncrypt.Decrypt(WebHelper.GetCookie(LoginUserKey).ToString()).ToObject<OperatorModel>();
-            }
-            else
-            {
-                operatorModel = DESEncrypt.Decrypt(WebHelper.GetSession(LoginUserKey).ToString()).ToObject<OperatorModel>();
-            }
-            return operatorModel;
-        }
-        public void AddCurrent(OperatorModel operatorModel)
-        {
-            if (LoginProvider == "Cookie")
-            {
-                WebHelper.WriteCookie(LoginUserKey, DESEncrypt.Encrypt(operatorModel.ToJson()), 60);
-            }
-            else
-            {
-                WebHelper.WriteSession(LoginUserKey, DESEncrypt.Encrypt(operatorModel.ToJson()));
-            }
-            WebHelper.WriteCookie("netcore_mac", Md5Hash.Md5(Net.GetMacByNetworkInterface().ToJson(), 32));
-        }
-        public void RemoveCurrent()
-        {
-            if (LoginProvider == "Cookie")
-            {
-                WebHelper.RemoveCookie(LoginUserKey.Trim());
-            }
-            else
-            {
-                WebHelper.RemoveSession(LoginUserKey.Trim());
-            }
-        }
 
 
 

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SkyMallCore.Services
 {
-    public interface ISysUserService
+    public interface ISysRoleService
     {
-        IList<SysUser> GetUsers();
+        IList<SysRole> GetList();
 
-        SysUser CheckLogin(string userName, string password);
+        List<SysRole> GetListBykeyword(string keyword = "");
     }
 
 

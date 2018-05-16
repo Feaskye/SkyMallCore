@@ -28,6 +28,38 @@ namespace SkyMallCore.Services
             return _SysUserRespository.GetSysUsers();
         }
 
+        public List<SysUser> GetList(Pagination pagination, string keyword)
+        {
+            var expression = ExtLinq.True<SysUser>();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                expression = expression.And(t => t.Account.Contains(keyword));
+                expression = expression.Or(t => t.RealName.Contains(keyword));
+                expression = expression.Or(t => t.MobilePhone.Contains(keyword));
+            }
+            expression = expression.And(t => t.Account != "admin");
+            return _SysUserRespository.GetPagedList(expression, pagination);
+        }
+        public SysUser GetForm(string id)
+        {
+            return _SysUserRespository.Get(id);
+        }
+        public void DeleteForm(string id)
+        {
+            _SysUserRespository.Delete(id);
+        }
+        public void SubmitForm(SysUser sysUser, SysUserLogOn userLogOnEntity, string userId)
+        {
+            _SysUserRespository.SubmitForm(sysUser, userLogOnEntity, userId);
+        }
+
+
+        public void UpdateForm(SysUser sysUser)
+        {
+            _SysUserRespository.Update(sysUser);
+        }
+
+
         public SysUser CheckLogin(string userName, string password)
         {
             var sysUser = _SysUserRespository.FirstOrDefault(t => t.Account == userName);

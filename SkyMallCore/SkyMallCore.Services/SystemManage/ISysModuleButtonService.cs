@@ -5,12 +5,9 @@ using System.Text;
 
 namespace SkyMallCore.Services
 {
-    public interface ISysUserLogOnService
+    public interface ISysModuleButtonService
     {
-        SysUserLogOn GetForm(string key);
-
-
-        void UpdateForm(SysUserLogOn userLogOnEntity);
+        List<SysModuleButton> GetList();
     }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace SkyMallCore.Models
@@ -28,6 +29,7 @@ namespace SkyMallCore.Models
 
     public class KeyEntity
     {
+        [Key]
         public virtual string Id { get; set; }
     }
 

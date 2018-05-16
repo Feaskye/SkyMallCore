@@ -2,13 +2,12 @@
 using SkyMallCore.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace SkyMallCore.Respository
 {
-    public interface ISysUserRespository: IRespositoryBase<SysUser>
+    public interface ISysRoleAuthorizeRespository : IRespositoryBase<SysRoleAuthorize>
     {
-        IList<SysUser> GetSysUsers();
+        
     }
 }
