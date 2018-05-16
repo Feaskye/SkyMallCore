@@ -1,7 +1,7 @@
 # SkyMallCore
-dotNet Core Demo, Create a Cross Platform WebApp System!
-项目学习，有不足之处请指教！
-有需要急速开发的朋友可以拿来用哦！
+dotNet Core Demo, Create a Cross Platform WebApp System!</br>
+项目学习，有不足之处请指教！</br>
+有需要急速开发的朋友可以拿来用哦！</br>
 
 1：该项目是由NFine开源项目转化而来 
 2：该项目基本框架开发平台是在Asp.net Core 2.0基础上编写
