@@ -5,15 +5,17 @@ VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCoreWeb", "SkyMallCoreWeb\SkyMallCoreWeb.csproj", "{C4CE57C3-C80A-4501-B024-8841597F46E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.Data", "SkyMallCore.Data\SkyMallCore.Data.csproj", "{DD1C6FBF-C372-43D2-90A8-63D1335C48AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Data", "SkyMallCore.Data\SkyMallCore.Data.csproj", "{DD1C6FBF-C372-43D2-90A8-63D1335C48AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.Core", "SkyMallCore.Core\SkyMallCore.Core.csproj", "{100D1ED0-0411-4892-B549-A734884495FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Core", "SkyMallCore.Core\SkyMallCore.Core.csproj", "{100D1ED0-0411-4892-B549-A734884495FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.Respository", "SkyMallCore.Respository\SkyMallCore.Respository.csproj", "{26E83422-61AC-497C-9304-7E19ADAB55E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Respository", "SkyMallCore.Respository\SkyMallCore.Respository.csproj", "{26E83422-61AC-497C-9304-7E19ADAB55E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.Models", "SkyMallCore.Models\SkyMallCore.Models.csproj", "{7513E9CB-1C18-4AF2-BF7F-2C60731C05C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Models", "SkyMallCore.Models\SkyMallCore.Models.csproj", "{7513E9CB-1C18-4AF2-BF7F-2C60731C05C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.Services", "SkyMallCore.Services\SkyMallCore.Services.csproj", "{593556FC-4038-4579-B6D5-DDF777FF0CB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Services", "SkyMallCore.Services\SkyMallCore.Services.csproj", "{593556FC-4038-4579-B6D5-DDF777FF0CB1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApi", "SkyMallCore.WebApi\SkyMallCore.WebApi.csproj", "{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -49,6 +51,10 @@ Global
 		{593556FC-4038-4579-B6D5-DDF777FF0CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{593556FC-4038-4579-B6D5-DDF777FF0CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{593556FC-4038-4579-B6D5-DDF777FF0CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
