@@ -22,5 +22,5 @@ Startup 配置注入</br>
 
 <img src="https://images2018.cnblogs.com/blog/625285/201805/625285-20180516113528690-243494602.png" alt="">
 
-企业级应用项目交流群
+企业级应用项目交流群：786465471
 <p><img src="https://images2018.cnblogs.com/blog/625285/201805/625285-20180525202029905-148589805.png" alt=""></p>
