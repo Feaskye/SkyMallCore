@@ -28,4 +28,6 @@
     <None Include="Areas\SystemManage\Views\Login\Index.cshtml" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

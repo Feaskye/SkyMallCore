@@ -61,12 +61,21 @@ namespace SkyMallCoreWeb
             //使用授权
             app.UseAuthentication();
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions {
+                //不能识别的文件，作为图片处理
+                ServeUnknownFileTypes = true,
+                DefaultContentType = "image/png"
+            });
+            //启用了静态文件和默认文件，但不允许直接访问目录
+            app.UseFileServer();
+         
+
             //SEssion
             app.UseSession();
             //mvc路由
             app.UseMvc(routes =>
             {
+                //针对Area
                 routes.MapAreaRoute(
                   name: "SystemManage", areaName: "SystemManage",
                      template: "SystemManage/{controller=Home}/{action=Index}"
