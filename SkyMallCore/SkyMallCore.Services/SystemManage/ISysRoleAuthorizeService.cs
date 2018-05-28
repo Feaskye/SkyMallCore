@@ -10,6 +10,9 @@ namespace SkyMallCore.Services
         List<SysModule> GetMenuList(string roleId);
 
         List<SysModuleButton> GetButtonList(string roleId);
+
+
+        List<SysRoleAuthorize> GetList(string objectId);
     }
 
 

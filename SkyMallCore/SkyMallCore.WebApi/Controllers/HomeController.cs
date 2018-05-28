@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -22,6 +23,40 @@ namespace SkyMallCore.WebApi.Controllers
         {
             return new { data=100};
         }
-        
+
+        /// <summary>
+        /// 提交文件
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult<bool> SubmitFile([FromBody]FileUploadParam param)
+        {
+            FileStream fileStream = param.fileStreams;
+
+            return new ApiResult<bool>(true);
+        }
+
+
+
+
+
+        //private static ApiResult<T> Success(T data) where T:class
+        //{
+        //    return new ApiResult<T>() { Success = true,Data = data };
+        //}
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
 }

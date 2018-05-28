@@ -8,6 +8,6 @@ namespace SkyMallCore.Respository
 {
     public interface ISysModuleButtonRespository : IRespositoryBase<SysModuleButton>
     {
-        
+        void SubmitCloneButton(List<SysModuleButton> entitys);
     }
 }

@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
-    public class ManagerController : BaseSysController
+    public class ManagerController : SysControllerBase
     {
         private ISysUserService UserApp;
         private ISysUserLogOnService UserLogOnApp;

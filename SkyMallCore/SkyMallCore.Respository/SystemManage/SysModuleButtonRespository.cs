@@ -14,8 +14,18 @@ namespace SkyMallCore.Respository
         public SysModuleButtonRespository(ISkyMallDbContext skyMallDbContext) : base(skyMallDbContext)
         { }
 
+        public void SubmitCloneButton(List<SysModuleButton> entitys)
+        {
+            using (var db = this.BeginTransaction())
+            {
+                foreach (var item in entitys)
+                {
+                    this.Insert(item);
+                }
+                db.Commit();
+            }
+        }
 
-     
     }
 
 }

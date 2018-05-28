@@ -15,7 +15,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
     /// <summary>
     /// 后台登录页
     /// </summary>
-    public class LoginController : BaseSysController
+    public class LoginController : SysControllerBase
     {
         ISysUserService _SysUserService;
         ISysLogService _ISysLogService;

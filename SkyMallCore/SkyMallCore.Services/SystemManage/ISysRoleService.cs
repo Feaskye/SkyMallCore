@@ -10,6 +10,16 @@ namespace SkyMallCore.Services
         IList<SysRole> GetList();
 
         List<SysRole> GetListBykeyword(string keyword = "");
+
+
+        SysRole GetForm(string keyValue);
+
+
+        void DeleteForm(string keyValue);
+
+
+        void SubmitForm(SysRole SysRole, string[] permissionIds, string keyValue);
+
     }
 
 

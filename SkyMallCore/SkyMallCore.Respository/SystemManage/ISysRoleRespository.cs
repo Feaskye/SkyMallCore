@@ -8,6 +8,6 @@ namespace SkyMallCore.Respository
 {
     public interface ISysRoleRespository : IRespositoryBase<SysRole>
     {
-
+        void SubmitForm(SysRole sysRole, List<SysRoleAuthorize> sysRoleAuthorizes, string keyValue);
     }
 }

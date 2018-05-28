@@ -8,6 +8,12 @@ namespace SkyMallCore.Services
     public interface ISysModuleService
     {
         List<SysModule> GetList();
+
+        SysModule GetForm(string keyValue);
+
+        void DeleteForm(string keyValue);
+
+        void SubmitForm(SysModule SysModule, string keyValue);
     }
 
 

@@ -10,10 +10,10 @@ using System.Linq;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
-    public class OrganizeController : BaseSysController
+    public class SysOrganizeController : SysControllerBase
     {
         ISysOrganizeService _Service;
-        public OrganizeController(ISysOrganizeService sysOrganizeService)
+        public SysOrganizeController(ISysOrganizeService sysOrganizeService)
         {
             _Service = sysOrganizeService;
         }

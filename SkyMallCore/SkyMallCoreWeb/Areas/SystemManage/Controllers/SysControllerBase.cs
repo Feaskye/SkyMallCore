@@ -15,12 +15,10 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
     /// </summary>
     [Area("SystemManage")]
     [SysManageAuth]
-    public class BaseSysController : Controller
+    public class SysControllerBase : Controller
     {
 
-
-
-
+        
         protected virtual ActionResult Success(string message)
         {
             return Content(new AjaxResult { state = ResultType.success.ToString(), message = message }.ToJson());

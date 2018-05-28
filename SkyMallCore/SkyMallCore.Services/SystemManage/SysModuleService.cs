@@ -24,7 +24,32 @@ namespace SkyMallCore.Services
             return _Respository.GetAll().ToList();
         }
 
-
+        public SysModule GetForm(string keyValue)
+        {
+            return _Respository.Get(keyValue);
+        }
+        public void DeleteForm(string keyValue)
+        {
+            if (_Respository.Count(t => t.ParentId.Equals(keyValue)) > 0)
+            {
+                throw new Exception("删除失败！操作的对象包含了下级数据。");
+            }
+            else
+            {
+                _Respository.Delete(t => t.Id == keyValue);
+            }
+        }
+        public void SubmitForm(SysModule SysModule, string keyValue)
+        {
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                _Respository.Update(SysModule);
+            }
+            else
+            {
+                _Respository.Insert(SysModule);
+            }
+        }
 
     }
 

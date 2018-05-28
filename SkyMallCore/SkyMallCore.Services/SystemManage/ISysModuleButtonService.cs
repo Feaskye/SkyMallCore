@@ -7,7 +7,15 @@ namespace SkyMallCore.Services
 {
     public interface ISysModuleButtonService
     {
-        List<SysModuleButton> GetList();
+        List<SysModuleButton> GetList(string moduleId = "");
+
+        void SubmitForm(SysModuleButton sysModuleButton, string keyValue);
+
+        void DeleteForm(string keyValue);
+
+        SysModuleButton GetForm(string keyValue);
+
+        void SubmitCloneButton(string moduleId, string ids);
     }
 
 

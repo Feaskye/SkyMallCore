@@ -11,6 +11,9 @@ namespace SkyMallCore.Services
     {
         ISysLogRespository _LogRespository;
         ISysRoleRespository _Respository;
+        ISysModuleService _SysModuleService;
+        ISysModuleButtonService _SysModuleButtonService;
+
         public SysRoleService(ISysLogRespository sysLogRespository, ISysRoleRespository sysRoleRespository)
         {
             _LogRespository = sysLogRespository;
@@ -36,7 +39,46 @@ namespace SkyMallCore.Services
             return _Respository.Get(expression).OrderBy(t => t.SortCode).ToList();
         }
 
-
+        public SysRole GetForm(string keyValue)
+        {
+            return _Respository.Get(keyValue);
+        }
+        public void DeleteForm(string keyValue)
+        {
+            _Respository.Delete(keyValue);
+        }
+        public void SubmitForm(SysRole SysRole, string[] permissionIds, string keyValue)
+        {
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                SysRole.Id = keyValue;
+            }
+            else
+            {
+                SysRole.Id = Common.GuId();
+            }
+            var moduledata = _SysModuleService.GetList();
+            var buttondata = _SysModuleButtonService.GetList();
+            List<SysRoleAuthorize> SysRoleAuthorizes = new List<SysRoleAuthorize>();
+            foreach (var itemId in permissionIds)
+            {
+                SysRoleAuthorize SysRoleAuthorize = new SysRoleAuthorize();
+                SysRoleAuthorize.Id = Common.GuId();
+                SysRoleAuthorize.ObjectType = 1;
+                SysRoleAuthorize.ObjectId = SysRole.Id;
+                SysRoleAuthorize.ItemId = itemId;
+                if (moduledata.Find(t => t.Id == itemId) != null)
+                {
+                    SysRoleAuthorize.ItemType = 1;
+                }
+                if (buttondata.Find(t => t.Id == itemId) != null)
+                {
+                    SysRoleAuthorize.ItemType = 2;
+                }
+                SysRoleAuthorizes.Add(SysRoleAuthorize);
+            }
+            _Respository.SubmitForm(SysRole, SysRoleAuthorizes, keyValue);
+        }
 
     }
 

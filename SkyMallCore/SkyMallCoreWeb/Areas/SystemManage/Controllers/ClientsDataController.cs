@@ -12,7 +12,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
     /// <summary>
     /// 加载后台菜单等数据
     /// </summary>
-    public class ClientsDataController : BaseSysController
+    public class ClientsDataController : SysControllerBase
     {
         ISysItemsService _SysItemsService;
         ISysItemsDetailService _SysItemsDetailService;

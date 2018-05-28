@@ -8,6 +8,6 @@ namespace SkyMallCore.Respository
 {
     public interface ISysItemsDetailRespository : IRespositoryBase<SysItemsDetail>
     {
-
+        List<SysItemsDetail> GetItemList(string enCode);
     }
 }

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SkyMallCore.Core
 {
-    public static class ExtJson
+   public static class JsonConverter
     {
         public static object ToJson(this string Json)
         {

@@ -12,7 +12,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
     /// <summary>
     /// 首页
     /// </summary>
-    public class HomeController : BaseSysController
+    public class HomeController : SysControllerBase
     {
         public IActionResult Index()
         {

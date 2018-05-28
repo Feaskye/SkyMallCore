@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SkyMallCore.Core;
 using SkyMallCore.Services;
+using SkyMallCoreWeb.Middlewares;
+
 namespace SkyMallCoreWeb
 {
     public class Startup
@@ -36,10 +32,13 @@ namespace SkyMallCoreWeb
         
         public void ConfigureServices(IServiceCollection services)
         {
+            //注册业务服务
             ServiceFactory.Initialize(services, Configuration);
+            //用户认证注册
             AuthenticationFactory.Initialize(services);
             services.AddMvc();
-            
+
+            services.AddDistributedMemoryCache();
             services.AddSession();
             CoreProviderContext.ServiceCollection = services;
         }
@@ -66,9 +65,9 @@ namespace SkyMallCoreWeb
                 ServeUnknownFileTypes = true,
                 DefaultContentType = "image/png"
             });
-            //启用了静态文件和默认文件，但不允许直接访问目录
-            app.UseFileServer();
-         
+
+            //demo
+            //app.UseHelloWorld();
 
             //SEssion
             app.UseSession();
@@ -86,9 +85,7 @@ namespace SkyMallCoreWeb
                     template: "{controller=Home}/{action=Index}/{id?}"
                     ,defaults: new string[] { "SkyMallCoreWeb.Controllers" }
                     );
-
-             
-
+                
             });
         }
     }

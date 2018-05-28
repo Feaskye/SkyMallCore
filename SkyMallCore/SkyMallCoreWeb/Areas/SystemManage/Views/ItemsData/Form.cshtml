@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    var itemId = $.request("itemId");
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SystemManage/ItemsData/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        postData["ItemId"] = itemId;
+        $.submitForm({
+            url: "/SystemManage/ItemsData/SubmitForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">名称</th>
+                <td class="formValue">
+                    <input id="ItemName" name="ItemName" type="text" class="form-control required" placeholder="请输入名称" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">编号</th>
+                <td class="formValue">
+                    <input id="ItemCode" name="ItemCode" type="text" class="form-control required" placeholder="请输入编号" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排序</th>
+                <td class="formValue">
+                    <input id="SortCode" name="SortCode" type="text" class="form-control required" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="height: 35px;">选项</th>
+                <td class="formValue" style="padding-top: 1px;">
+                    <div class="ckbox">
+                        <input id="IsDefault" name="IsDefault" type="checkbox"><label for="IsDefault">默认</label>
+                    </div>
+                    <div class="ckbox">
+                        <input id="EnabledMark" name="EnabledMark" type="checkbox" checked="checked"><label for="EnabledMark">有效</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" valign="top" style="padding-top: 5px;">备注
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
