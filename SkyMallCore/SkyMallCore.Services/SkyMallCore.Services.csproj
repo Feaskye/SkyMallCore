@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Data\SkyMallCore.Data.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />

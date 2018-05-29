@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
-    public class ManagerController : SysControllerBase
+    public class ManagerController : SysBaseController
     {
         private ISysUserService UserApp;
         private ISysUserLogOnService UserLogOnApp;
@@ -19,13 +19,6 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
         {
             UserApp = userApp;
             UserLogOnApp = userLogOnApp;
-        }
-
-
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
         }
 
 

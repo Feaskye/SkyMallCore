@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Form";
-    Layout = "~/Views/Shared/_Form.cshtml";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
 }
 <script>
     var keyValue = $.request("keyValue");
@@ -8,7 +8,7 @@
         initControl();
         if (!!keyValue) {
             $.ajax({
-                url: "/SystemManage/Role/GetFormJson",
+                url: "/SystemManage/SysRole/GetFormJson",
                 data: { keyValue: keyValue },
                 dataType: "json",
                 async: false,
@@ -57,7 +57,7 @@
         var postData = $("#form1").formSerialize();
         postData["permissionIds"] = String($("#permissionTree").getCheckedNodes());
         $.submitForm({
-            url: "/SystemManage/Role/SubmitForm?keyValue=" + keyValue,
+            url: "/SystemManage/SysRole/SubmitForm?keyValue=" + keyValue,
             param: postData,
             success: function () {
                 $.currentWindow().$("#gridList").trigger("reloadGrid");

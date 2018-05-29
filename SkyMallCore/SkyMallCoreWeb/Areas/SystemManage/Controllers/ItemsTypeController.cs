@@ -9,7 +9,7 @@ using SkyMallCore.Services;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
-    public class ItemsTypeController : SysControllerBase
+    public class ItemsTypeController : SysBaseController
     {
         private ISysItemsService SysItemsService;
 

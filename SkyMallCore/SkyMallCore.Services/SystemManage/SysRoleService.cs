@@ -14,20 +14,20 @@ namespace SkyMallCore.Services
         ISysModuleService _SysModuleService;
         ISysModuleButtonService _SysModuleButtonService;
 
-        public SysRoleService(ISysLogRespository sysLogRespository, ISysRoleRespository sysRoleRespository)
+        public SysRoleService(ISysLogRespository sysLogRespository, ISysRoleRespository sysRoleRespository,
+            ISysModuleService sysModuleService,
+        ISysModuleButtonService sysModuleButtonService
+            )
         {
             _LogRespository = sysLogRespository;
             _Respository = sysRoleRespository;
+            _SysModuleService = sysModuleService;
+            _SysModuleButtonService = sysModuleButtonService;
         }
 
 
-        public IList<SysRole> GetList()
-        {
-            return _Respository.GetAll().ToList();
-        }
 
-
-        public List<SysRole> GetListBykeyword(string keyword = "")
+        public List<SysRole> GetList(string keyword = "")
         {
             var expression = ExtLinq.True<SysRole>();
             if (!string.IsNullOrEmpty(keyword))
@@ -79,6 +79,21 @@ namespace SkyMallCore.Services
             }
             _Respository.SubmitForm(SysRole, SysRoleAuthorizes, keyValue);
         }
+
+
+        public void SubmitForm(SysRole roleEntity, string keyValue)
+        {
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                _Respository.Update(roleEntity);
+            }
+            else
+            {
+                roleEntity.Category = 2;
+                _Respository.Insert(roleEntity);
+            }
+        }
+
 
     }
 

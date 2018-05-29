@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Index.cshtml";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Index.cshtml";
 }
 <script>
     $(function () {
@@ -9,7 +9,7 @@
     function gridList() {
         var $gridList = $("#gridList");
         $gridList.dataGrid({
-            url: "/SystemManage/Role/GetGridJson",
+            url: "/SystemManage/SysRole/GetGridJson",
             height: $(window).height() - 96,
             colModel: [
                 { label: "主键", name: "Id", hidden: true, key: true },
@@ -50,7 +50,7 @@
         $.modalOpen({
             id: "Form",
             title: "新增角色",
-            url: "/SystemManage/Role/Form",
+            url: "/SystemManage/SysRole/Form",
             width: "550px",
             height: "570px",
             btn: null
@@ -61,7 +61,7 @@
         $.modalOpen({
             id: "Form",
             title: "修改角色",
-            url: "/SystemManage/Role/Form?keyValue=" + keyValue,
+            url: "/SystemManage/SysRole/Form?keyValue=" + keyValue,
             width: "550px",
             height: "570px",
             btn: null
@@ -69,7 +69,7 @@
     }
     function btn_delete() {
         $.deleteForm({
-            url: "/SystemManage/Role/DeleteForm",
+            url: "/SystemManage/SysRole/DeleteForm",
             param: { keyValue: $("#gridList").jqGridRowValue().Id },
             success: function () {
                 $.currentWindow().$("#gridList").trigger("reloadGrid");
@@ -81,7 +81,7 @@
         $.modalOpen({
             id: "Details",
             title: "查看角色",
-            url: "/SystemManage/Role/Details?keyValue=" + keyValue,
+            url: "/SystemManage/SysRole/Details?keyValue=" + keyValue,
             width: "550px",
             height: "620px",
             btn: null,

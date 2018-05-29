@@ -7,9 +7,8 @@ namespace SkyMallCore.Services
 {
     public interface ISysRoleService
     {
-        IList<SysRole> GetList();
 
-        List<SysRole> GetListBykeyword(string keyword = "");
+        List<SysRole> GetList(string keyword = "");
 
 
         SysRole GetForm(string keyValue);
@@ -20,6 +19,8 @@ namespace SkyMallCore.Services
 
         void SubmitForm(SysRole SysRole, string[] permissionIds, string keyValue);
 
+
+        void SubmitForm(SysRole roleEntity, string keyValue);
     }
 
 

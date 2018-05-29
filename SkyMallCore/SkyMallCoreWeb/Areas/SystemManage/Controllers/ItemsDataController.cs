@@ -9,13 +9,13 @@ using SkyMallCore.Services;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
-    public class ItemsDataController : SysControllerBase
+    public class ItemsDataController : SysBaseController
     {
         private ISysItemsDetailService SysItemsDetailService;
 
         public ItemsDataController(ISysItemsDetailService sysItemsDetailService)
         {
-            SysItemsDetailService = sysItemsDetailService;
+               SysItemsDetailService = sysItemsDetailService;
         }
 
 

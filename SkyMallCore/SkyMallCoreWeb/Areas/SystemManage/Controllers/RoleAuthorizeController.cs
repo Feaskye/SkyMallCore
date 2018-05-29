@@ -9,7 +9,7 @@ using SkyMallCore.Services;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
-    public class RoleAuthorizeController : SysControllerBase
+    public class RoleAuthorizeController : SysBaseController
     {
         private ISysRoleAuthorizeService SysRoleAuthorizeService;
         private ISysModuleService SysModuleService;

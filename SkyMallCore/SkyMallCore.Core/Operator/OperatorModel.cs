@@ -13,6 +13,10 @@ namespace SkyMallCore.Core
         public string DepartmentId { get; set; }
         public string RoleId { get; set; }
         public string LoginIPAddress { get; set; }
+
+
+        public string UserCode{ get; set; }
+
         //public string LoginIPAddressName { get; set; }
         //public string LoginToken { get; set; }
         //public DateTime LoginTime { get; set; }

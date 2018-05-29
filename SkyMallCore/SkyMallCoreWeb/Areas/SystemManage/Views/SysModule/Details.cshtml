@@ -1,13 +1,13 @@
 ﻿@{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Form.cshtml";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
 }
 <script>
     var keyValue = $.request("keyValue");
     $(function () {
         initControl();
         $.ajax({
-            url: "/SystemManage/Module/GetFormJson",
+            url: "/SystemManage/SysModule/GetFormJson",
             data: { keyValue: keyValue },
             dataType: "json",
             async: false,
@@ -23,7 +23,7 @@
             minimumResultsForSearch: -1
         });
         $("#ParentId").bindSelect({
-            url: "/SystemManage/Module/GetTreeSelectJson",
+            url: "/SystemManage/SysModule/GetTreeSelectJson",
         });
     }
 </script>

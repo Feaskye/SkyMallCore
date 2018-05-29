@@ -247,5 +247,10 @@ namespace SkyMallCore.Data
             return _DbSet.FromSql<TEntity>(strSql, dbParameter).ToList();
         }
 
+        public int ExecuteSql(string strSql,DbParameter[] dbParameters = null)
+        {
+            return _SkyMallDBContext.Database.ExecuteSqlCommand(strSql, dbParameters);
+        }
+
     }
 }

@@ -48,6 +48,7 @@ namespace SkyMallCoreWeb
         {
             CoreProviderContext.HttpContextAccessor = app.ApplicationServices.GetService<IHttpContextAccessor>();
             CoreProviderContext.Configuration = Configuration;
+            CoreProviderContext.HostingEnvironment = env;
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
@@ -80,12 +81,17 @@ namespace SkyMallCoreWeb
                      template: "SystemManage/{controller=Home}/{action=Index}"
                 );
 
+                routes.MapAreaRoute(
+                name: "SystemSecurity", areaName: "SystemSecurity",
+                   template: "SystemSecurity/{controller=Home}/{action=Index}"
+              );
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}"
-                    ,defaults: new string[] { "SkyMallCoreWeb.Controllers" }
+                    , defaults: new string[] { "SkyMallCoreWeb.Controllers" }
                     );
-                
+
             });
         }
     }

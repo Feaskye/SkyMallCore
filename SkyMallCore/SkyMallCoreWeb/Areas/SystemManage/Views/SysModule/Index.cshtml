@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Index.cshtml";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Index.cshtml";
 }
 <script>
     $(function () {
@@ -12,7 +12,7 @@
             treeGrid: true,
             treeGridModel: "adjacency",
             ExpandColumn: "UrlAddress",
-            url: "/SystemManage/Module/GetTreeGridJson",
+            url: "/SystemManage/SysModule/GetTreeGridJson",
             height: $(window).height() - 96,
             colModel: [
                 { label: "主键", name: "Id", hidden: true, key: true },
@@ -69,7 +69,7 @@
         $.modalOpen({
             id: "Form",
             title: "新增菜单",
-            url: "/SystemManage/Module/Form",
+            url: "/SystemManage/SysModule/Form",
             width: "700px",
             height: "440px",
             callBack: function (iframeId) {
@@ -82,7 +82,7 @@
         $.modalOpen({
             id: "Form",
             title: "修改菜单",
-            url: "/SystemManage/Module/Form?keyValue=" + keyValue,
+            url: "/SystemManage/SysModule/Form?keyValue=" + keyValue,
             width: "700px",
             height: "440px",
             callBack: function (iframeId) {
@@ -92,7 +92,7 @@
     }
     function btn_delete() {
         $.deleteForm({
-            url: "/SystemManage/Module/DeleteForm",
+            url: "/SystemManage/SysModule/DeleteForm",
             param: { keyValue: $("#gridList").jqGridRowValue().Id },
             success: function () {
                 $.currentWindow().$("#gridList").resetSelection();
@@ -105,7 +105,7 @@
         $.modalOpen({
             id: "Details",
             title: "查看菜单",
-            url: "/SystemManage/Module/Details?keyValue=" + keyValue,
+            url: "/SystemManage/SysModule/Details?keyValue=" + keyValue,
             width: "700px",
             height: "490px",
             btn: null,

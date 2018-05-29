@@ -9,7 +9,7 @@ using SkyMallCore.Services;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
-    public class SysModuleController : SysControllerBase
+    public class SysModuleController : SysBaseController
     {
 
         ISysModuleService SysModuleService;

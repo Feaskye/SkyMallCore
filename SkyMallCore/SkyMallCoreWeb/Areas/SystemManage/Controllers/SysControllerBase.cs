@@ -3,22 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkyMallCore.Core;
 using SkyMallCore.Models;
 
-namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
+namespace SkyMallCoreWeb.Areas
 {
+
     /// <summary>
     /// 后台管理基类
     /// </summary>
     [Area("SystemManage")]
+    public class SysBaseController : SysControllerBase
+    { }
+
+    /// <summary>
+    /// 后台安全管理基类
+    /// </summary>
+    [Area("SystemSecurity")]
+    public class SysSecBaseController : SysControllerBase
+    { }
+
+
+
+
+    /// <summary>
+    /// 后台全局管理控制器基类
+    /// </summary>
     [SysManageAuth]
     public class SysControllerBase : Controller
     {
 
-        
+        [HttpGet]
+        public virtual ActionResult Index()
+        {
+            return View();
+        }
+        [HttpGet]
+        public virtual ActionResult Form()
+        {
+            return View();
+        }
+        [HttpGet]
+        public virtual ActionResult Details()
+        {
+            return View();
+        }
+
+
         protected virtual ActionResult Success(string message)
         {
             return Content(new AjaxResult { state = ResultType.success.ToString(), message = message }.ToJson());

@@ -9,7 +9,7 @@ using SkyMallCore.Models;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
-    public class SysRoleController : SysControllerBase
+    public class SysRoleController : SysBaseController
     {
         private ISysRoleService SysRoleService;
         private ISysRoleAuthorizeService SysRoleAuthorizeService ;
@@ -34,7 +34,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
         [HttpGet]
         public ActionResult GetGridJson(string keyword)
         {
-            var data = SysRoleService.GetListBykeyword(keyword);
+            var data = SysRoleService.GetList(keyword);
             return Content(data.ToJson());
         }
         [HttpGet]

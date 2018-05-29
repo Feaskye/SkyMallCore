@@ -1,13 +1,13 @@
 ﻿@{
     ViewBag.Title = "Form";
-    Layout = "~/Views/Shared/_Form.cshtml";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
 }
 <script>
     var keyValue = $.request("keyValue");
     $(function () {
         initControl();
         $.ajax({
-            url: "/SystemManage/Role/GetFormJson",
+            url: "/SystemManage/SysRole/GetFormJson",
             data: { keyValue: keyValue },
             dataType: "json",
             async: false,

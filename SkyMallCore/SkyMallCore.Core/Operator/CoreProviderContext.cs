@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ namespace SkyMallCore.Core
     /// <summary>
     /// Core 全局支持上下文
     /// 配置、Service、HttpContext、用户
+    /// （可以改为注入的方式，这里为了避免传参麻烦）
     /// </summary>
     public class CoreProviderContext
     {
@@ -19,6 +21,7 @@ namespace SkyMallCore.Core
         public static IConfiguration Configuration { get; set; }
         public static IServiceCollection ServiceCollection { get; set; }
 
+        public static IHostingEnvironment HostingEnvironment { get; set; }
 
         public static CoreProviderContext Provider
         {
@@ -27,20 +30,7 @@ namespace SkyMallCore.Core
         private string LoginUserKey = ConstParameters.SysLoginUserKey;
         private string LoginProvider = ConstParameters.SysLoginProvider;
 
-        public static HttpContext HttpContext
-        {
-            get
-            {
-                object factory = GetService(typeof(Microsoft.AspNetCore.Http.IHttpContextAccessor));
-                Microsoft.AspNetCore.Http.HttpContext context = ((IHttpContextAccessor)factory).HttpContext;
-                return context;
-            }
-        }
-
-        public static object GetService(Type type)
-        {
-            return HttpContextAccessor.HttpContext.RequestServices.GetService(type);
-        }
+        
         /// <summary>
         /// 获取当前登录用户
         /// </summary>
@@ -68,6 +58,23 @@ namespace SkyMallCore.Core
                 };
             }
         }
+
+
+        public static HttpContext HttpContext
+        {
+            get
+            {
+                object factory = GetService(typeof(Microsoft.AspNetCore.Http.IHttpContextAccessor));
+                Microsoft.AspNetCore.Http.HttpContext context = ((IHttpContextAccessor)factory).HttpContext;
+                return context;
+            }
+        }
+
+        public static object GetService(Type type)
+        {
+            return HttpContextAccessor.HttpContext.RequestServices.GetService(type);
+        }
+
 
 
 

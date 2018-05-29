@@ -29,7 +29,10 @@ namespace SkyMallCore.Data
         public DbSet<SysUserLogOn> SysUserLogOns { get; set; }
 
         public DbSet<SysLog> SysLogs { get; set; }
+        
+        public DbSet<FilterIP> FilterIPs { get; set; }
 
+        public DbSet<DbBackup> DbBackups { get; set; }
 
 
     }

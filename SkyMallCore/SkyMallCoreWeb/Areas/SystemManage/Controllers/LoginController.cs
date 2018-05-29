@@ -15,7 +15,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
     /// <summary>
     /// 后台登录页
     /// </summary>
-    public class LoginController : SysControllerBase
+    public class LoginController : SysBaseController
     {
         ISysUserService _SysUserService;
         ISysLogService _ISysLogService;
@@ -26,16 +26,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
             _ISysLogService = sysLogService;
         }
 
-        //todo area路由访问问题待解决
-        //[Area("SystemManage")]
-        [HttpGet]
-        [AllowAnonymous]
-        public virtual IActionResult Index()
-        {
-            var test = string.Format("{0:E2}", 1);
-            return View();
-        }
-        //[Area("SystemManage")]
+   
         [HttpGet]
         [AllowAnonymous]
         public IActionResult GetAuthCode()

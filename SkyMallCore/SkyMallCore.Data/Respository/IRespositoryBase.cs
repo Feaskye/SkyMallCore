@@ -40,5 +40,7 @@ namespace SkyMallCore.Data
         List<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, Pagination pagination);
 
         List<TEntity> FromSql(string strSql, DbParameter[] dbParameter = null);
+
+        int ExecuteSql(string strSql, DbParameter[] dbParameters = null);
     }
 }

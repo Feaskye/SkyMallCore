@@ -12,13 +12,9 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
     /// <summary>
     /// 首页
     /// </summary>
-    public class HomeController : SysControllerBase
+    public class HomeController : SysBaseController
     {
-        public IActionResult Index()
-        {
-            var userName = CoreProviderContext.Provider.CurrentSysUser.Account;
-            return View();
-        }
+
 
         public IActionResult About()
         {

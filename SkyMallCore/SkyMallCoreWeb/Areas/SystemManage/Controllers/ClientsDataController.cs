@@ -12,7 +12,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
     /// <summary>
     /// 加载后台菜单等数据
     /// </summary>
-    public class ClientsDataController : SysControllerBase
+    public class ClientsDataController : SysBaseController
     {
         ISysItemsService _SysItemsService;
         ISysItemsDetailService _SysItemsDetailService;
@@ -102,7 +102,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
         }
         private object GetDutyList()
         {
-            var data = _SysRoleService.GetListBykeyword();
+            var data = _SysRoleService.GetList();
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             foreach (var item in data)
             {
