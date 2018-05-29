@@ -9,6 +9,7 @@ using SkyMallCore.Models;
 using SkyMallCore.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 {
@@ -26,7 +27,15 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
             _ISysLogService = sysLogService;
         }
 
-   
+        [HttpGet]
+        [AllowAnonymous]
+        public override ActionResult Index()
+        {
+            _Logger.LogInformation("log testing.........................................");
+            return View();
+        }
+
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult GetAuthCode()

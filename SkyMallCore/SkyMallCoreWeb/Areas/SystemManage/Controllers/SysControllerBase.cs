@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using SkyMallCore.Core;
 using SkyMallCore.Models;
 
@@ -24,7 +26,7 @@ namespace SkyMallCoreWeb.Areas
     /// </summary>
     [Area("SystemSecurity")]
     public class SysSecBaseController : SysControllerBase
-    { }
+    {  }
 
 
 
@@ -35,10 +37,21 @@ namespace SkyMallCoreWeb.Areas
     [SysManageAuth]
     public class SysControllerBase : Controller
     {
+        public ILogger _Logger;
+
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            _Logger = CoreProviderContext.GetService<ILoggerFactory>(typeof(ILoggerFactory))
+           .CreateLogger(this.ControllerContext.ActionDescriptor.ControllerTypeInfo.Name);
+            base.OnActionExecuting(context);
+        }
+
 
         [HttpGet]
         public virtual ActionResult Index()
         {
+            //_Logger.LogInformation("log testing.........................................");
             return View();
         }
         [HttpGet]
@@ -65,5 +78,9 @@ namespace SkyMallCoreWeb.Areas
         {
             return Content(new AjaxResult { state = ResultType.error.ToString(), message = message }.ToJson());
         }
+
+
+
+
     }
 }

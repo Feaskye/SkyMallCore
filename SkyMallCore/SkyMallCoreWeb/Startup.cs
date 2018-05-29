@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SkyMallCore.Core;
 using SkyMallCore.Services;
 using SkyMallCoreWeb.Middlewares;
@@ -24,7 +25,7 @@ namespace SkyMallCoreWeb
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
-
+            
             Configuration = builder.Build();
         }
 
@@ -32,13 +33,20 @@ namespace SkyMallCoreWeb
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(logging=> {
+                logging.AddConfiguration(Configuration.GetSection("Logging"));
+                logging.AddDebug();
+            });
+
             //注册业务服务
             ServiceFactory.Initialize(services, Configuration);
             //用户认证注册
             AuthenticationFactory.Initialize(services);
             services.AddMvc();
 
-            services.AddDistributedMemoryCache();
+            services.AddMemoryCache();
+            services.AddScoped<IMemCache, MemCache>();
+            //services.AddDistributedMemoryCache(); 区别
             services.AddSession();
             CoreProviderContext.ServiceCollection = services;
         }

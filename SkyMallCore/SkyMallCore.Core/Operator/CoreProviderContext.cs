@@ -25,10 +25,21 @@ namespace SkyMallCore.Core
 
         public static CoreProviderContext Provider
         {
-            get { return new CoreProviderContext(); }
+            get {return new CoreProviderContext(); }
         }
         private string LoginUserKey = ConstParameters.SysLoginUserKey;
         private string LoginProvider = ConstParameters.SysLoginProvider;
+
+        /// <summary>
+        /// 获取MemCache上下文
+        /// </summary>
+        public IMemCache MemCache
+        {
+            get
+            {
+                return GetService<IMemCache>(typeof(IMemCache));
+            }
+        }
 
         
         /// <summary>
@@ -73,6 +84,11 @@ namespace SkyMallCore.Core
         public static object GetService(Type type)
         {
             return HttpContextAccessor.HttpContext.RequestServices.GetService(type);
+        }
+
+        public static T GetService<T>(Type type)
+        {
+            return (T)HttpContextAccessor.HttpContext.RequestServices.GetService(type);
         }
 
 
