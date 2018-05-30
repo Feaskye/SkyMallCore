@@ -42,8 +42,7 @@ namespace SkyMallCoreWeb.Areas
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            _Logger = CoreProviderContext.GetService<ILoggerFactory>(typeof(ILoggerFactory))
-           .CreateLogger(this.ControllerContext.ActionDescriptor.ControllerTypeInfo.Name);
+            _Logger = CoreProviderContext.GetLogger(this.ControllerContext.ActionDescriptor.ControllerTypeInfo.Name);
             base.OnActionExecuting(context);
         }
 
@@ -51,7 +50,6 @@ namespace SkyMallCoreWeb.Areas
         [HttpGet]
         public virtual ActionResult Index()
         {
-            //_Logger.LogInformation("log testing.........................................");
             return View();
         }
         [HttpGet]

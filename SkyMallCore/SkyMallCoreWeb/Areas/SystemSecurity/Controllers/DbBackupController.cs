@@ -34,7 +34,7 @@ namespace SkyMallCoreWeb.Areas.SystemSecurity.Controllers
             return Success("操作成功。");
         }
         [HttpPost]
-        //[HandlerAuthorize]
+        [SysRoleAuth]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteForm(string keyValue)
         {
@@ -42,7 +42,7 @@ namespace SkyMallCoreWeb.Areas.SystemSecurity.Controllers
             return Success("删除成功。");
         }
         [HttpPost]
-        //[HandlerAuthorize]
+        [SysRoleAuth]
         public void DownloadBackup(string keyValue)
         {
             var data = DbBackupApp.GetForm(keyValue);

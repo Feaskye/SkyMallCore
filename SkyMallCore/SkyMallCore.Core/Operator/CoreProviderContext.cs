@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -37,7 +38,7 @@ namespace SkyMallCore.Core
         {
             get
             {
-                return GetService<IMemCache>(typeof(IMemCache));
+                return GetService<IMemCache>();
             }
         }
 
@@ -86,13 +87,26 @@ namespace SkyMallCore.Core
             return HttpContextAccessor.HttpContext.RequestServices.GetService(type);
         }
 
-        public static T GetService<T>(Type type)
+       
+
+        /// <summary>
+        /// 日志
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static ILogger GetLogger(string name = null)
         {
-            return (T)HttpContextAccessor.HttpContext.RequestServices.GetService(type);
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                return GetService<ILoggerFactory>().CreateLogger(name);
+            }
+            return GetService<ILogger>();
         }
 
-
-
+        public static T GetService<T>()
+        {
+            return (T)HttpContextAccessor.HttpContext.RequestServices.GetService(typeof(T));
+        }
 
 
 

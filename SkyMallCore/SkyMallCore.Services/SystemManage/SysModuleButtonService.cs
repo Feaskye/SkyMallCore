@@ -47,6 +47,7 @@ namespace SkyMallCore.Services
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
+                sysModuleButton.Id = keyValue;
                 _Respository.Update(sysModuleButton);
             }
             else

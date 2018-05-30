@@ -8,7 +8,7 @@
         initControl();
         if (!!keyValue) {
             $.ajax({
-                url: "/SystemManage/User/GetFormJson",
+                url: "/SystemManage/Manager/GetFormJson",
                 data: { keyValue: keyValue },
                 dataType: "json",
                 async: false,
@@ -24,10 +24,10 @@
         $("#IsAdministrator").bindSelect()
         $("#EnabledMark").bindSelect()
         $("#OrganizeId").bindSelect({
-            url: "/SystemManage/Organize/GetTreeSelectJson"
+            url: "/SystemManage/SysOrganize/GetTreeSelectJson"
         });
         $("#DepartmentId").bindSelect({
-            url: "/SystemManage/Organize/GetTreeSelectJson",
+            url: "/SystemManage/SysOrganize/GetTreeSelectJson",
         });
         $("#RoleId").bindSelect({
             url: "/SystemManage/SysRole/GetGridJson",
@@ -35,7 +35,7 @@
             text: "FullName"
         });
         $("#DutyId").bindSelect({
-            url: "/SystemManage/Duty/GetGridJson",
+            url: "/SystemManage/SysDuty/GetGridJson",
             id: "Id",
             text: "FullName"
         });
@@ -45,7 +45,7 @@
             return false;
         }
         $.submitForm({
-            url: "/SystemManage/User/SubmitForm?keyValue=" + keyValue,
+            url: "/SystemManage/Manager/SubmitForm?keyValue=" + keyValue,
             param: $("#form1").formSerialize(),
             success: function () {
                 $.currentWindow().$("#gridList").trigger("reloadGrid");

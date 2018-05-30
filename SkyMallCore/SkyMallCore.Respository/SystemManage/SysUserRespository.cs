@@ -51,6 +51,7 @@ namespace SkyMallCore.Respository
                 {
                     if (!string.IsNullOrEmpty(userId))
                     {
+                        userEntity.Id = userId;
                         this.Update(userEntity);
                     }
                     else

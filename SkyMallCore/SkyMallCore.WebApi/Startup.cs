@@ -46,9 +46,7 @@ namespace SkyMallCore.WebApi
                     Version ="v1",
                     Title = "SkyMallCore.WebApi"
                 });
-
-                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var xmlPath = Path.Combine(basePath, "SkyMallCore.WebApi.xml");
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, "SkyMallCore.WebApi.xml");
                 options.IncludeXmlComments(xmlPath);
             });
 
@@ -77,9 +75,9 @@ namespace SkyMallCore.WebApi
                     template: "api/{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseSwagger();
+            app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
             app.UseSwaggerUI(c=> {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MsSystem API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyMallCore.WebApi V1");
             });//https://www.cnblogs.com/wms01/p/6667771.html
 
 

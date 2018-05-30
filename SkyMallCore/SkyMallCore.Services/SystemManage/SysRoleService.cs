@@ -85,6 +85,7 @@ namespace SkyMallCore.Services
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
+                roleEntity.Id = keyValue;
                 _Respository.Update(roleEntity);
             }
             else

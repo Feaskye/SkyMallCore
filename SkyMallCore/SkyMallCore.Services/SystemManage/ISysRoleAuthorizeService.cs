@@ -13,6 +13,9 @@ namespace SkyMallCore.Services
 
 
         List<SysRoleAuthorize> GetList(string objectId);
+
+
+        bool ActionValidate(string roleId, string moduleId, string action);
     }
 
 

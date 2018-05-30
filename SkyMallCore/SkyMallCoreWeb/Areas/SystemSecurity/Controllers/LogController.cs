@@ -35,7 +35,7 @@ namespace SkyMallCoreWeb.Areas.SystemSecurity.Controllers
             return Content(data.ToJson());
         }
         [HttpPost]
-        //[HandlerAuthorize]
+        [SysRoleAuth]
         [ValidateAntiForgeryToken]
         public ActionResult SubmitRemoveLog(string keepTime)
         {

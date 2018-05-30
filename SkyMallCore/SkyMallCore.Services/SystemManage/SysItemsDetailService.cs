@@ -51,6 +51,7 @@ namespace SkyMallCore.Services
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
+                SysItemsDetail.Id = keyValue;
                 _Respository.Update(SysItemsDetail);
             }
             else

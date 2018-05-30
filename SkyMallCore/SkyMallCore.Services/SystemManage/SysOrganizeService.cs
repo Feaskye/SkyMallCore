@@ -34,6 +34,7 @@ namespace SkyMallCore.Services
         {
             if (!string.IsNullOrEmpty(id))
             {
+                sysOrganize.Id = id;
                 _Respository.Update(sysOrganize);
             }
             else

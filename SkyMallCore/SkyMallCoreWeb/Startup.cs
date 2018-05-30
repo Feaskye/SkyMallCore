@@ -42,10 +42,14 @@ namespace SkyMallCoreWeb
             ServiceFactory.Initialize(services, Configuration);
             //用户认证注册
             AuthenticationFactory.Initialize(services);
-            services.AddMvc();
+            services.AddMvc(options=> {
+                //add filters
+                options.Filters.Add(typeof(ErrorAttribute));
+            });
 
             services.AddMemoryCache();
             services.AddScoped<IMemCache, MemCache>();
+
             //services.AddDistributedMemoryCache(); 区别
             services.AddSession();
             CoreProviderContext.ServiceCollection = services;

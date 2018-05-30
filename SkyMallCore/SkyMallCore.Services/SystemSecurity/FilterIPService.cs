@@ -41,6 +41,7 @@ namespace SkyMallCore.Services
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
+                FilterIP.Id = keyValue;
                 _Respository.Update(FilterIP);
             }
             else

@@ -33,7 +33,7 @@ namespace SkyMallCore.Services
 
         public List<SysModule> GetMenuList(string roleId)
         {
-            var data = _SysModuleService.GetList();
+            var data = _SysModuleService.GetList().Where(w=>w.EnabledMark!=null && w.EnabledMark.Value).ToList();
             if (!CoreProviderContext.Provider.CurrentSysUser.IsSystem)
             {
                 var authorizedata = _Respository.Get(t => t.ObjectId == roleId && t.ItemType == 1).ToList();

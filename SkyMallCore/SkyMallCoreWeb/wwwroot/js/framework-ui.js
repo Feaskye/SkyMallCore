@@ -397,7 +397,7 @@ $.fn.authorizeButton = function () {
     $element.find('a[authorize=yes]').attr('authorize', 'no');
     if (dataJson != undefined) {
         $.each(dataJson, function (i) {
-            $element.find("#" + dataJson[i].F_EnCode).attr('authorize', 'yes');
+            $element.find("#" + dataJson[i].EnCode).attr('authorize', 'yes');
         });
     }
     $element.find("[authorize=no]").parents('li').prev('.split').remove();
