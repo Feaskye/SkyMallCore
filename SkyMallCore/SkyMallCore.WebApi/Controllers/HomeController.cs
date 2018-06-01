@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 using SkyMallCore.WebApi.Models;
 
 namespace SkyMallCore.WebApi.Controllers
@@ -12,7 +12,7 @@ namespace SkyMallCore.WebApi.Controllers
     /// <summary>
     /// 首页
     /// </summary>
-    public class HomeController : ApiController
+    public class HomeController : ApiControllerBase
     {
         /// <summary>
         /// 获取首页内容  

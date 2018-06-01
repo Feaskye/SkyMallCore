@@ -36,9 +36,9 @@ namespace SkyMallCore.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             //json
-            services.AddMvc()
-                .AddJsonOptions(options=> options.SerializerSettings.ContractResolver
-                =new Newtonsoft.Json.Serialization.DefaultContractResolver());
+            services.AddMvc();
+            //    .AddJsonOptions(options=> options.SerializerSettings.ContractResolver
+            //    =new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
             //swagger
             services.AddSwaggerGen(options=> {
@@ -75,9 +75,9 @@ namespace SkyMallCore.WebApi
                     template: "api/{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
+            app.UseSwagger();
             app.UseSwaggerUI(c=> {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyMallCore.WebApi V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyMallCoreWebApi");
             });//https://www.cnblogs.com/wms01/p/6667771.html
 
 
