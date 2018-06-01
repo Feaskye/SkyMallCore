@@ -15,10 +15,9 @@ public class HomeController
 生成Api文档：<a href='https://docs.microsoft.com/zh-cn/aspnet/core/tutorials/web-api-help-pages-using-swagger' target='_blank' >微软官方文档</a>
 
 1：安装Swashbuckle.AspNetCore包
-2：加入相应配置
-public void ConfigureServices(IServiceCollection services)
+2：Startup加入相应配置
+		public void ConfigureServices(IServiceCollection services)
         {
-            //json
             services.AddMvc();
 
             //swagger
@@ -33,7 +32,6 @@ public void ConfigureServices(IServiceCollection services)
         }
 
 
- // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
