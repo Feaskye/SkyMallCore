@@ -16,7 +16,7 @@
 
 八：EFCore（todo待处理）
 
-九：其他数据库支持Myql，Oracle（todo待处理）
+九：其他数据库支持Mysql，Oracle（todo待处理）
 
 十：其他
 
