@@ -17,7 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Services", "Sky
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApi", "SkyMallCore.WebApi\SkyMallCore.WebApi.csproj", "{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.ViewModel", "SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj", "{C20E9EDB-2A07-4173-B5AB-924EF0644996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.ViewModel", "SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj", "{C20E9EDB-2A07-4173-B5AB-924EF0644996}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6A405C97-5B6C-4F6C-BD1C-9B5192A92DCA}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.txt = ReadMe.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
