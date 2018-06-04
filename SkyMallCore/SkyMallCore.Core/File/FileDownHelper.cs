@@ -38,15 +38,15 @@ namespace SkyMallCore.Core
             if (File.Exists(destFileName))
             {
                 FileInfo fi = new FileInfo(destFileName);
-                CoreProviderContext.HttpContext.Response.Clear();
-                //CoreProviderContext.HttpContext.Response.ClearHeaders();
-                //CoreProviderContext.HttpContext.Response.Buffer = false;
-                //CoreProviderContext.HttpContext.Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(name, System.Text.Encoding.UTF8));
-                //CoreProviderContext.HttpContext.Response.AppendHeader("Content-Length", fi.Length.ToString());
-                CoreProviderContext.HttpContext.Response.ContentType = "application/octet-stream";
-                //CoreProviderContext.HttpContext.Response.WriteFile(destFileName);
-                //CoreProviderContext.HttpContext.Response.Flush();
-                //CoreProviderContext.HttpContext.Response.End();
+                CoreContextProvider.HttpContext.Response.Clear();
+                //CoreContextProvider.HttpContext.Response.ClearHeaders();
+                //CoreContextProvider.HttpContext.Response.Buffer = false;
+                //CoreContextProvider.HttpContext.Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(name, System.Text.Encoding.UTF8));
+                //CoreContextProvider.HttpContext.Response.AppendHeader("Content-Length", fi.Length.ToString());
+                CoreContextProvider.HttpContext.Response.ContentType = "application/octet-stream";
+                //CoreContextProvider.HttpContext.Response.WriteFile(destFileName);
+                //CoreContextProvider.HttpContext.Response.Flush();
+                //CoreContextProvider.HttpContext.Response.End();
             }
         }
         public static void DownLoad(string FileName)
@@ -63,18 +63,18 @@ namespace SkyMallCore.Core
                 dataToRead = stream.Length;
 
                 //添加Http头   
-                CoreProviderContext.HttpContext.Response.ContentType = "application/octet-stream";
-                CoreProviderContext.HttpContext.Response.Headers.Add("Content-Disposition", "attachement;filename=" + HttpUtility.UrlEncode(Path.GetFileName(filePath)));
-                CoreProviderContext.HttpContext.Response.Headers.Add("Content-Length", dataToRead.ToString());
+                CoreContextProvider.HttpContext.Response.ContentType = "application/octet-stream";
+                CoreContextProvider.HttpContext.Response.Headers.Add("Content-Disposition", "attachement;filename=" + HttpUtility.UrlEncode(Path.GetFileName(filePath)));
+                CoreContextProvider.HttpContext.Response.Headers.Add("Content-Length", dataToRead.ToString());
 
                 while (dataToRead > 0)
                 {
-                    //if (CoreProviderContext.HttpContext.Response.IsClientConnected)
+                    //if (CoreContextProvider.HttpContext.Response.IsClientConnected)
                     //{
                     //    int length = stream.Read(buffer, 0, Convert.ToInt32(chunkSize));
-                    //    //CoreProviderContext.HttpContext.Response.OutputStream.Write(buffer, 0, length);
-                    //    //CoreProviderContext.HttpContext.Response.Response.Flush();
-                    //    CoreProviderContext.HttpContext.Response.Clear();
+                    //    //CoreContextProvider.HttpContext.Response.OutputStream.Write(buffer, 0, length);
+                    //    //CoreContextProvider.HttpContext.Response.Response.Flush();
+                    //    CoreContextProvider.HttpContext.Response.Clear();
                     //    dataToRead -= length;
                     //}
                     //else
@@ -85,12 +85,12 @@ namespace SkyMallCore.Core
             }
             catch (Exception ex)
             {
-                CoreProviderContext.HttpContext.Response.WriteAsync("Error:" + ex.Message);
+                CoreContextProvider.HttpContext.Response.WriteAsync("Error:" + ex.Message);
             }
             finally
             {
                 if (stream != null) stream.Close();
-                CoreProviderContext.HttpContext.Response.Clear();
+                CoreContextProvider.HttpContext.Response.Clear();
             }
         }
         public static bool ResponseFile(HttpRequest _Request, HttpResponse _Response, string _fileName, string _fullPath, long _speed)

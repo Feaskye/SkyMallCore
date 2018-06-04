@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Respository
 {
-    public class SysItemsDetailRespository : RespositoryBase<SysItemsDetail>, ISysItemsDetailRespository
+    public class SysItemsDetailRespository : Data.Respository.AuditedRespository<SysItemsDetail>, ISysItemsDetailRespository
     {
         public SysItemsDetailRespository(ISkyMallDbContext skyMallDbContext) : base(skyMallDbContext)
         { }

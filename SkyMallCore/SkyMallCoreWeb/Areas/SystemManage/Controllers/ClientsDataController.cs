@@ -117,7 +117,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
         }
         private object GetMenuList()
         {
-            var roleId = CoreProviderContext.Provider.CurrentSysUser.RoleId;
+            var roleId = CoreContextProvider.CurrentSysUser.RoleId;
             return ToMenuJson(_SysRoleAuthorizeService.GetMenuList(roleId), "0");
         }
         private string ToMenuJson(List<SysModule> data, string parentId)
@@ -142,7 +142,7 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
 
         private object GetMenuButtonList()
         {
-            var roleId = CoreProviderContext.Provider.CurrentSysUser.RoleId;
+            var roleId = CoreContextProvider.CurrentSysUser.RoleId;
             var data = _SysRoleAuthorizeService.GetButtonList(roleId);
             var dataModuleId = data.Distinct(new ExtList<SysModuleButton>("ModuleId"));
             Dictionary<string, object> dictionary = new Dictionary<string, object>();

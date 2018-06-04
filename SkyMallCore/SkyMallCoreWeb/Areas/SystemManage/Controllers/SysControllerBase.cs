@@ -42,7 +42,7 @@ namespace SkyMallCoreWeb.Areas
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            _Logger = CoreProviderContext.GetLogger(this.ControllerContext.ActionDescriptor.ControllerTypeInfo.Name);
+            _Logger = CoreContextProvider.GetLogger(this.ControllerContext.ActionDescriptor.ControllerTypeInfo.Name);
             base.OnActionExecuting(context);
         }
 

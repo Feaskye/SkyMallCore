@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace SkyMallCore.Data
 {
     public class RespositoryBase<TEntity> : IRespositoryBase<TEntity>
-        where TEntity : class,new()
+        where TEntity : Models.KeyEntity, new()
     {
         protected ISkyMallDbContext _SkyMallDBContext;
         protected DbSet<TEntity> _DbSet;
@@ -61,17 +61,15 @@ namespace SkyMallCore.Data
 
 
 
-        public int Insert(TEntity entity)
+        public virtual int Insert(TEntity entity)
         {
-           // _DbSet.Add(entity);
             _SkyMallDBContext.Entry<TEntity>(entity).State = EntityState.Added;
             return _SkyMallDBContext.SaveChanges();
         }
-        public int Insert(List<TEntity> entitys)
+        public virtual int Insert(List<TEntity> entitys)
         {
             foreach (var entity in entitys)
             {
-                //_DbSet.Add(entity);
                 _SkyMallDBContext.Entry<TEntity>(entity).State = EntityState.Added;
             }
             return _SkyMallDBContext.SaveChanges();
@@ -79,7 +77,6 @@ namespace SkyMallCore.Data
 
         public virtual int AddOneByOne(IList<TEntity> entitys)
         {
-            //由于ef core批量写入数据时，采用了批处理方法，但这种方式会导致写入顺序错，暂时没有找到什么方法，所以改成一条条写。
             entitys.ToList().ForEach(t => {
                 this._SkyMallDBContext.Entry<TEntity>(t).State = EntityState.Added;
                 this._SkyMallDBContext.SaveChanges();
@@ -87,7 +84,7 @@ namespace SkyMallCore.Data
             return entitys.Count;
         }
 
-        public int Update(TEntity entity)
+        public virtual int Update(TEntity entity)
         {
             _SkyMallDBContext.Entry(entity).State = EntityState.Modified;
             return _SkyMallDBContext.SaveChanges();
@@ -95,7 +92,6 @@ namespace SkyMallCore.Data
 
         public int UpdateFields(TEntity entity, params string[] fields)
         {
-            //_DbSet.Attach(entity);
             PropertyInfo[] props = entity.GetType().GetProperties();
             foreach (PropertyInfo prop in props)
             {
@@ -112,13 +108,12 @@ namespace SkyMallCore.Data
             }
             return _SkyMallDBContext.SaveChanges();
         }
-        public int Delete(TEntity entity)
+        public virtual int Delete(TEntity entity)
         {
-            //_DbSet.Remove(entity);
             _SkyMallDBContext.Entry<TEntity>(entity).State = EntityState.Deleted;
             return _SkyMallDBContext.SaveChanges();
         }
-        public int Delete(Expression<Func<TEntity, bool>> predicate)
+        public virtual int Delete(Expression<Func<TEntity, bool>> predicate)
         {
             var entitys = _DbSet.Where(predicate).ToList();
             entitys.ForEach(m =>{
@@ -136,7 +131,7 @@ namespace SkyMallCore.Data
             return this._SkyMallDBContext.SaveChanges();
         }
 
-        public int Delete(List<int> ids)
+        public virtual int Delete(List<int> ids)
         {
             ids.ForEach(t => {
                 TEntity entity = this.Get(t);

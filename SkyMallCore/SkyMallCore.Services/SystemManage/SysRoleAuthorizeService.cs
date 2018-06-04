@@ -34,7 +34,7 @@ namespace SkyMallCore.Services
         public List<SysModule> GetMenuList(string roleId)
         {
             var data = _SysModuleService.GetList().Where(w=>w.EnabledMark!=null && w.EnabledMark.Value).ToList();
-            if (!CoreProviderContext.Provider.CurrentSysUser.IsSystem)
+            if (!CoreContextProvider.CurrentSysUser.IsSystem)
             {
                 var authorizedata = _Respository.Get(t => t.ObjectId == roleId && t.ItemType == 1).ToList();
                 foreach (var item in authorizedata)
@@ -51,7 +51,7 @@ namespace SkyMallCore.Services
         public List<SysModuleButton> GetButtonList(string roleId)
         {
             var data = _SysModuleButtonService.GetList();
-            if (!CoreProviderContext.Provider.CurrentSysUser.IsSystem)
+            if (!CoreContextProvider.CurrentSysUser.IsSystem)
             {
               
                 var buttondata = _SysModuleButtonService.GetList();
@@ -72,7 +72,7 @@ namespace SkyMallCore.Services
         public bool ActionValidate(string roleId, string moduleId, string action)
         {
             var authorizeurldata = new List<AuthorizeActionModel>();
-            var cachedata = CoreProviderContext.Provider.MemCache.GetCache<List<AuthorizeActionModel>>("authorizeurldata_" + roleId);
+            var cachedata = CoreContextProvider.MemCache.GetCache<List<AuthorizeActionModel>>("authorizeurldata_" + roleId);
             if (cachedata == null)
             {
                 var moduledata = _SysModuleService.GetList();
@@ -91,7 +91,7 @@ namespace SkyMallCore.Services
                         authorizeurldata.Add(new AuthorizeActionModel { Id = moduleButtonEntity.ModuleId, UrlAddress = moduleButtonEntity.UrlAddress });
                     }
                 }
-                CoreProviderContext.Provider.MemCache.SetCache(authorizeurldata, "authorizeurldata_" + roleId, DateTime.Now.AddMinutes(5));
+                CoreContextProvider.MemCache.SetCache(authorizeurldata, "authorizeurldata_" + roleId, DateTime.Now.AddMinutes(5));
             }
             else
             {

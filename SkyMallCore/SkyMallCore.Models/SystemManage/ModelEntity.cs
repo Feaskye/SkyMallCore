@@ -21,9 +21,9 @@ namespace SkyMallCore.Models
     }
 
 
-    public class CreatorEntity: KeyEntity
+    public class CreatorEntity : KeyEntity
     {
-        public DateTime? CreatorTime { get; set; }
+        public virtual DateTime? CreatorTime { get; set; }
         public string CreatorUserId { get; set; }
     }
 
@@ -34,4 +34,4 @@ namespace SkyMallCore.Models
     }
 
 
-    }
+}

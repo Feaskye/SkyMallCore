@@ -14,12 +14,12 @@ namespace SkyMallCoreWeb
     {
         public override void OnException(ExceptionContext context)
         {
-            var logger = CoreProviderContext.GetLogger(context.RouteData.Values["controller"].ToString());
+            var logger = CoreContextProvider.GetLogger(context.RouteData.Values["controller"].ToString());
             logger.LogError(context.Exception.Message);
 
             base.OnException(context);
 
-            if (!CoreProviderContext.HostingEnvironment.IsDevelopment())
+            if (!CoreContextProvider.HostingEnvironment.IsDevelopment())
             {
                 context.ExceptionHandled = true;
                 context.HttpContext.Response.StatusCode = 200;

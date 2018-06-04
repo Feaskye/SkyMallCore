@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SkyMallCore.Core;
 using SkyMallCore.Data;
+using SkyMallCore.Data.Respository;
 using SkyMallCore.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Respository
 {
-    public class SysUserRespository: RespositoryBase<SysUser>,ISysUserRespository
+    public class SysUserRespository: AuditedRespository<SysUser>, ISysUserRespository
     {
         ISysUserLogOnRespository SysUserLogOnRespository;
         public SysUserRespository(ISkyMallDbContext skyMallDbContext
@@ -39,7 +40,7 @@ namespace SkyMallCore.Respository
                 }
                 catch (Exception ex) {
                     this.Rollback();
-                    Console.WriteLine(ex.ToString());
+                    throw ex;
                 }
             }
         }
@@ -68,7 +69,7 @@ namespace SkyMallCore.Respository
                 catch (Exception ex)
                 {
                     this.Rollback();
-                    Console.WriteLine(ex.ToString());
+                    throw ex;
                 }
             }
         }

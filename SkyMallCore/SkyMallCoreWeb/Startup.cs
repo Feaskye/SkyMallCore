@@ -52,15 +52,15 @@ namespace SkyMallCoreWeb
 
             //services.AddDistributedMemoryCache(); 区别
             services.AddSession();
-            CoreProviderContext.ServiceCollection = services;
+            services.AddCoreContext();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            CoreProviderContext.HttpContextAccessor = app.ApplicationServices.GetService<IHttpContextAccessor>();
-            CoreProviderContext.Configuration = Configuration;
-            CoreProviderContext.HostingEnvironment = env;
+            app.UseStaticCoreContext(); 
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();

@@ -65,7 +65,7 @@
                             <li class="dropdown profile-dropdown">
                                 <a href="#" class="dropdown" data-toggle="dropdown">
                                     <img src="~/img/samples/scarlet-159.png" alt="" />
-                                    <span class="hidden-xs">@CoreProviderContext.Provider.CurrentSysUser.Account</span>
+                                    <span class="hidden-xs">@CoreContextProvider.CurrentSysUser.Account</span>
                                 </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li><a class="menuItem" data-id="userInfo" href="/SystemManage/Manager/Info"><i class="fa fa-user"></i>个人信息</a></li>
@@ -90,7 +90,7 @@
                                 <img alt="" src="~/img/samples/scarlet-159.png" />
                                 <div class="user-box">
                                     <span class="name">
-                                        @CoreProviderContext.Provider.CurrentSysUser.Account;@CoreProviderContext.Provider.CurrentSysUser.RealName
+                                        @CoreContextProvider.CurrentSysUser.Account;@CoreContextProvider.CurrentSysUser.RealName
                                     </span>
                                     <span class="status">
                                         <i class="fa fa-circle"></i>在线

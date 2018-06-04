@@ -49,14 +49,13 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
             {
                 ModuleName = "系统登录",
                 Type = DbLogType.Exit.ToString(),
-                Account = CoreProviderContext.Provider.CurrentSysUser.Account,
-                NickName = CoreProviderContext.Provider.CurrentSysUser.RealName,
+                Account = CoreContextProvider.CurrentSysUser.Account,
+                NickName = CoreContextProvider.CurrentSysUser.RealName,
                 Result = true,
                 Description = "安全退出系统",
             });
 
             this.Request.HttpContext.Session.Clear();
-            //CoreProviderContext.Provider.RemoveCurrent();
             await HttpContext.SignOutAsync(SysManageAuthAttribute.SysManageAuthScheme);
             return RedirectToAction("Index", "Login", new { area = "SystemManage" });
         }

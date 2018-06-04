@@ -1,40 +1,48 @@
-﻿
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 
 namespace SkyMallCore.Core
 {
+
     /// <summary>
     /// Core 全局支持上下文
     /// 配置、Service、HttpContext、用户
     /// （可以改为注入的方式，这里为了避免传参麻烦）
     /// </summary>
-    public class CoreProviderContext
+    public class CoreContextProvider
     {
-        //全局，获取运行时相关信息
-        public static IHttpContextAccessor HttpContextAccessor { get; set; }
-        public static IConfiguration Configuration { get; set; }
-        public static IServiceCollection ServiceCollection { get; set; }
-
-        public static IHostingEnvironment HostingEnvironment { get; set; }
-
-        public static CoreProviderContext Provider
-        {
-            get {return new CoreProviderContext(); }
-        }
         private string LoginUserKey = ConstParameters.SysLoginUserKey;
         private string LoginProvider = ConstParameters.SysLoginProvider;
 
+        private static IHttpContextAccessor _accessor;
+
+        public static IConfiguration Configuration { get; set; }
+        //private static IServiceCollection ServiceCollection { get; set; }
+
+        public static IHostingEnvironment HostingEnvironment { get; set; }
+
+        public static Microsoft.AspNetCore.Http.HttpContext HttpContext => _accessor.HttpContext;
+
+        internal static void Configure(IHttpContextAccessor accessor, IConfiguration configuration,IHostingEnvironment hostingEnvironment)
+        {
+            _accessor = accessor;
+            Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
+        }
+        
         /// <summary>
         /// 获取MemCache上下文
         /// </summary>
-        public IMemCache MemCache
+        public static IMemCache MemCache
         {
             get
             {
@@ -42,11 +50,11 @@ namespace SkyMallCore.Core
             }
         }
 
-        
+
         /// <summary>
         /// 获取当前登录用户
         /// </summary>
-        public OperatorModel CurrentSysUser
+        public static OperatorModel CurrentSysUser
         {
             get
             {
@@ -71,24 +79,6 @@ namespace SkyMallCore.Core
             }
         }
 
-
-        public static HttpContext HttpContext
-        {
-            get
-            {
-                object factory = GetService(typeof(Microsoft.AspNetCore.Http.IHttpContextAccessor));
-                Microsoft.AspNetCore.Http.HttpContext context = ((IHttpContextAccessor)factory).HttpContext;
-                return context;
-            }
-        }
-
-        public static object GetService(Type type)
-        {
-            return HttpContextAccessor.HttpContext.RequestServices.GetService(type);
-        }
-
-       
-
         /// <summary>
         /// 日志
         /// </summary>
@@ -103,12 +93,38 @@ namespace SkyMallCore.Core
             return GetService<ILogger>();
         }
 
+
         public static T GetService<T>()
         {
-            return (T)HttpContextAccessor.HttpContext.RequestServices.GetService(typeof(T));
+            return (T)HttpContext.RequestServices.GetService(typeof(T));
+        }
+    }
+
+
+    public static class StaticCoreContextExtensions
+    {
+
+        public static void AddCoreContext(this IServiceCollection services)
+        {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
+        /// <summary>
+        /// 公用上下文
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseStaticCoreContext(this IApplicationBuilder app)
+        {
+               var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
+            var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
 
+            var hostingEnvironment = app.ApplicationServices.GetRequiredService<IHostingEnvironment>();
 
+            CoreContextProvider.Configure(httpContextAccessor, configuration, hostingEnvironment);
+            return app;
+        }
     }
+
+
 }

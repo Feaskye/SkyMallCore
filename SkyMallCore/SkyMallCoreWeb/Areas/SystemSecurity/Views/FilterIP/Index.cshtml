@@ -51,6 +51,19 @@
             }
         });
     }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Form",
+            title: "修改策略",
+            url: "/SystemSecurity/FilterIP/Form?keyValue=" + keyValue,
+            width: "550px",
+            height: "570px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
     function btn_delete() {
         $.deleteForm({
             url: "/SystemSecurity/FilterIP/DeleteForm",

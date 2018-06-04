@@ -49,8 +49,9 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
             UserApp.SubmitForm(SysUser, SysUserLogOn, keyValue);
             return Success("操作成功。");
         }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult DeleteForm(string keyValue)
         {
             UserApp.DeleteForm(keyValue);

@@ -16,7 +16,7 @@ namespace SkyMallCore.Core
         /// <param name="strValue">值</param>
         public static void WriteCookie(string strName, string strValue)
         {
-            CoreProviderContext.HttpContext.Response.Cookies.Append(strName, strValue);
+            CoreContextProvider.HttpContext.Response.Cookies.Append(strName, strValue);
         }
         /// <summary>
         /// 写cookie值
@@ -26,14 +26,14 @@ namespace SkyMallCore.Core
         /// <param name="expires">过期时间(分钟)</param>
         public static void WriteCookie(string key, string value, int expires)
         {
-            var cookie = CoreProviderContext.HttpContext.Request.Cookies[key];
+            var cookie = CoreContextProvider.HttpContext.Request.Cookies[key];
             //if (cookie == null)
             //{
             //    cookie = new HttpCookie(strName);
             //}
             CookieOptions options = new CookieOptions();
             options.Expires = DateTime.Now.AddMinutes(expires);
-            CoreProviderContext.HttpContext.Response.Cookies.Append(key, value, options);
+            CoreContextProvider.HttpContext.Response.Cookies.Append(key, value, options);
         }
         /// <summary>
         /// 读cookie值
@@ -42,10 +42,10 @@ namespace SkyMallCore.Core
         /// <returns>cookie值</returns>
         public static string GetCookie(string strName)
         {
-            if (CoreProviderContext.HttpContext.Request.Cookies != null && 
-                CoreProviderContext.HttpContext.Request.Cookies[strName] != null)
+            if (CoreContextProvider.HttpContext.Request.Cookies != null && 
+                CoreContextProvider.HttpContext.Request.Cookies[strName] != null)
             {
-                return CoreProviderContext.HttpContext.Request.Cookies[strName].ToString();
+                return CoreContextProvider.HttpContext.Request.Cookies[strName].ToString();
             }
             return "";
         }
@@ -55,7 +55,7 @@ namespace SkyMallCore.Core
         /// <param name="key">Cookie对象名称</param>
         public static void RemoveCookie(string key)
         {
-            CoreProviderContext.HttpContext.Response.Cookies.Delete(key);
+            CoreContextProvider.HttpContext.Response.Cookies.Delete(key);
         }
         #endregion
 
@@ -71,7 +71,7 @@ namespace SkyMallCore.Core
         {
             if (key.IsEmpty())
                 return;
-            CoreProviderContext.HttpContext.Session.SetString(key, value.ToString());
+            CoreContextProvider.HttpContext.Session.SetString(key, value.ToString());
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace SkyMallCore.Core
         {
             if (key.IsEmpty())
                 return string.Empty;
-            return CoreProviderContext.HttpContext.Session.GetString(key);
+            return CoreContextProvider.HttpContext.Session.GetString(key);
         }
         /// <summary>
         /// 删除指定Session
@@ -102,7 +102,7 @@ namespace SkyMallCore.Core
         {
             if (key.IsEmpty())
                 return;
-           CoreProviderContext.HttpContext.Session.Remove(key);
+           CoreContextProvider.HttpContext.Session.Remove(key);
         }
 
         #endregion

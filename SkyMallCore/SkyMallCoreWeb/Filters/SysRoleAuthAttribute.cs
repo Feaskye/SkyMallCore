@@ -21,7 +21,7 @@ namespace SkyMallCoreWeb
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (CoreProviderContext.Provider.CurrentSysUser.IsSystem)
+            if (CoreContextProvider.CurrentSysUser.IsSystem)
             {
                 return;
             }
@@ -39,11 +39,11 @@ namespace SkyMallCoreWeb
         }
         private bool ActionAuthorize(ActionExecutingContext filterContext)
         {
-            var operatorProvider = CoreProviderContext.Provider.CurrentSysUser;
+            var operatorProvider = CoreContextProvider.CurrentSysUser;
             var roleId = operatorProvider.RoleId;
             var moduleId = WebHelper.GetCookie("nfine_currentmoduleid");
-            var action = CoreProviderContext.HttpContext.Request.Headers["SCRIPT_NAME"].ToString();
-            return CoreProviderContext.GetService<SkyMallCore.Services.ISysRoleAuthorizeService>()
+            var action = CoreContextProvider.HttpContext.Request.Headers["SCRIPT_NAME"].ToString();
+            return CoreContextProvider.GetService<SkyMallCore.Services.ISysRoleAuthorizeService>()
                 .ActionValidate(roleId, moduleId, action);
         }
     }

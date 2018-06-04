@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Respository
 {
-    public class SysLogRespository : RespositoryBase<SysLog>, ISysLogRespository
+    public class SysLogRespository : Data.Respository.AuditedRespository<SysLog>, ISysLogRespository
     {
         public SysLogRespository(ISkyMallDbContext skyMallDbContext) : base(skyMallDbContext)
         { }

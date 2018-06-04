@@ -36,7 +36,7 @@ namespace SkyMallCoreWeb.Areas.SystemSecurity.Controllers
             return Success("操作成功。");
         }
         [HttpPost]
-       // [HandlerAuthorize]
+        [SysRoleAuth]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteForm(string keyValue)
         {

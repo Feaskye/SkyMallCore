@@ -74,8 +74,8 @@ namespace SkyMallCore.Services
             SysLog SysLog = new SysLog();
             SysLog.Id = Common.GuId();
             SysLog.Date = DateTime.Now;
-            SysLog.Account = CoreProviderContext.Provider.CurrentSysUser.UserCode;
-            SysLog.NickName = CoreProviderContext.Provider.CurrentSysUser.RealName;
+            SysLog.Account = CoreContextProvider.CurrentSysUser.UserCode;
+            SysLog.NickName = CoreContextProvider.CurrentSysUser.RealName;
             SysLog.IPAddress = Net.Ip;
             SysLog.IPAddressName = Net.GetLocation(SysLog.IPAddress);
             SysLog.Result = result;

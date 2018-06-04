@@ -46,7 +46,7 @@ namespace SkyMallCore.Services
         }
         public void DeleteForm(string id)
         {
-            _SysUserRespository.Delete(id);
+            _SysUserRespository.DeleteForm(id);
         }
         public void SubmitForm(SysUser sysUser, SysUserLogOn userLogOnEntity, string userId)
         {

@@ -22,7 +22,7 @@ namespace SkyMallCore.Core
             get
             {
                 var result = string.Empty;
-                if (CoreProviderContext.HttpContext != null)
+                if (CoreContextProvider.HttpContext != null)
                     result = GetWebClientIp();
                 if (result.IsEmpty())
                     result = GetLanIp();
@@ -51,8 +51,8 @@ namespace SkyMallCore.Core
         {
             //https://www.cnblogs.com/dudu/p/5972649.html
             //ServerVariables ==>Headers
-            return CoreProviderContext.HttpContext.Request.Headers["X-Forwarded-For"].ToString() ??
-                CoreProviderContext.HttpContext.Connection.RemoteIpAddress?.ToString();
+            return CoreContextProvider.HttpContext.Request.Headers["X-Forwarded-For"].ToString() ??
+                CoreContextProvider.HttpContext.Connection.RemoteIpAddress?.ToString();
             //https://stackoverflow.com/questions/28664686/how-do-i-get-client-ip-address-in-asp-net-core
         }
 
@@ -80,7 +80,7 @@ namespace SkyMallCore.Core
         {
             get
             {
-                return CoreProviderContext.HttpContext== null ? Dns.GetHostName() : GetWebClientHostName();
+                return CoreContextProvider.HttpContext== null ? Dns.GetHostName() : GetWebClientHostName();
             }
         }
 
@@ -89,7 +89,7 @@ namespace SkyMallCore.Core
         /// </summary>
         private static string GetWebClientHostName()
         {
-            if (!CoreProviderContext.HttpContext.Request.IsLocal())
+            if (!CoreContextProvider.HttpContext.Request.IsLocal())
                 return string.Empty;
             var ip = GetWebRemoteIP();
             var result = Dns.GetHostEntry(IPAddress.Parse(ip)).HostName;
@@ -198,9 +198,9 @@ namespace SkyMallCore.Core
         {
             get
             {
-                //if (CoreProviderContext.HttpContext == null)
+                //if (CoreContextProvider.HttpContext == null)
                 //    return string.Empty;
-                //var browser = CoreProviderContext.HttpContext.Request.Headers;
+                //var browser = CoreContextProvider.HttpContext.Request.Headers;
                 //return string.Format("{0} {1}", browser.Browser, browser.Version);
                 return "";
             }

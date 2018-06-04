@@ -206,8 +206,8 @@ namespace SkyMallCore.Core
         public static void CreateDir(string dir)
         {
             if (dir.Length == 0) return;
-            if (!Directory.Exists(CoreProviderContext.HttpContext.Request.Path + "\\" + dir))
-                Directory.CreateDirectory(CoreProviderContext.HttpContext.Request.Path + "\\" + dir);
+            if (!Directory.Exists(CoreContextProvider.HttpContext.Request.Path + "\\" + dir))
+                Directory.CreateDirectory(CoreContextProvider.HttpContext.Request.Path + "\\" + dir);
         }
         #endregion
 
@@ -219,8 +219,8 @@ namespace SkyMallCore.Core
         public static void DeleteDir(string dir)
         {
             if (dir.Length == 0) return;
-            if (Directory.Exists(CoreProviderContext.HttpContext.Request.Path + "\\" + dir))
-                Directory.Delete(CoreProviderContext.HttpContext.Request.Path + "\\" + dir);
+            if (Directory.Exists(CoreContextProvider.HttpContext.Request.Path + "\\" + dir))
+                Directory.Delete(CoreContextProvider.HttpContext.Request.Path + "\\" + dir);
         }
         #endregion
 
@@ -231,9 +231,9 @@ namespace SkyMallCore.Core
         /// <param name="file">要删除的文件路径和名称</param>
         public static void DeleteFile(string file)
         {
-            if (File.Exists(CoreProviderContext.HttpContext.Request.Path + file))
+            if (File.Exists(CoreContextProvider.HttpContext.Request.Path + file))
             {
-                File.Delete(CoreProviderContext.HttpContext.Request.Path + file);
+                File.Delete(CoreContextProvider.HttpContext.Request.Path + file);
             }
         }
         #endregion
@@ -249,7 +249,7 @@ namespace SkyMallCore.Core
             dir = dir.Replace("/", "\\");
             if (dir.IndexOf("\\") > -1)
                 CreateDir(dir.Substring(0, dir.LastIndexOf("\\")));
-            StreamWriter sw = new StreamWriter(CoreProviderContext.HttpContext.Request.Path + "\\" + dir, false, System.Text.Encoding.GetEncoding("GB2312"));
+            StreamWriter sw = new StreamWriter(CoreContextProvider.HttpContext.Request.Path + "\\" + dir, false, System.Text.Encoding.GetEncoding("GB2312"));
             sw.Write(pagestr);
             sw.Close();
         }
@@ -282,8 +282,8 @@ namespace SkyMallCore.Core
         {
             dir1 = dir1.Replace("/", "\\");
             dir2 = dir2.Replace("/", "\\");
-            if (File.Exists(CoreProviderContext.HttpContext.Request.Path + "\\" + dir1))
-                File.Move(CoreProviderContext.HttpContext.Request.Path + "\\" + dir1, CoreProviderContext.HttpContext.Request.Path + "\\" + dir2);
+            if (File.Exists(CoreContextProvider.HttpContext.Request.Path + "\\" + dir1))
+                File.Move(CoreContextProvider.HttpContext.Request.Path + "\\" + dir1, CoreContextProvider.HttpContext.Request.Path + "\\" + dir2);
         }
         #endregion
 
@@ -297,9 +297,9 @@ namespace SkyMallCore.Core
         {
             dir1 = dir1.Replace("/", "\\");
             dir2 = dir2.Replace("/", "\\");
-            if (File.Exists(CoreProviderContext.HttpContext.Request.Path + "\\" + dir1))
+            if (File.Exists(CoreContextProvider.HttpContext.Request.Path + "\\" + dir1))
             {
-                File.Copy(CoreProviderContext.HttpContext.Request.Path + "\\" + dir1, CoreProviderContext.HttpContext.Request.Path + "\\" + dir2, true);
+                File.Copy(CoreContextProvider.HttpContext.Request.Path + "\\" + dir1, CoreContextProvider.HttpContext.Request.Path + "\\" + dir2, true);
             }
         }
         #endregion
@@ -845,7 +845,7 @@ namespace SkyMallCore.Core
         /// <returns></returns>
         public static string MapPath(string path)
         {
-            return Path.Combine(CoreProviderContext.HostingEnvironment.WebRootPath, path);
+            return Path.Combine(CoreContextProvider.HostingEnvironment.WebRootPath, path);
         }
         #endregion
     }
