@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Respository
 {
-    public class FilterIPRespository : Data.Respository.AuditedRespository<FilterIP>, IFilterIPRespository
+    public class FilterIPRespository : AuditedRespository<FilterIP>, IFilterIPRespository
     {
         public FilterIPRespository(ISkyMallDbContext skyMallDbContext) : base(skyMallDbContext)
         { }

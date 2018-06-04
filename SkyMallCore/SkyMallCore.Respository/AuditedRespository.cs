@@ -1,10 +1,11 @@
-﻿using SkyMallCore.Models;
+﻿using SkyMallCore.Data;
+using SkyMallCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkyMallCore.Data.Respository
+namespace SkyMallCore.Respository
 {
     /// <summary>
     /// 数据审计    （目前是增加、修改当前数据审计）

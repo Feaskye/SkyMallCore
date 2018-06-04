@@ -7,10 +7,9 @@ using System.Text;
 
 namespace SkyMallCore.Data
 {
-    public class DbContextFactory
+    public static class DbContextFactory
     {
-            public static IServiceProvider ServiceProvider;
-        public static void Initialize(IServiceCollection services, IConfiguration configuration)
+        public static void InitializeDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<SkyMallDBContext>(options =>
                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -18,12 +17,6 @@ namespace SkyMallCore.Data
             services.AddScoped<ISkyMallDbContext, SkyMallDBContext>();
             services.AddScoped(typeof(IRespositoryBase<>), typeof(RespositoryBase<>));
         }
-
-        //public static SkyMallDBContext GetDBContext()
-        //{
-        //    return new SkyMallDBContext(
-        //        ServiceProvider.GetRequiredService<DbContextOptions<SkyMallDBContext>>());
-        //}
 
 
     }

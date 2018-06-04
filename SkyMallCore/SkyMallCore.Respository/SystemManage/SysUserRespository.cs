@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SkyMallCore.Core;
 using SkyMallCore.Data;
-using SkyMallCore.Data.Respository;
 using SkyMallCore.Models;
 using System;
 using System.Collections.Generic;
@@ -77,11 +76,11 @@ namespace SkyMallCore.Respository
 
     }
 
-    public class RespositoryFactory
+    public static class RespositoryFactory
     {
-        public static void Initialize(IServiceCollection services, IConfiguration configuration)
+        public static void AddDataRespository(this IServiceCollection services)
         {
-            DbContextFactory.Initialize(services, configuration);
+            services.InitializeDbContext(CoreContextProvider.Configuration);
 
             services.AddScoped(typeof(IRespositoryBase<>), typeof(RespositoryBase<>));
             //services.AddScoped<ISysUserRespository, SysUserRespository>();

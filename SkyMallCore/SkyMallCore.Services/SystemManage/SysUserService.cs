@@ -101,11 +101,15 @@ namespace SkyMallCore.Services
 
     }
 
-    public class ServiceFactory
+    public static class ServiceFactory
     {
-        public static void Initialize(IServiceCollection services, IConfiguration configuration)
+        /// <summary>
+        /// 业务逻辑、数据处理层
+        /// </summary>
+        /// <param name="services"></param>
+        public static void AddDataService(this IServiceCollection services)
         {
-            RespositoryFactory.Initialize(services, configuration);
+            services.AddDataRespository();
 
             var scopedServices = Reflector.GetScopedList(typeof(ServiceFactory).Assembly).
                 Where(w => w.Interface.Name.EndsWith("Service")).ToList();

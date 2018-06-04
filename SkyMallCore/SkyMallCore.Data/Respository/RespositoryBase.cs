@@ -234,6 +234,26 @@ namespace SkyMallCore.Data
             return tempData.ToList();
         }
 
+        /// <summary>
+        /// todo待解决
+        /// </summary>
+        /// <param name="select"></param>
+        /// <param name="where"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public PagedList<object> GetPagedList(Expression<Func<TEntity, object>> select, Expression<Func<TEntity, bool>> where, 
+            int pageIndex, int pageSize, Expression<Func<TEntity, object>> order = null) 
+        {
+            var list = _DbSet.AsNoTracking().Select(select);
+            //if (order != null)
+            //{
+            //    list = list.OrderBy(order);
+            //}
+            return PagedList<object>.GetPagedList(list, pageIndex, pageSize);
+        }
+
 
         public List<TEntity> FromSql(string strSql, DbParameter[] dbParameter)
         {

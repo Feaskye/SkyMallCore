@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Respository
 {
-    public class SysModuleButtonRespository : Data.Respository.AuditedRespository<SysModuleButton>, ISysModuleButtonRespository
+    public class SysModuleButtonRespository : AuditedRespository<SysModuleButton>, ISysModuleButtonRespository
     {
         public SysModuleButtonRespository(ISkyMallDbContext skyMallDbContext) : base(skyMallDbContext)
         { }

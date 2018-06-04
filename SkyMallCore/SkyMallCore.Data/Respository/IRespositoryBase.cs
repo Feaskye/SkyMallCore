@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using SkyMallCore.Core;
+using SkyMallCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Data
 {
-    public interface IRespositoryBase<TEntity> where TEntity : class,new()
+    public interface IRespositoryBase<TEntity> where TEntity : KeyEntity, new()
     {
 
         IDbContextTransaction BeginTransaction();
@@ -38,6 +39,8 @@ namespace SkyMallCore.Data
         bool Any(Expression<Func<TEntity, bool>> predicate);
         List<TEntity> GetPagedList(Pagination pagination);
         List<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, Pagination pagination);
+
+        PagedList<object> GetPagedList(Expression<Func<TEntity, object>> select, Expression<Func<TEntity, bool>> where, int pageIndex, int pageSize, Expression<Func<TEntity, object>> order = null);
 
         List<TEntity> FromSql(string strSql, DbParameter[] dbParameter = null);
 

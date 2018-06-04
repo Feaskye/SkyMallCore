@@ -104,9 +104,11 @@ namespace SkyMallCore.Core
     public static class StaticCoreContextExtensions
     {
 
-        public static void AddCoreContext(this IServiceCollection services)
+        public static void AddCoreContextProvider(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
+            services.AddScoped<IMemCache, MemCache>();
         }
 
         /// <summary>
@@ -114,7 +116,7 @@ namespace SkyMallCore.Core
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseStaticCoreContext(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCoreContextProvider(this IApplicationBuilder app)
         {
                var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
             var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();

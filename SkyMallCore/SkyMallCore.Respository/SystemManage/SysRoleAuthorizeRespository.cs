@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Respository
 {
-    public class SysRoleAuthorizeRespository : Data.Respository.AuditedRespository<SysRoleAuthorize>, ISysRoleAuthorizeRespository
+    public class SysRoleAuthorizeRespository : AuditedRespository<SysRoleAuthorize>, ISysRoleAuthorizeRespository
     {
         public SysRoleAuthorizeRespository(ISkyMallDbContext skyMallDbContext) : base(skyMallDbContext)
         { }

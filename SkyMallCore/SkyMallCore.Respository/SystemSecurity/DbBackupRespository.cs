@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SkyMallCore.Respository
 {
-    public class DbBackupRespository : Data.Respository.AuditedRespository<DbBackup>, IDbBackupRespository
+    public class DbBackupRespository : AuditedRespository<DbBackup>, IDbBackupRespository
     {
         public DbBackupRespository(ISkyMallDbContext skyMallDbContext) : base(skyMallDbContext)
         { }

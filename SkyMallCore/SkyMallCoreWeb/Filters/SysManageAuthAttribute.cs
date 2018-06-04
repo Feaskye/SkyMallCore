@@ -39,9 +39,13 @@ namespace SkyMallCoreWeb
     /// <summary>
     /// 授权认证
     /// </summary>
-    public class AuthenticationFactory
+    public static class AuthenticationFactory
     {
-        public static void Initialize(IServiceCollection services)
+        /// <summary>
+        /// 用户登录配置
+        /// </summary>
+        /// <param name="services"></param>
+        public static void UserAuthenConfig(this IServiceCollection services)
         {
             //多种登录授权方式，前台/后台 【参考 https://www.cnblogs.com/sky-net/p/8669892.html】
             services.AddAuthentication(SysManageAuthAttribute.SysManageAuthScheme)

@@ -38,28 +38,27 @@ namespace SkyMallCoreWeb
                 logging.AddDebug();
             });
 
+
             //注册业务服务
-            ServiceFactory.Initialize(services, Configuration);
+            services.AddDataService();
             //用户认证注册
-            AuthenticationFactory.Initialize(services);
+            services.UserAuthenConfig();
+
             services.AddMvc(options=> {
                 //add filters
                 options.Filters.Add(typeof(ErrorAttribute));
             });
 
             services.AddMemoryCache();
-            services.AddScoped<IMemCache, MemCache>();
-
-            //services.AddDistributedMemoryCache(); 区别
             services.AddSession();
-            services.AddCoreContext();
 
+            services.AddCoreContextProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseStaticCoreContext(); 
+            app.UseCoreContextProvider(); 
 
             if (env.IsDevelopment())
             {
