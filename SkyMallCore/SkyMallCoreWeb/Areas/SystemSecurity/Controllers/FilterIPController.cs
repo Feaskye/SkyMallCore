@@ -32,7 +32,7 @@ namespace SkyMallCoreWeb.Areas.SystemSecurity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SubmitForm(FilterIP filterIPEntity, string keyValue)
         {
-            FilterIPApp.SubmitForm(filterIPEntity, keyValue);
+            var result = FilterIPApp.SubmitForm(filterIPEntity, keyValue);
             return Success("操作成功。");
         }
         [HttpPost]

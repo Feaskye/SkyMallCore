@@ -48,7 +48,7 @@ namespace SkyMallCore.Services
                 }
                 expression = expression.And(t => t.Date >= startTime && t.Date <= endTime);
             }
-            return _Respository.GetPagedList(expression, pagination);
+            return _Respository.GetPagList(expression, pagination);
         }
         public void RemoveLog(string keepTime)
         {

@@ -177,7 +177,7 @@ namespace SkyMallCore.Data
         }
 
 
-        public List<TEntity> GetPagedList(Pagination pagination)
+        public List<TEntity> GetPagList(Pagination pagination)
         {
             bool isAsc = pagination.sord.ToLower() == "asc" ? true : false;
             string[] _order = pagination.sidx.Split(',');
@@ -205,7 +205,7 @@ namespace SkyMallCore.Data
             tempData = tempData.Skip<TEntity>(pagination.rows * (pagination.page - 1)).Take<TEntity>(pagination.rows).AsQueryable();
             return tempData.ToList();
         }
-        public List<TEntity> GetPagedList(Expression<Func<TEntity, bool>> predicate, Pagination pagination)
+        public List<TEntity> GetPagList(Expression<Func<TEntity, bool>> predicate, Pagination pagination)
         {
             bool isAsc = pagination.sord.ToLower() == "asc" ? true : false;
             string[] _order = pagination.sidx.Split(',');
@@ -243,15 +243,15 @@ namespace SkyMallCore.Data
         /// <param name="pageSize"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public PagedList<object> GetPagedList(Expression<Func<TEntity, object>> select, Expression<Func<TEntity, bool>> where, 
-            int pageIndex, int pageSize, Expression<Func<TEntity, object>> order = null) 
+        public PagedList<TResult> GetPagedList<TResult, Tkey>(Expression<Func<TEntity, TResult>> select, Expression<Func<TEntity, bool>> where, 
+            int pageIndex, int pageSize, Expression<Func<TEntity, Tkey>> order = null) where TResult : class
         {
-            var list = _DbSet.AsNoTracking().Select(select);
-            //if (order != null)
-            //{
-            //    list = list.OrderBy(order);
-            //}
-            return PagedList<object>.GetPagedList(list, pageIndex, pageSize);
+            var list = _DbSet.AsNoTracking();
+            if (order != null)
+            {
+                list = list.OrderBy(order);
+            }
+            return PagedList<TResult>.GetPagedList(list.Select(select), pageIndex, pageSize);
         }
 
 

@@ -39,6 +39,8 @@ namespace SkyMallCoreWeb
             });
 
 
+            services.AddCoreContextProvider(Configuration);
+
             //注册业务服务
             services.AddDataService();
             //用户认证注册
@@ -51,8 +53,7 @@ namespace SkyMallCoreWeb
 
             services.AddMemoryCache();
             services.AddSession();
-
-            services.AddCoreContextProvider();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

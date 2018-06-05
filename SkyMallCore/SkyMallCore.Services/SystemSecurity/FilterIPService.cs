@@ -1,9 +1,11 @@
 ﻿using SkyMallCore.Core;
 using SkyMallCore.Models;
 using SkyMallCore.Respository;
+using SkyMallCore.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace SkyMallCore.Services
@@ -37,17 +39,29 @@ namespace SkyMallCore.Services
         {
             _Respository.Delete(t => t.Id == keyValue);
         }
-        public void SubmitForm(FilterIP FilterIP, string keyValue)
+        public InvokeResult<bool> SubmitForm(FilterIP FilterIP, string keyValue)
         {
+            bool b = false;
             if (!string.IsNullOrEmpty(keyValue))
             {
                 FilterIP.Id = keyValue;
-                _Respository.Update(FilterIP);
+                var filter = _Respository.Get(keyValue);
+                filter.StartIP = FilterIP.StartIP;
+                filter.EndIP = FilterIP.EndIP;
+                filter.Description = FilterIP.Description;
+                filter.Type = FilterIP.Type;
+                filter.EnabledMark = FilterIP.EnabledMark;
+              b=  _Respository.Update(filter)>0;
             }
             else
             {
-                _Respository.Insert(FilterIP);
+                 b =  _Respository.Insert(FilterIP)>0;
             }
+            if (!b)
+            {
+                return RquestResult.Failed<bool>("失败");
+            }
+           return RquestResult.Success(b);
         }
     }
 

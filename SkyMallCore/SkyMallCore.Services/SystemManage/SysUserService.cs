@@ -38,7 +38,7 @@ namespace SkyMallCore.Services
                 expression = expression.Or(t => t.MobilePhone.Contains(keyword));
             }
             expression = expression.And(t => t.Account != "admin");
-            return _SysUserRespository.GetPagedList(expression, pagination);
+            return _SysUserRespository.GetPagList(expression, pagination);
         }
         public SysUser GetForm(string id)
         {

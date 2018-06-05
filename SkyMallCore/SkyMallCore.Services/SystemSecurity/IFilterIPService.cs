@@ -1,5 +1,6 @@
 ﻿using SkyMallCore.Core;
 using SkyMallCore.Models;
+using SkyMallCore.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,7 @@ namespace SkyMallCore.Services
 
         void DeleteForm(string keyValue);
 
-        void SubmitForm(FilterIP FilterIP, string keyValue);
+        InvokeResult<bool> SubmitForm(FilterIP FilterIP, string keyValue);
 
 
     }

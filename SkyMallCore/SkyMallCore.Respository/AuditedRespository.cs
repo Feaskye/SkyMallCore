@@ -1,5 +1,6 @@
 ﻿using SkyMallCore.Data;
 using SkyMallCore.Models;
+using SkyMallCore.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +39,6 @@ namespace SkyMallCore.Respository
         //{
         //    return base.Delete(entity);
         //}
-
-
 
 
         private TCreatorEntity UpdateCreatorEntity(TCreatorEntity entity)

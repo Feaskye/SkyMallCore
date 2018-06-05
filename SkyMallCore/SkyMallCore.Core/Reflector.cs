@@ -17,7 +17,7 @@ namespace SkyMallCore.Core
             if (assembly!=null)
             {
                 var result = assembly.GetTypes().ToList()
-                    .Where(w => !w.IsInterface && w.GetInterfaces().FirstOrDefault() != null);
+                    .Where(w => !w.IsInterface && w.GetInterfaces().FirstOrDefault(d => !d.IsGenericType) != null);
 
                 return result.Select(u => new ScopedModel
                 {

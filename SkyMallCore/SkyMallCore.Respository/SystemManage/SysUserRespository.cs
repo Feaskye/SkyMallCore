@@ -81,8 +81,7 @@ namespace SkyMallCore.Respository
         public static void AddDataRespository(this IServiceCollection services)
         {
             services.InitializeDbContext(CoreContextProvider.Configuration);
-
-            services.AddScoped(typeof(IRespositoryBase<>), typeof(RespositoryBase<>));
+            
             //services.AddScoped<ISysUserRespository, SysUserRespository>();
             var scopedServices = Reflector.GetScopedList(typeof(RespositoryFactory).Assembly)
                 .Where(w => w.Interface.Name.EndsWith("Respository")).ToList();

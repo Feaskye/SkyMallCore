@@ -32,10 +32,9 @@ namespace SkyMallCore.Core
 
         public static Microsoft.AspNetCore.Http.HttpContext HttpContext => _accessor.HttpContext;
 
-        internal static void Configure(IHttpContextAccessor accessor, IConfiguration configuration,IHostingEnvironment hostingEnvironment)
+        internal static void Configure(IHttpContextAccessor accessor, IHostingEnvironment hostingEnvironment)
         {
             _accessor = accessor;
-            Configuration = configuration;
             HostingEnvironment = hostingEnvironment;
         }
         
@@ -104,11 +103,13 @@ namespace SkyMallCore.Core
     public static class StaticCoreContextExtensions
     {
 
-        public static void AddCoreContextProvider(this IServiceCollection services)
+        public static void AddCoreContextProvider(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            
             services.AddScoped<IMemCache, MemCache>();
+
+            //add configuration
+            CoreContextProvider.Configuration =configuration;
         }
 
         /// <summary>
@@ -118,12 +119,10 @@ namespace SkyMallCore.Core
         /// <returns></returns>
         public static IApplicationBuilder UseCoreContextProvider(this IApplicationBuilder app)
         {
-               var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
-            var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
-
+            var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
             var hostingEnvironment = app.ApplicationServices.GetRequiredService<IHostingEnvironment>();
 
-            CoreContextProvider.Configure(httpContextAccessor, configuration, hostingEnvironment);
+            CoreContextProvider.Configure(httpContextAccessor, hostingEnvironment);
             return app;
         }
     }

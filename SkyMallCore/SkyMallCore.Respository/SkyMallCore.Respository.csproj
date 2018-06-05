@@ -8,6 +8,7 @@
     <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Data\SkyMallCore.Data.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
+    <ProjectReference Include="..\SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
