@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SkyMallCore.Core
 {
@@ -17,6 +18,7 @@ namespace SkyMallCore.Core
     /// Core 全局支持上下文
     /// 配置、Service、HttpContext、用户
     /// （可以改为注入的方式，这里为了避免传参麻烦）
+    /// MiddleWare中间件都可以对管道中的请求进行拦截，它可以决定是否将请求转移给下一个中间件
     /// </summary>
     public class CoreContextProvider
     {
@@ -24,20 +26,30 @@ namespace SkyMallCore.Core
         private string LoginProvider = ConstParameters.SysLoginProvider;
 
         private static IHttpContextAccessor _accessor;
+        private readonly RequestDelegate _next;
 
         public static IConfiguration Configuration { get; set; }
         //private static IServiceCollection ServiceCollection { get; set; }
-
         public static IHostingEnvironment HostingEnvironment { get; set; }
-
         public static Microsoft.AspNetCore.Http.HttpContext HttpContext => _accessor.HttpContext;
 
-        internal static void Configure(IHttpContextAccessor accessor, IHostingEnvironment hostingEnvironment)
+        
+        public CoreContextProvider(RequestDelegate next, IHttpContextAccessor accessor, 
+            IHostingEnvironment hostingEnvironment)
         {
+            _next = next;
             _accessor = accessor;
             HostingEnvironment = hostingEnvironment;
         }
-        
+
+        public async Task Invoke(HttpContext context)
+        {
+            //do somethings
+            await _next(context);
+        }
+
+
+
         /// <summary>
         /// 获取MemCache上下文
         /// </summary>
@@ -119,10 +131,11 @@ namespace SkyMallCore.Core
         /// <returns></returns>
         public static IApplicationBuilder UseCoreContextProvider(this IApplicationBuilder app)
         {
-            var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
-            var hostingEnvironment = app.ApplicationServices.GetRequiredService<IHostingEnvironment>();
+            //var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
+            //var hostingEnvironment = app.ApplicationServices.GetRequiredService<IHostingEnvironment>();
 
-            CoreContextProvider.Configure(httpContextAccessor, hostingEnvironment);
+            //CoreContextProvider.Configure(httpContextAccessor, hostingEnvironment);
+            app.UseMiddleware<CoreContextProvider>();
             return app;
         }
     }
