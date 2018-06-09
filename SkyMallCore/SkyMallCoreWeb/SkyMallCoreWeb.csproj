@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\SystemManage\Models\**" />
+    <Compile Remove="Areas\SystemSecurity\Models\**" />
+    <Content Remove="Areas\SystemManage\Models\**" />
+    <Content Remove="Areas\SystemSecurity\Models\**" />
+    <EmbeddedResource Remove="Areas\SystemManage\Models\**" />
+    <EmbeddedResource Remove="Areas\SystemSecurity\Models\**" />
+    <None Remove="Areas\SystemManage\Models\**" />
+    <None Remove="Areas\SystemSecurity\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
@@ -17,11 +28,6 @@
     <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
     <ProjectReference Include="..\SkyMallCore.Services\SkyMallCore.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\SystemManage\Models\" />
-    <Folder Include="Areas\SystemSecurity\Models\" />
   </ItemGroup>
 
   <ItemGroup>
