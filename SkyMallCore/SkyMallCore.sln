@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Models", "SkyMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Services", "SkyMallCore.Services\SkyMallCore.Services.csproj", "{593556FC-4038-4579-B6D5-DDF777FF0CB1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApi", "SkyMallCore.WebApi\SkyMallCore.WebApi.csproj", "{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.ViewModel", "SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj", "{C20E9EDB-2A07-4173-B5AB-924EF0644996}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6A405C97-5B6C-4F6C-BD1C-9B5192A92DCA}"
@@ -58,10 +56,6 @@ Global
 		{593556FC-4038-4579-B6D5-DDF777FF0CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{593556FC-4038-4579-B6D5-DDF777FF0CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{593556FC-4038-4579-B6D5-DDF777FF0CB1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C45A6A87-AC50-40C7-8AF7-A34E00F1CE9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C20E9EDB-2A07-4173-B5AB-924EF0644996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C20E9EDB-2A07-4173-B5AB-924EF0644996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C20E9EDB-2A07-4173-B5AB-924EF0644996}.Release|Any CPU.ActiveCfg = Release|Any CPU
