@@ -14,6 +14,5 @@ namespace SkyMallCore.Models
         public string Type { get; set; }
         public bool? AllowEdit { get; set; }
         public bool? AllowDelete { get; set; }
-        public int? SortCode { get; set; }
     }
 }

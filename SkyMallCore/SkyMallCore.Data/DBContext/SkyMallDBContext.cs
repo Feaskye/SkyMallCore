@@ -35,6 +35,14 @@ namespace SkyMallCore.Data
         public DbSet<DbBackup> DbBackups { get; set; }
 
 
+        public DbSet<Article> Articles { get; set; }
+
+        public DbSet<ArticleCategory> ArticleCategorys { get; set; }
+
+        public DbSet<Member> Members { get; set; }
+
+
+
     }
 
     

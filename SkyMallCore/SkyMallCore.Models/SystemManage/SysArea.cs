@@ -11,7 +11,6 @@ namespace SkyMallCore.Models
         public string EnCode { get; set; }
         public string FullName { get; set; }
         public string SimpleSpelling { get; set; }
-        public int? SortCode { get; set; }
 
     }
 }

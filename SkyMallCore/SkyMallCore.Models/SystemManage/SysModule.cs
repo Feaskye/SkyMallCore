@@ -18,6 +18,5 @@ namespace SkyMallCore.Models
         public bool? IsPublic { get; set; }
         public bool? AllowEdit { get; set; }
         public bool? AllowDelete { get; set; }
-        public int? SortCode { get; set; }
     }
 }

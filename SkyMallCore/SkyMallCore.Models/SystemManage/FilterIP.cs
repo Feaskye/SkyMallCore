@@ -10,6 +10,5 @@ namespace SkyMallCore.Models
         public bool? Type { get; set; }
         public string StartIP { get; set; }
         public string EndIP { get; set; }
-        public int? SortCode { get; set; }
     }
 }

@@ -14,7 +14,6 @@ namespace SkyMallCore.Models
         public string SimpleSpelling { get; set; }
         public bool? IsDefault { get; set; }
         public int? Layers { get; set; }
-        public int? SortCode { get; set; }
 
     }
 }

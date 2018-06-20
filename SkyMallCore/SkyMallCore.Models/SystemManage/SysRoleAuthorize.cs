@@ -11,7 +11,6 @@ namespace SkyMallCore.Models
         public string ItemId { get; set; }
         public int? ObjectType { get; set; }
         public string ObjectId { get; set; }
-        public int? SortCode { get; set; }
 
     }
 }

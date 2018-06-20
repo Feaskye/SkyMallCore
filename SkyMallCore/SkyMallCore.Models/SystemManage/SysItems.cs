@@ -11,6 +11,5 @@ namespace SkyMallCore.Models
         public string FullName { get; set; }
         public bool? IsTree { get; set; }
         public int? Layers { get; set; }
-        public int? SortCode { get; set; }
     }
 }

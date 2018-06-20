@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace SkyMallCore.Models
 {
-    [Table("Sys_User")]
-    public class SysUser : ModelEntity
+    [Table("Member")]
+    public class Member : ModelEntity
     {
-       
-        public string Account { get; set; }
+
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        
         public string RealName { get; set; }
         public string NickName { get; set; }
         public string HeadIcon { get; set; }
@@ -21,17 +22,6 @@ namespace SkyMallCore.Models
         public string WeChat { get; set; }
         public string ManagerId { get; set; }
         public int? SecurityLevel { get; set; }
-        public string Signature { get; set; }
-        public string OrganizeId { get; set; }
-        public string DepartmentId { get; set; }
-        public string RoleId { get; set; }
-        public string DutyId { get; set; }
-        public bool? IsAdministrator { get; set; }
         
     }
-
-
-
-
-
 }
