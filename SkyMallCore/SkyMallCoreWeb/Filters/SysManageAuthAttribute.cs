@@ -50,13 +50,16 @@ namespace SkyMallCoreWeb
             //多种登录授权方式，前台/后台 【参考 https://www.cnblogs.com/sky-net/p/8669892.html】
             services.AddAuthentication(SysManageAuthAttribute.SysManageAuthScheme)
             .AddCookie(SysManageAuthAttribute.SysManageAuthScheme, o =>
-            {
+            {//后台
                 o.LoginPath = new PathString("/SystemManage/Login");
                 o.AccessDeniedPath = new PathString("/SystemManage/Login/Forbidden");
-            }).AddCookie(MemberAuthAttribute.MemberAuthScheme, o =>
+                o.LogoutPath = new PathString("/SystemManage/Login/OutLogin");
+            }).AddCookie(MemberAuthAttribute.MemberAuthScheme, o => //前台
             {
                 o.LoginPath = new PathString("/Member/Signin");
                 o.AccessDeniedPath = new PathString("/Member/Forbidden");
+                o.LogoutPath = new PathString("/Member/Loginout");
+                o.ReturnUrlParameter = "ReturnUrl";
             });
 
         }
