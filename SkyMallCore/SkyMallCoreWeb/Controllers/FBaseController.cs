@@ -13,7 +13,7 @@ namespace SkyMallCoreWeb.Controllers
     /// <summary>
     /// Controller基类
     /// </summary>
-    public class BaseController : Controller
+    public class FBaseController : Areas.BaseController
     {
 
     }

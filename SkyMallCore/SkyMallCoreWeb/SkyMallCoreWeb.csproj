@@ -35,6 +35,12 @@
     <None Include="Areas\SystemManage\Views\Login\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Login\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -35,7 +35,14 @@ namespace SkyMallCoreWeb.Areas
     /// 后台全局管理控制器基类
     /// </summary>
     [SysManageAuth]
-    public class SysControllerBase : Controller
+    public class SysControllerBase : BaseController
+    {
+    }
+
+    /// <summary>
+    /// 全局控制器基类
+    /// </summary>
+    public class BaseController : Controller
     {
         public ILogger _Logger;
 

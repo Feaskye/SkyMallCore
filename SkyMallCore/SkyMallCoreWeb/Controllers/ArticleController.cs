@@ -13,7 +13,7 @@ namespace SkyMallCoreWeb.Controllers
     /// <summary>
     /// 文章列表
     /// </summary>
-    public class ArticleController : BaseController
+    public class ArticleController : FBaseController
     {
         IArticleService _ArticleService;
         IArticleCategoryService _ArticleCategoryService;

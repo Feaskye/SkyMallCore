@@ -11,7 +11,7 @@ using SkyMallCoreWeb.Models;
 namespace SkyMallCoreWeb.Controllers
 {
     
-    public class MemberController : BaseController
+    public class MemberController : FBaseController
     {
         IMemberService _MemberService;
         public MemberController(IMemberService memberService)

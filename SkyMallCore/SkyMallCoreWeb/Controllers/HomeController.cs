@@ -11,7 +11,7 @@ using SkyMallCoreWeb.Models;
 namespace SkyMallCoreWeb.Controllers
 {
     
-    public class HomeController : BaseController
+    public class HomeController : FBaseController
     {
         ISysUserService _SysUserService;
         public HomeController(ISysUserService sysUserService)
