@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using SkyMallCore.Core;
 using SkyMallCore.Models;
+using SkyMallCore.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -54,6 +55,9 @@ namespace SkyMallCore.Data
         List<TEntity> GetPagList(Pagination pagination);
 
         List<TEntity> GetPagList(Expression<Func<TEntity, bool>> predicate, Pagination pagination);
+
+        PagedList<TEntity> GetPagedList<Tkey>(Expression<Func<TEntity, bool>> where,
+            int pageIndex, int pageSize, Expression<Func<TEntity, Tkey>> order = null);
 
         PagedList<TResult> GetPagedList<TResult, Tkey>(Expression<Func<TEntity, TResult>> select, Expression<Func<TEntity, bool>> where,
             int pageIndex, int pageSize, Expression<Func<TEntity, Tkey>> order = null) where TResult : class;

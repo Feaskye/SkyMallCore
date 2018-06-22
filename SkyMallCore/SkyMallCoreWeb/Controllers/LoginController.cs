@@ -29,7 +29,7 @@ namespace SkyMallCoreWeb.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public override ActionResult Index()
+        public ActionResult Index()
         {
             _Logger.LogInformation("log testing.........................................");
             return View();

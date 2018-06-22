@@ -1,6 +1,9 @@
 ﻿using SkyMallCore.Core;
+using SkyMallCore.Data;
 using SkyMallCore.Models;
 using SkyMallCore.Respository;
+using SkyMallCore.ViewModel;
+using SkyMallCore.ViewModel.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +37,26 @@ namespace SkyMallCore.Services
             }
             //expression = expression.And(t => t.CategoryId == 2);
             return _Respository.Get(expression).OrderBy(t => t.SortCode).ToList();
+        }
+
+
+        /// <summary>
+        /// 文章分页
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        public PagedList<Article> GetList(ArticleSearchView searchView, int pageIndex = 1, int pageSize = 20)
+        {
+            var expression = ExtLinq.True<Article>();
+            if (!string.IsNullOrEmpty(searchView.Keyword))
+            {
+                expression = expression.And(t => t.Title.Contains(searchView.Keyword));
+                expression = expression.Or(t => t.Content.Contains(searchView.Keyword));
+            }
+            //expression = expression.And(t => t.CategoryId == 2);
+            return _Respository.GetPagedList<Article>(expression, pageIndex, pageSize);
         }
 
         public Article GetForm(string keyValue)

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkyMallCore.Services;
+using SkyMallCore.ViewModel;
+using SkyMallCore.ViewModel.Business;
 using SkyMallCoreWeb.Models;
 
 namespace SkyMallCoreWeb.Controllers
@@ -25,11 +27,21 @@ namespace SkyMallCoreWeb.Controllers
         }
 
 
-        //首页
-        public IActionResult Index()
+        /// <summary>
+        /// 首页
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
+        public IActionResult Index([FromQuery]ArticleSearchView search,int pageIndex = 1)
         {
-            var users = _ArticleService.GetList();
-            return Content("博客中心");
+            if (search == null)
+            {
+                search = new ArticleSearchView();
+            }
+            var articles = _ArticleService.GetList(search, pageIndex,PageSize);
+            var articlesView = articles.MapTo<PagedList<ArticleDetailView>>();
+            //var articlesView = AutoMapper.Mapper.Map<PagedList<ArticleDetailView>>(articles);
+            return View(articlesView);
         }
 
 

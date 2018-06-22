@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
+    <ProjectReference Include="..\SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>

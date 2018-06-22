@@ -22,8 +22,6 @@ namespace SkyMallCoreWeb.Controllers
         //首页
         public IActionResult Index()
         {
-           // SkyMallCore.Core.CoreContext.Current
-
             var users = _SysUserService.GetUsers();
             return View();
         }

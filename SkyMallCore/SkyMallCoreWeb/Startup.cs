@@ -41,7 +41,7 @@ namespace SkyMallCoreWeb
             services.AddCoreContextProvider(Configuration);
 
             //注册业务服务
-            services.AddDataService();
+            services.AddBusinessService();
             //用户认证注册
             services.UserAuthenConfig();
 
@@ -49,6 +49,8 @@ namespace SkyMallCoreWeb
                 //add filters
                 options.Filters.Add(typeof(ErrorAttribute));
             });
+
+            services.AddMapConfig();
 
             services.AddMemoryCache();
             services.AddSession();

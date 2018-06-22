@@ -37,23 +37,6 @@ namespace SkyMallCoreWeb.Areas
     [SysManageAuth]
     public class SysControllerBase : BaseController
     {
-    }
-
-    /// <summary>
-    /// 全局控制器基类
-    /// </summary>
-    public class BaseController : Controller
-    {
-        public ILogger _Logger;
-
-
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            _Logger = CoreContextProvider.GetLogger(this.ControllerContext.ActionDescriptor.ControllerTypeInfo.Name);
-            base.OnActionExecuting(context);
-        }
-
-
         [HttpGet]
         public virtual ActionResult Index()
         {
@@ -69,6 +52,24 @@ namespace SkyMallCoreWeb.Areas
         {
             return View();
         }
+    }
+
+    /// <summary>
+    /// 全局控制器基类
+    /// </summary>
+    public class BaseController : Controller
+    {
+        public ILogger _Logger;
+        protected int PageSize = 20;
+        protected int PageIndex = 1;
+
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            _Logger = CoreContextProvider.GetLogger(this.ControllerContext.ActionDescriptor.ControllerTypeInfo.Name);
+            base.OnActionExecuting(context);
+        }
+        
 
 
         protected virtual ActionResult Success(string message)

@@ -16,5 +16,8 @@ namespace SkyMallCoreWeb.Controllers
     public class FBaseController : Areas.BaseController
     {
 
+
+
+
     }
 }

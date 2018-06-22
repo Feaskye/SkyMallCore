@@ -107,7 +107,7 @@ namespace SkyMallCore.Services
         /// 业务逻辑、数据处理层
         /// </summary>
         /// <param name="services"></param>
-        public static void AddDataService(this IServiceCollection services)
+        public static void AddBusinessService(this IServiceCollection services)
         {
             services.AddDataRespository();
 

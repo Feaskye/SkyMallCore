@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using SkyMallCore.Core;
+using SkyMallCore.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -235,7 +236,27 @@ namespace SkyMallCore.Data
         }
 
         /// <summary>
-        /// todo待解决
+        /// 分页
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public PagedList<TEntity> GetPagedList<Tkey>(Expression<Func<TEntity, bool>> where,
+            int pageIndex, int pageSize, Expression<Func<TEntity, Tkey>> order = null) 
+        {
+            var list = _DbSet.AsNoTracking();
+            if (order != null)
+            {
+                list = list.OrderBy(order);
+            }
+            return PagedList<TEntity>.GetPagedList(list, pageIndex, pageSize);
+        }
+
+
+        /// <summary>
+        /// 分页，指定查询类型
         /// </summary>
         /// <param name="select"></param>
         /// <param name="where"></param>
