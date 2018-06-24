@@ -42,6 +42,9 @@ namespace SkyMallCore.Data
         public DbSet<Member> Members { get; set; }
 
 
+        public DbSet<Link> Links { get; set; }
+
+
 
     }
 

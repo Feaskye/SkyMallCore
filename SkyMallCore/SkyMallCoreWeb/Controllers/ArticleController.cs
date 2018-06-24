@@ -38,9 +38,8 @@ namespace SkyMallCoreWeb.Controllers
             {
                 search = new ArticleSearchView();
             }
-            var articles = _ArticleService.GetList(search, pageIndex,PageSize);
+            var articles = _ArticleService.GetList(search, pageIndex,1);
             var articlesView = articles.MapTo<PagedList<ArticleDetailView>>();
-            //var articlesView = AutoMapper.Mapper.Map<PagedList<ArticleDetailView>>(articles);
             return View(articlesView);
         }
 

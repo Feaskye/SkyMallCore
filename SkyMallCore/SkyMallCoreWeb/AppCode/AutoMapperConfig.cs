@@ -20,7 +20,8 @@ namespace SkyMallCoreWeb
         /// <param name="services"></param>
         public static void AddMapConfig(this IServiceCollection services)
         {
-            AutoMapper.Mapper.Initialize(ops=> {
+            Mapper.Initialize(ops=> {
+                ops.CreateMap<Article,ArticleDetailView>();
                 ops.CreateMap<PagedList<Article>, PagedList<ArticleDetailView>>();
             }) ;
             
@@ -48,6 +49,7 @@ namespace SkyMallCoreWeb
             var totalCount = tList.TotalCount;
             var pageIndex = tList.PageIndex;
             var pageSize = tList.PageSize;
+            //var groupSize = tList.GroupSize;
 
 
             var t = methodsMapper.GetOrAdd(new Tuple<Type, Type>(tList.GetType(), typeof(T)), _ =>
@@ -58,25 +60,10 @@ namespace SkyMallCoreWeb
                     typeof(PagedList<>).MakeGenericType(targetGenericArguments));
             });
             var rtn2 = t.Item1.Invoke(null, new object[] { tList });
-            var o2 = Activator.CreateInstance(t.Item2, rtn2, pageIndex, pageSize, totalCount) as T;
+            var o2 = Activator.CreateInstance(t.Item2, rtn2, totalCount, pageIndex, pageSize) as T;
             return o2;
         }
-
-        public static T MapTo<T>(this object o) where T : class
-        {
-            //way1
-            //var mapMethod = (typeof(Mapper)).GetMethods().FirstOrDefault(_ => _.Name == "Map" && _.GetParameters().Length == 1 && _.GetGenericArguments().Length == 2 );
-            //var m2 =  mapMethod.MakeGenericMethod(o.GetType(), typeof (T));
-            //return m2.Invoke(null, new[] { o }) as T;
-
-            //way2
-            return Mapper.Map<T>(o);
-        }
-
-        public static void MapTo<S, T>(this S o, T t) where T : class
-        {
-            Mapper.Map(o, t);
-        }
+        
     }
 
 

@@ -14,9 +14,11 @@ namespace SkyMallCore.ViewModel
         int PageIndex { get; }
         int PageSize { get; }
         int TotalCount { get; }
-        int TotalPages { get; }
+        int PageCount { get; }
         bool HasPreviousPage { get; }
         bool HasNextPage { get; }
+
+        int GroupSize { get; set; }
     }
 
     /// <summary>
@@ -29,15 +31,22 @@ namespace SkyMallCore.ViewModel
     public class PagedList<T> : List<T>, IPagedList
     {
         public int PageIndex { get; private set; }
-        public int TotalPages { get; private set; }
+        public int PageCount { get; private set; }
         public int TotalCount { get; private set; }
         public int PageSize { get; private set; }
+
+        /// <summary>
+        /// 界面一组显示5个按钮
+        /// </summary>
+        public int GroupSize { get; set; }
+
         public PagedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            PageCount = (int)Math.Ceiling(count / (double)pageSize);
             TotalCount = count;
             PageSize = pageSize;
+            GroupSize = 5;
             this.AddRange(items);
         }
 
@@ -53,7 +62,7 @@ namespace SkyMallCore.ViewModel
         {
             get
             {
-                return (PageIndex < TotalPages);
+                return (PageIndex < PageCount);
             }
         }
 
@@ -63,5 +72,6 @@ namespace SkyMallCore.ViewModel
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             return new PagedList<T>(items, count, pageIndex, pageSize);
         }
+
     }
 }
