@@ -20,6 +20,7 @@ namespace SkyNetCore.Web
             CreateWebHostBuilder(args).Build().Run();
 
             //CreateHost_Main(args).RunSynchronously();
+            //await GenericHostTask(args);
         }
 
 
@@ -34,12 +35,12 @@ namespace SkyNetCore.Web
 
         public static async Task CreateHost_Main(string[] args)
         {
-            await CreateHostTask(args);
+            await GenericHostTask(args);
         }
 
 
         //2：Generic Host 通用主机，即web 和 其他应用都可以用
-        public static async Task CreateHostTask(string[] args)
+        public static async Task GenericHostTask(string[] args)
         {
                 var host = new HostBuilder()
                       .ConfigureHostConfiguration(configHost =>
@@ -63,6 +64,9 @@ namespace SkyNetCore.Web
                           services.AddLogging();
                           services.AddHostedService<LifetimeEventsHostedService>();
                           services.AddHostedService<TimedHostedService>();
+
+                          services.AddMvc();
+
                       })
                       .ConfigureLogging((hostContext, configLogging) =>
                       {

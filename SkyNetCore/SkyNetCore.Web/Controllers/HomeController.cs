@@ -29,6 +29,14 @@ namespace SkyNetCore.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult PostData()
+        {
+            return Content(".................................................................................................");
+        }
+
+
+
         public IActionResult Privacy()
         {
             return View();
