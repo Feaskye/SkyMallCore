@@ -4,14 +4,28 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using SkyNetCore.Web.Models;
 
 namespace SkyNetCore.Web.Controllers
 {
     public class HomeController : Controller
     {
+        //private IHubContext<MessageHub> HubContext;
+        //public HomeController(IHubContext<MessageHub> hubContext)
+        //{
+        //    HubContext = hubContext;
+        //}
+
+
         public IActionResult Index()
         {
+
+            Task.Factory.StartNew(()=> {
+                
+            });
+
+
             return View();
         }
 

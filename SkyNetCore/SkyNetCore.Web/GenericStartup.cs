@@ -8,13 +8,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SkyNetCore.Web.Models;
 
 namespace SkyNetCore.Web
 {
-    public class Startup
+    public class GenericStartup
     {
-        public Startup(IConfiguration configuration)
+        public GenericStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -30,8 +29,7 @@ namespace SkyNetCore.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
-            //services.AddSignalR();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -39,13 +37,6 @@ namespace SkyNetCore.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-            //app.UseSignalR(route => {
-            //    route.MapHub<MessageHub>("/msghub");
-            //});
-
-            app.Map("/ws", Services.SocketHandler.Map);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
