@@ -17,10 +17,11 @@ namespace SkyMallCore.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         // GET api/values
+        [Route("HasAgent")]
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ApiResult<bool> HasAgent()
         {
-            return new string[] { "value1", "value2" };
+            return Success(true);
         }
 
         /// <summary>

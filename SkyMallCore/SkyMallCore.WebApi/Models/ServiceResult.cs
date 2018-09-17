@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace SkyMallCore.WebApi.Controllers
 {
@@ -36,6 +37,6 @@ namespace SkyMallCore.WebApi.Controllers
         /// </summary>
         public T Data { get; set; }
 
-        
+
     }
 }

@@ -8,4 +8,9 @@ namespace SkyMallCore.WebApi.Models
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
+
+
+  
+
+
 }
