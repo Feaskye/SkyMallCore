@@ -10,18 +10,21 @@ using SkyMallCore.WebApi.Models;
 namespace SkyMallCore.WebApi.Controllers
 {
     /// <summary>
-    /// 首页
+    /// 文件上传
     /// </summary>
-    public class HomeController : Controller
+    public class FileUploadController : ApiControllerBase
     {
         /// <summary>
-        /// 获取首页内容  
+        /// 提交文件
         /// </summary>
+        /// <param name="param"></param>
         /// <returns></returns>
-        [HttpGet]
-        public IActionResult Index()
+        [HttpPost]
+        public ApiResult<bool> SubmitFile([FromBody]FileUploadParam param)
         {
-            return Redirect("/swagger");
+            FileStream fileStream = param.fileStreams;
+            
+            return new ApiResult<bool>(true);
         }
 
 

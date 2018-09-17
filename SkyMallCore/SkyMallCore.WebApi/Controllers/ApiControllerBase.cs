@@ -12,6 +12,9 @@ namespace SkyMallCore.WebApi.Controllers
     [Route("api/[controller]")]
     public class ApiControllerBase : Controller
     {
-        
+        //public static ApiResult<T> Success(T data) where T : class
+        //{
+        //    return new ApiResult<T>() { Success = true, Data = data };
+        //}
     }
 }

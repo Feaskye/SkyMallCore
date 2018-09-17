@@ -70,9 +70,19 @@ namespace SkyMallCore.WebApi
 
             app.UseMvc(routes =>
             {
+               
+                //api
                 routes.MapRoute(
-                    name: "default",
+                    name: "api",
                     template: "api/{controller=Home}/{action=Index}/{id?}");
+
+
+                //默认起始页
+                routes.MapRoute(
+                   name: "default",
+                   template: "{controller=Home}/{action=Index}/{id?}");
+
+
             });
 
             app.UseSwagger();
