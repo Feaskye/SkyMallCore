@@ -23,7 +23,7 @@ namespace SkyMallCore.WebApi.Controllers
         {
             return Redirect("/swagger");
         }
-
+        
 
     }
 

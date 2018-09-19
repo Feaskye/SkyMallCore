@@ -67,3 +67,12 @@ public class HomeController
 四：应用
 1：文档提交数据，默认参数如：Token、Headers等
 TODO待完善
+
+
+
+
+五：知识点
+关于HttpClient正确用法，IHttpClientFactory
+https://mp.weixin.qq.com/s/Tec7ESiSEusj5-sYbltv3Q
+https://www.cnblogs.com/willick/p/9640589.html
+

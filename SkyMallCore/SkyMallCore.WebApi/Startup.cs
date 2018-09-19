@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using SkyMallCore.WebApi.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace SkyMallCore.WebApi
@@ -37,6 +38,9 @@ namespace SkyMallCore.WebApi
         {
 
             services.AddHttpClient();
+            //指定某Client的写法
+            //services.AddHttpClient<GithubClient>();
+
 
             //json
             services.AddMvc();
@@ -54,6 +58,9 @@ namespace SkyMallCore.WebApi
             });
 
 
+            services.AddSkyApiProvider();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +76,7 @@ namespace SkyMallCore.WebApi
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSkyApiProvider();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

@@ -18,7 +18,8 @@ namespace SkyMallCore.WebApiUtils
 
         public HttpClientHelper(IHttpClientFactory httpClientFactory, string baseUri)
         {
-            //IHttpClientFactory解决HttpClient缺陷详解：https://www.cnblogs.com/willick/p/9640589.html
+            //IHttpClientFactory解决HttpClient缺陷详解：
+            //https://www.cnblogs.com/willick/p/9640589.html
             _httpClientFactory = httpClientFactory;
             _baseUri = baseUri;
         }
