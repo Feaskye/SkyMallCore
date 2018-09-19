@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json;
 using System.Net.Http;
 
 namespace SkyMallCore.WebApi.Controllers
@@ -7,7 +9,7 @@ namespace SkyMallCore.WebApi.Controllers
     /// ApiResult
     /// </summary>
     /// <typeparam name="T">类型</typeparam>
-    public class ApiResult<T> :HttpResponseMessage
+    public class ApiResult<T> : IConvertToActionResult
     {
         /// <summary>
         /// 初始化
@@ -21,6 +23,24 @@ namespace SkyMallCore.WebApi.Controllers
             this.Data = data;
             this.Message = message;
         }
+
+        //todo 待思考
+        public ApiResult(ActionResult result)
+        {
+
+        }
+
+
+        private ActionResult Result { get; }
+
+        IActionResult IConvertToActionResult.Convert()
+        {
+            return Result ?? new ObjectResult(new { Success, Data, Message })
+            {
+                DeclaredType = typeof(T),
+            };
+        }
+
 
         /// <summary>
         /// 是否成功
@@ -39,4 +59,7 @@ namespace SkyMallCore.WebApi.Controllers
 
 
     }
+    
+
+
 }

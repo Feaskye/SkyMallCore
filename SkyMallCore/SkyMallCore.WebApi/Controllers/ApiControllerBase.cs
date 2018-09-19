@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using SkyMallCore.WebApiUtils;
 
 namespace SkyMallCore.WebApi.Controllers
@@ -23,15 +24,15 @@ namespace SkyMallCore.WebApi.Controllers
 
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             HttpClientHelper = new HttpClientHelper((IHttpClientFactory)HttpContext.RequestServices.GetService(typeof(IHttpClientFactory)), "http://localhost:63656/");
             base.OnActionExecuting(context);
         }
-
-
-
 
 
         /// <summary>
@@ -41,9 +42,9 @@ namespace SkyMallCore.WebApi.Controllers
         /// <param name="data"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public ApiResult<T> Success<T>(T data,string message=null)
+        public ApiResult<T> Success<T>(T data, string message = null)
         {
-            return new ApiResult<T>(data,message:message);
+            return new ApiResult<T>(data, message: message);
         }
 
 
@@ -60,4 +61,7 @@ namespace SkyMallCore.WebApi.Controllers
 
 
     }
+    
+
+
 }

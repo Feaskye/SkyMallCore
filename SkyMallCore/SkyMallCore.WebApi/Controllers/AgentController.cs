@@ -21,6 +21,11 @@ namespace SkyMallCore.WebApi.Controllers
         [HttpGet]
         public ApiResult<bool> HasAgent()
         {
+            if (Request.Query.Any(w=>w.Key == "q"))
+            {
+                return NotFound();
+            }
+
             return Success(true);
         }
 
@@ -31,9 +36,9 @@ namespace SkyMallCore.WebApi.Controllers
         /// <returns></returns>
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<string> Get(int id)
         {
-            return "value";
+            return NotFound();
         }
 
         /// <summary>

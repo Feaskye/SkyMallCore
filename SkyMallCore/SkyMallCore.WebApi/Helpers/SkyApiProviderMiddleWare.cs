@@ -14,6 +14,8 @@ namespace SkyMallCore.WebApi.Helpers
 {
     /// <summary>
     /// api 中间件处理相关请求
+    /// 1：请求日志
+    /// 2：请求参数、返回结果处理（如：加密、Token、Sign等）
     /// </summary>
     public class SkyApiProviderMiddleWare
     {

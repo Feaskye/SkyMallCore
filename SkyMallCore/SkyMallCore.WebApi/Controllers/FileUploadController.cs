@@ -30,6 +30,10 @@ namespace SkyMallCore.WebApi.Controllers
         [HttpGet]
         public async Task<ApiResult<string>> Get()
         {
+            //在Core2.1推出ActionResult<object>
+            //ApiResult<object> 跟 ActionResult<object> 性质一样
+            //http://www.iaspnetcore.com/Blog/BlogPost/5b84eac48078ff1124d9455c/exploring-actionresultt-in-aspnet-core-web-api-21
+            
             var result = await HttpClientHelper.Get<string>("swagger/v1/swagger.json");
             return Success(result);
         }
