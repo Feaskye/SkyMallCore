@@ -41,11 +41,10 @@ namespace SkyMallCore.WebApi
             //指定某Client的写法
             //services.AddHttpClient<GithubClient>();
 
-
             //json
-            services.AddMvc();
-            //    .AddJsonOptions(options=> options.SerializerSettings.ContractResolver
-            //    =new Newtonsoft.Json.Serialization.DefaultContractResolver());
+            services.AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver
+                = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
             //swagger
             services.AddSwaggerGen(options=> {
@@ -57,7 +56,7 @@ namespace SkyMallCore.WebApi
                 options.IncludeXmlComments(xmlPath);
             });
 
-
+            //请求日志、数据过滤、加密等操作
             services.AddSkyApiProvider();
 
 
@@ -82,6 +81,8 @@ namespace SkyMallCore.WebApi
 
             app.UseSkyApiProvider();
             app.UseStaticFiles();
+
+
 
             app.UseMvc(routes =>
             {
