@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,12 +20,18 @@ namespace SkyMallCore.WebApi.Controllers
         // GET api/values
         [Route("HasAgent")]
         [HttpGet]
-        public ApiResult<bool> HasAgent()
+        public ApiResult<bool> HasAgent(ExistAgentParams agentParams)
         {
-            if (Request.Query.Any(w=>w.Key == "q"))
-            {
-                return NotFound();
+            //if (Request.Query.Any(w=>w.Key == "q"))
+            //{
+            //    return NotFound();
+            //}
+            if (!ModelState.IsValid)
+            {//参数过滤处理
+                var count = ModelState.ErrorCount;
+                return Failed<bool>("参数有误");
             }
+
 
             return Success(true);
         }
@@ -86,6 +93,20 @@ namespace SkyMallCore.WebApi.Controllers
 
 
 
+
+
+    }
+
+    public class ExistAgentParams
+    {
+
+        [Display(Name = "代理商编号")]
+        [Required(ErrorMessage ="{0}不能为空")]
+        public string AgentId { get; set; }
+
+        [Display(Name = "代理商名")]
+        [Required(ErrorMessage = "{0}不能为空")]
+        public string AgentName { get; set; }
 
 
     }

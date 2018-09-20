@@ -13,6 +13,7 @@ namespace SkyMallCore.WebApi.Controllers
     /// <summary>
     /// 基类
     /// </summary>
+    //[ApiController]
     [Route("api/[controller]")]
     public class ApiControllerBase : Controller
     {
@@ -30,6 +31,17 @@ namespace SkyMallCore.WebApi.Controllers
         /// <param name="context"></param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            if (!context.ModelState.IsValid)
+            {
+                var errors = context.ModelState
+                           .Where(e => e.Value.Errors.Count > 0)
+                           .Select(e =>
+                               $"{e.Key}{(string.IsNullOrWhiteSpace(e.Value.Errors.First().ErrorMessage) ? e.Value.Errors.First().Exception?.Message : e.Value.Errors.First()?.ErrorMessage)}"
+                           ).ToArray();
+                context.Result = Content(Failed<object>(string.Join("；", errors)).ToJson());
+                return;
+            }
+
             HttpClientHelper = new HttpClientHelper((IHttpClientFactory)HttpContext.RequestServices.GetService(typeof(IHttpClientFactory)), "http://localhost:63656/");
             base.OnActionExecuting(context);
         }

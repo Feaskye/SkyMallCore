@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -59,7 +61,21 @@ namespace SkyMallCore.WebApi
             //请求日志、数据过滤、加密等操作
             services.AddSkyApiProvider();
 
+            //https://www.strathweb.com/2018/02/exploring-the-apicontrollerattribute-and-its-features-for-asp-net-core-mvc-2-1/
+            //services.Configure<ApiBehaviorOptions>(options =>
+            //{
+            //    options.InvalidModelStateResponseFactory = actionContext =>
+            //    {
+            //        var errors = actionContext.ModelState
+            //            .Where(e => e.Value.Errors.Count > 0)
+            //            .Select(e =>
+            //                $"{e.Key}{(string.IsNullOrWhiteSpace(e.Value.Errors.First().ErrorMessage) ? e.Value.Errors.First().Exception?.Message : e.Value.Errors.First()?.ErrorMessage)}"
+            //            ).ToArray();
 
+            //        return new BadRequestObjectResult(new { Success = false, Data = false, Message = string.Join("；", errors) });
+            //        //return new Controllers.ApiResult<bool>(false,false,string.Join("；",errors));
+            //    };
+            //});
         }
 
         /// <summary>
@@ -80,10 +96,11 @@ namespace SkyMallCore.WebApi
             }
 
             app.UseSkyApiProvider();
+            //或者
+            //app.UseMiddleware<SkyApiProviderMiddleWare>();
+
             app.UseStaticFiles();
-
-
-
+            
             app.UseMvc(routes =>
             {
                
