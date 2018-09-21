@@ -62,7 +62,8 @@ namespace SkyMallCore.WebApi
             //请求日志、数据过滤、加密等操作
             services.AddSkyApiProvider();
 
-            //https://www.strathweb.com/2018/02/exploring-the-apicontrollerattribute-and-its-features-for-asp-net-core-mvc-2-1/
+            //官方文档：https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc?view=aspnetcore-2.1
+            //博客用法：https://www.strathweb.com/2018/02/exploring-the-apicontrollerattribute-and-its-features-for-asp-net-core-mvc-2-1/
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressConsumesConstraintForFormFileParameters = true;//多部分/表单数据请求推断 true禁用默认行为
