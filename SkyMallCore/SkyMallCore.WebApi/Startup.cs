@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using SkyMallCore.WebApi.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
+using SkyMallCore.WebApiUtils;
 
 namespace SkyMallCore.WebApi
 {
@@ -105,6 +107,22 @@ namespace SkyMallCore.WebApi
             app.UseSkyApiProvider();
             //或者
             //app.UseMiddleware<SkyApiProviderMiddleWare>();
+
+
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
+                {
+                    var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
+                    var exception = errorFeature.Error;
+
+                    // log the exception etc..
+                    // produce some response for the caller
+                    //使用过滤器的方式，记录异常log
+                    await context.Response.WriteAsync(new Controllers.ApiResult<object>(null, false, message: exception.Message).ToJson());
+                });
+            });
+
 
             app.UseStaticFiles();
             

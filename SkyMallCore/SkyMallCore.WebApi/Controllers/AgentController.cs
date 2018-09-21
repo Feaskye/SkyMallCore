@@ -28,10 +28,15 @@ namespace SkyMallCore.WebApi.Controllers
             //}
             if (!ModelState.IsValid)
             {//参数过滤处理
+                
                 var count = ModelState.ErrorCount;
                 return Failed<bool>("参数有误");
             }
 
+            if (pageIndex == 1)
+            {
+                throw new Exception("ddd");
+            }
 
             return Success(true);
         }
