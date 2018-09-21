@@ -45,6 +45,7 @@ namespace SkyMallCore.WebApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
+
             return NotFound();
         }
 

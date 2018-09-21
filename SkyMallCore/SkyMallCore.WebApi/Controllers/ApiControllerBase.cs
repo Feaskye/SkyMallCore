@@ -24,57 +24,25 @@ namespace SkyMallCore.WebApi.Controllers
         /// </summary>
         public HttpClientHelper HttpClientHelper;
 
-        //public override BadRequestObjectResult BadRequest(ModelStateDictionary modelState)
-        //{
-        //    if (!modelState.IsValid)
-        //    {
-        //        var errors = modelState
-        //                   .Where(e => e.Value.Errors.Count > 0)
-        //                   .Select(e =>
-        //                       $"{e.Key}{(string.IsNullOrWhiteSpace(e.Value.Errors.First().ErrorMessage) ? e.Value.Errors.First().Exception?.Message : e.Value.Errors.First()?.ErrorMessage)}"
-        //                   ).ToArray();
-        //        //context.Result = Content(Failed<object>(string.Join("；", errors)).ToJson());
-        //        return new BadRequestObjectResult(Failed<object>(string.Join("；", errors)).ToJson());
-        //    }
-        //    return base.BadRequest(modelState);
-        //}
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="actionName"></param>
+        /// <param name="controllerName"></param>
+        /// <param name="routeValues"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         //public override CreatedAtActionResult CreatedAtAction(string actionName, string controllerName, object routeValues, object value)
         //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        var errors = ModelState
-        //                   .Where(e => e.Value.Errors.Count > 0)
-        //                   .Select(e =>
-        //                       $"{e.Key}{(string.IsNullOrWhiteSpace(e.Value.Errors.First().ErrorMessage) ? e.Value.Errors.First().Exception?.Message : e.Value.Errors.First()?.ErrorMessage)}"
-        //                   ).ToArray();
-        //        //context.Result = Content(Failed<object>(string.Join("；", errors)).ToJson());
-        //        return new CreatedAtActionResult("Failed", "ApiControllerBase", routeValues, string.Join("；", errors));  //ContentResult(Failed<object>(string.Join("；", errors)).ToJson());
-        //    }
+        //      todo HttpClientHelper 待处理
+        //    HttpClientHelper = new HttpClientHelper((IHttpClientFactory)HttpContext.RequestServices.GetService(typeof(IHttpClientFactory)), "http://localhost:63656/");
         //    return base.CreatedAtAction(actionName, controllerName, routeValues, value);
         //}
 
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="context"></param>
-        //public override void OnActionExecuting(ActionExecutingContext context)
-        //{
-        //    if (!context.ModelState.IsValid)
-        //    {
-        //        var errors = context.ModelState
-        //                   .Where(e => e.Value.Errors.Count > 0)
-        //                   .Select(e =>
-        //                       $"{e.Key}{(string.IsNullOrWhiteSpace(e.Value.Errors.First().ErrorMessage) ? e.Value.Errors.First().Exception?.Message : e.Value.Errors.First()?.ErrorMessage)}"
-        //                   ).ToArray();
-        //        context.Result = Content(Failed<object>(string.Join("；", errors)).ToJson());
-        //        return;
-        //    }
 
-        //    HttpClientHelper = new HttpClientHelper((IHttpClientFactory)HttpContext.RequestServices.GetService(typeof(IHttpClientFactory)), "http://localhost:63656/");
-        //    base.OnActionExecuting(context);
-        //}
 
 
         /// <summary>
