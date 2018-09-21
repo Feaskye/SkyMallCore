@@ -45,6 +45,7 @@ namespace SkyMallCore.WebApi
 
             //json
             services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver
                 = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
@@ -62,20 +63,25 @@ namespace SkyMallCore.WebApi
             services.AddSkyApiProvider();
 
             //https://www.strathweb.com/2018/02/exploring-the-apicontrollerattribute-and-its-features-for-asp-net-core-mvc-2-1/
-            //services.Configure<ApiBehaviorOptions>(options =>
-            //{
-            //    options.InvalidModelStateResponseFactory = actionContext =>
-            //    {
-            //        var errors = actionContext.ModelState
-            //            .Where(e => e.Value.Errors.Count > 0)
-            //            .Select(e =>
-            //                $"{e.Key}{(string.IsNullOrWhiteSpace(e.Value.Errors.First().ErrorMessage) ? e.Value.Errors.First().Exception?.Message : e.Value.Errors.First()?.ErrorMessage)}"
-            //            ).ToArray();
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressConsumesConstraintForFormFileParameters = true;//多部分/表单数据请求推断 true禁用默认行为
+                options.SuppressInferBindingSourcesForParameters = true;//绑定源参数推断 true禁用默认推理规则
 
-            //        return new BadRequestObjectResult(new { Success = false, Data = false, Message = string.Join("；", errors) });
-            //        //return new Controllers.ApiResult<bool>(false,false,string.Join("；",errors));
-            //    };
-            //});
+
+                //模型验证
+                //options.SuppressModelStateInvalidFilter = true;//属性设置为true时，将禁用自动HTTP 400，即禁用以下方法
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var errors = actionContext.ModelState
+                        .Where(e => e.Value.Errors.Count > 0)
+                        .Select(e =>
+                            $"{e.Key}{(string.IsNullOrWhiteSpace(e.Value.Errors.First().ErrorMessage) ? e.Value.Errors.First().Exception?.Message : e.Value.Errors.First()?.ErrorMessage)}"
+                        ).ToArray();
+
+                    return new BadRequestObjectResult(new { Success = false, Data = false, Message = string.Join("；", errors) });
+                };
+            });
         }
 
         /// <summary>

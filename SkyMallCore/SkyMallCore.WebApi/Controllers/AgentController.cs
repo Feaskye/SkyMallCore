@@ -20,7 +20,7 @@ namespace SkyMallCore.WebApi.Controllers
         // GET api/values
         [Route("HasAgent")]
         [HttpGet]
-        public ApiResult<bool> HasAgent(ExistAgentParams agentParams)
+        public ApiResult<bool> HasAgent([FromQuery]ExistAgentParams agentParams, int pageIndex = 1)
         {
             //if (Request.Query.Any(w=>w.Key == "q"))
             //{
@@ -54,7 +54,16 @@ namespace SkyMallCore.WebApi.Controllers
         /// <param name="value"></param>
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void SubmitPackage([FromBody]string value)
+        {
+        }
+
+        /// <summary>
+        /// 更新资料
+        /// </summary>
+        /// <param name="value"></param>
+        [HttpPost]
+        public void UpdateInfo([FromForm]string value)
         {
         }
 
