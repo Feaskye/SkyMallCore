@@ -14,6 +14,8 @@ using Microsoft.Extensions.PlatformAbstractions;
 using SkyMallCore.WebApi.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
 using SkyMallCore.WebApiUtils;
+using Polly;
+using System.Net.Http;
 
 namespace SkyMallCore.WebApi
 {
@@ -37,11 +39,18 @@ namespace SkyMallCore.WebApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /*
+         AddSingleton 整个应用程序生命周期以内只创建一个实例
+         AddScoped 在同一个Scope内只初始化一个实例，可以理解为（ 每一个request级别只创建一个实例，同一个http request会在一个 scope内）
+         AddTransient 每一次GetService都会创建一个新的实例
+         */
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddHttpClient();
+            services.AddHttpClient("default")//可以添加多个，或多个client使用相同策略
+                        //AddPolicyHandler添加处理超时的策略，必须是IAsyncPolicy<HttpResponseMessage>，这个中策略在任何请求超过10s都会触发。
+                        .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10)))
+                        //瞬时故障时添加基本重试，以及重试的次数
+                        .AddTransientHttpErrorPolicy(p=>p.RetryAsync(3));
             //指定某Client的写法
             //services.AddHttpClient<GithubClient>();
 
