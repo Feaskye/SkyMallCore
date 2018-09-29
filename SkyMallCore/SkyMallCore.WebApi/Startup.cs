@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using SkyMallCore.WebApiUtils;
 using Polly;
 using System.Net.Http;
+using SkyMallCore.WebApiData;
 
 namespace SkyMallCore.WebApi
 {
@@ -60,6 +61,8 @@ namespace SkyMallCore.WebApi
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver
                 = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
+            services.Add(new ServiceDescriptor(typeof(MysqlDbContext), new MysqlDbContext(Configuration.GetConnectionString("DefaultConnection"))));
+
             //swagger
             services.AddSwaggerGen(options=> {
                 options.SwaggerDoc("v1",new Info {
@@ -94,6 +97,9 @@ namespace SkyMallCore.WebApi
                     return new BadRequestObjectResult(new { Success = false, Data = false, Message = string.Join("；", errors) });
                 };
             });
+
+            
+
         }
 
         /// <summary>

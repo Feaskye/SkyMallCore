@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SkyMallCore.WebApiData\SkyMallCore.WebApiData.csproj" />
     <ProjectReference Include="..\SkyMallCore.WebApiUtils\SkyMallCore.WebApiUtils.csproj" />
   </ItemGroup>
 

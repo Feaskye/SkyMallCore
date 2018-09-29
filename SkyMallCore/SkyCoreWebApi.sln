@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApi", "SkyMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApiTests", "SkyMallCore.WebApiTests\SkyMallCore.WebApiTests.csproj", "{0D0500E8-BD74-4B24-8B4F-D82E697D7EB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.WebApiUtils", "SkyMallCore.WebApiUtils\SkyMallCore.WebApiUtils.csproj", "{C91BA6DF-7A8B-49BE-B706-4044FBFB17B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApiUtils", "SkyMallCore.WebApiUtils\SkyMallCore.WebApiUtils.csproj", "{C91BA6DF-7A8B-49BE-B706-4044FBFB17B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.WebApiData", "SkyMallCore.WebApiData\SkyMallCore.WebApiData.csproj", "{ECD7D036-91D4-45F7-977A-355618396878}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C91BA6DF-7A8B-49BE-B706-4044FBFB17B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C91BA6DF-7A8B-49BE-B706-4044FBFB17B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C91BA6DF-7A8B-49BE-B706-4044FBFB17B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD7D036-91D4-45F7-977A-355618396878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD7D036-91D4-45F7-977A-355618396878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD7D036-91D4-45F7-977A-355618396878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD7D036-91D4-45F7-977A-355618396878}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

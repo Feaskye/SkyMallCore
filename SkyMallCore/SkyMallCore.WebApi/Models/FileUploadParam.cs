@@ -9,6 +9,7 @@ namespace SkyMallCore.WebApi.Models
     {
         public FileStream fileStreams { get; set; }
 
+      
         public string Token { get; set; }
     }
 }
