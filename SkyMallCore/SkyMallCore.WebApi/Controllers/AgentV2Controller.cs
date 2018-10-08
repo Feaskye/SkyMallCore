@@ -11,8 +11,8 @@ namespace SkyMallCore.WebApi.Controllers
     /// <summary>
     /// 代理商
     /// </summary>
-    [ApiVersion("1.0")]
-    public class AgentController : ApiControllerBase
+    [ApiVersion("2.0")]
+    public class AgentV2Controller : ApiControllerBase
     {
         /// <summary>
         /// Get
@@ -31,12 +31,12 @@ namespace SkyMallCore.WebApi.Controllers
             {//参数过滤处理
                 
                 var count = ModelState.ErrorCount;
-                return Failed<bool>("参数有误");
+                return Failed<bool>("参数有误v2");
             }
 
             if (pageIndex == 1)
             {
-                throw new Exception("ddd");
+                throw new Exception("dddv2");
             }
 
             return Success(true);
@@ -112,18 +112,5 @@ namespace SkyMallCore.WebApi.Controllers
 
 
     }
-
-    public class ExistAgentParams
-    {
-
-        [Display(Name = "代理商编号")]
-        [Required(ErrorMessage ="{0}不能为空")]
-        public string AgentId { get; set; }
-
-        [Display(Name = "代理商名")]
-        [Required(ErrorMessage = "{0}不能为空")]
-        public string AgentName { get; set; }
-
-
-    }
+    
 }

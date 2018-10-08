@@ -55,6 +55,14 @@ namespace SkyMallCore.WebApi
             //指定某Client的写法
             //services.AddHttpClient<GithubClient>();
 
+            //Api Version
+            services.AddApiVersioning(v => {
+                v.ReportApiVersions = true;//true, 在Api请求的响应头部，会追加当前Api支持的版本
+                v.AssumeDefaultVersionWhenUnspecified = true;//标记没使用版本号时使用默认版本号
+                v.DefaultApiVersion = new ApiVersion(1,0);//默认版本号
+                //  o.ApiVersionReader = new HeaderApiVersionReader("x-api-version");   在HTTP请求头中添加版本号参数。
+            });
+
             //json
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)

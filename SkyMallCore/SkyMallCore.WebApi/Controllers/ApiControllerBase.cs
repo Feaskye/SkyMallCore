@@ -14,7 +14,7 @@ namespace SkyMallCore.WebApi.Controllers
     /// <summary>
     /// 基类
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/{v:apiVersion}/[controller]")]
     [ApiController]
     [Produces("application/json")]
     public class ApiControllerBase : ControllerBase
