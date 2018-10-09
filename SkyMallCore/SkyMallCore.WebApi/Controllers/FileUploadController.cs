@@ -13,6 +13,7 @@ namespace SkyMallCore.WebApi.Controllers
     /// <summary>
     /// 文件上传
     /// </summary>
+    [ApiVersionNeutral] //指定不需要版本控制的Api
     public class FileUploadController : ApiControllerBase
     {
         //private IHttpClientFactory HttpClientFactory;
@@ -33,7 +34,6 @@ namespace SkyMallCore.WebApi.Controllers
             //在Core2.1推出ActionResult<object>
             //ApiResult<object> 跟 ActionResult<object> 性质一样
             //http://www.iaspnetcore.com/Blog/BlogPost/5b84eac48078ff1124d9455c/exploring-actionresultt-in-aspnet-core-web-api-21
-            
             var result = await HttpClientHelper.Get<string>("swagger/v1/swagger.json");
             return Success(result);
         }
