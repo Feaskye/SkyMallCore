@@ -15,6 +15,7 @@ namespace SkyMallCore.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiVersionNeutral]
     public class TodoController : ApiControllerBase
     {
         IConfiguration Configuration;
@@ -35,7 +36,17 @@ namespace SkyMallCore.WebApi.Controllers
         [Route("Members")]
         public ApiResult<IEnumerable<Member>> GetMembers()
         {
-            return Success(MysqlDb.GetAll());
+            var data = MysqlDb.GetAll();
+            var result = data.Select(p => new Member
+            {
+                UserName = p.UserName == "5" ? p.UserName : "0"
+            });
+
+            int[] test = new int[] { 1,3,5,6,7,8,0};
+            var tdata = test.Select(u => (u == 3) ? u:0);
+
+
+            return Success(data);
         }
 
         // GET: api/Todo/5
