@@ -34,6 +34,18 @@ namespace SkyMallCore.WebApi.Helpers
         public async Task Invoke(HttpContext context,ILoggerFactory loggerFactory)
         {
 
+            var ip = "127.0.0.1";
+            ip = context.Request.Headers["X-Forwarded-For"].ToString();
+            if (!string.IsNullOrEmpty(ip))
+            {
+                ip = context.Connection.RemoteIpAddress.ToString();
+            }
+            var referrerUrl = context.Request.Headers["referer"].ToString() + " " + context.Connection.RemoteIpAddress.ToString();
+            var fullMessage = context.Request.Headers["User-Agent"];//+ "err message:" + ex.Message + "ex.StackTrace:" + ex.StackTrace;
+            var pageUrl = context.Request.Host.ToString() + context.Request.Path.ToString() + context.Request.QueryString.ToString();
+
+
+
             ILogger<SkyApiProviderMiddleWare> logger = loggerFactory.CreateLogger<SkyApiProviderMiddleWare>();
             logger.LogInformation(GetRequestLog(context.Request));
             //创建http的原始请求和响应流
