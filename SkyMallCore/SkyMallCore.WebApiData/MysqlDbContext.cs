@@ -18,7 +18,6 @@ namespace SkyMallCore.WebApiData
         //{
         //}
 
-
         public DbSet<Member> Members { get; set; }
 
     }

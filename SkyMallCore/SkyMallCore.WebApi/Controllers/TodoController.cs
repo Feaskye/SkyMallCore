@@ -36,7 +36,7 @@ namespace SkyMallCore.WebApi.Controllers
         [Route("Members")]
         public ApiResult<IEnumerable<Member>> GetMembers()
         {
-            var data = MysqlDb.Set<Member>().AsEnumerable();
+            var data = MysqlDb.Set<Member>().AsQueryable();
             var result = data.Select(p => new Member
             {
                 UserName = p.UserName == "5" ? p.UserName : "0"
@@ -46,7 +46,7 @@ namespace SkyMallCore.WebApi.Controllers
             var tdata = test.Select(u => (u == 3) ? u : 0);
 
 
-            return Success(data);
+            return Success(data.Take(3).AsEnumerable());
         }
 
         // GET: api/Todo/5
