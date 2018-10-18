@@ -5,3 +5,45 @@
 <h3>@ViewData["Message"]</h3>
 
 <p>Use this area to provide additional information.</p>
+<input id="btnMessage" type="button" value="弹框" />
+
+@section Scripts{
+    <script src="~/lib/dialog/dialog.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $("#btnMessage").click(function () {
+                $.modalAlertReload("OK", "success");
+            });
+        });
+
+
+        $.modalAlertReload = function (content, type, loadpage) {
+            var icon = "";
+            if (type === 'success') {
+                icon = "fa-check-circle";
+            }
+            if (type === 'error') {
+                icon = "fa-times-circle";
+            }
+            if (type === 'warning') {
+                icon = "fa-exclamation-circle";
+            }
+            top.layer.alert(content, {
+                icon: icon,
+                title: "系统提示",
+                btn: ['确认'],
+                btnclass: ['btn btn-primary'],
+                yes: function () {
+                    if (loadpage === undefined) {
+                        location.reload();
+                    }
+                    else {
+                        location.href = loadpage;
+                    }
+                }
+            });
+        };
+    </script>
+
+}
