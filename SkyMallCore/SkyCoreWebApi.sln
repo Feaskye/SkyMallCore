@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApiTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApiUtils", "SkyMallCore.WebApiUtils\SkyMallCore.WebApiUtils.csproj", "{C91BA6DF-7A8B-49BE-B706-4044FBFB17B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyMallCore.WebApiData", "SkyMallCore.WebApiData\SkyMallCore.WebApiData.csproj", "{ECD7D036-91D4-45F7-977A-355618396878}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.WebApiData", "SkyMallCore.WebApiData\SkyMallCore.WebApiData.csproj", "{ECD7D036-91D4-45F7-977A-355618396878}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyCoreApi.ViewModel", "SkyCoreApi.ViewModel\SkyCoreApi.ViewModel.csproj", "{24A94AEC-A947-4627-B0C9-5CD29826CCB7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Models", "SkyMallCore.Models\SkyMallCore.Models.csproj", "{39B92BC8-228C-4B51-AA9F-C582CE08007B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{ECD7D036-91D4-45F7-977A-355618396878}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECD7D036-91D4-45F7-977A-355618396878}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECD7D036-91D4-45F7-977A-355618396878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A94AEC-A947-4627-B0C9-5CD29826CCB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A94AEC-A947-4627-B0C9-5CD29826CCB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A94AEC-A947-4627-B0C9-5CD29826CCB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A94AEC-A947-4627-B0C9-5CD29826CCB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B92BC8-228C-4B51-AA9F-C582CE08007B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B92BC8-228C-4B51-AA9F-C582CE08007B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39B92BC8-228C-4B51-AA9F-C582CE08007B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39B92BC8-228C-4B51-AA9F-C582CE08007B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

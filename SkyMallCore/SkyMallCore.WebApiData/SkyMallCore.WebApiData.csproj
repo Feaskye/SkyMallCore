@@ -9,4 +9,9 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SkyCoreApi.ViewModel\SkyCoreApi.ViewModel.csproj" />
+    <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
+  </ItemGroup>
+
 </Project>
