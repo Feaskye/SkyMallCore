@@ -23,3 +23,8 @@ Startup 配置注入</br>
 
 <img src="https://images2018.cnblogs.com/blog/625285/201805/625285-20180516113528690-243494602.png" alt="">
 
+
+
+dotNetCore应用交流:786465471
+一起学习，壮大dotNet队伍！！
+
