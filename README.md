@@ -4,7 +4,7 @@ dotNet Core Demo, Create a Cross Platform WebApp System!</br>
 有需要急速开发的朋友可以拿来用哦！</br>
 
 
-### dotNetCore应用交流:786465471
+### dotNetCore应用交流群:786465471
 如果觉得项目有用，直接在群里发个小红包，捐赠一下，增加大家活跃的动力，一起学习，壮大dotNet队伍，谢谢
 
 ### 简单介绍
