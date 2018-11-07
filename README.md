@@ -4,6 +4,10 @@ dotNet Core Demo, Create a Cross Platform WebApp System!</br>
 有需要急速开发的朋友可以拿来用哦！</br>
 
 
+### dotNetCore应用交流:786465471
+如果觉得项目有用，直接在群里发个小红包，捐赠一下，增加大家活跃的动力，一起学习，壮大dotNet队伍，谢谢
+
+### 简单介绍
 1：该项目是由NFine开源项目转化而来 </br>
 2：该项目基本框架开发平台是在Asp.net Core 2.0基础上编写</br>
 3：旨在促进.Net Core跨平台学习交流，提高开发效率4：.Net Core Mvc + EFCore 等技术，该项目仍会继续完善！</br>
@@ -25,5 +29,4 @@ Startup 配置注入</br>
 
 
 
-dotNetCore应用交流:786465471
-如果觉得项目有用，直接在群里发个小红包，捐赠一下，增加大家活跃的动力，一起学习，壮大dotNet队伍，谢谢
+
