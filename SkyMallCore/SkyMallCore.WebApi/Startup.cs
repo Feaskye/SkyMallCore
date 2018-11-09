@@ -56,6 +56,12 @@ namespace SkyMallCore.WebApi
             //指定某Client的写法
             //services.AddHttpClient<GithubClient>();
 
+            //IdentityServer
+            services.AddIdentityServer()
+                   .AddDeveloperSigningCredential()
+                   .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
+                   .AddInMemoryClients(IdentityServerConfig.GetClients());
+
             //Api Version
             services.AddApiVersioning(v => {
                 v.ReportApiVersions = true;//true, 在Api请求的响应头部，会追加当前Api支持的版本
@@ -69,8 +75,7 @@ namespace SkyMallCore.WebApi
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver
                 = new Newtonsoft.Json.Serialization.DefaultContractResolver());
-
-            //services.Add(new ServiceDescriptor(typeof(MysqlDbContext), new MysqlDbContext(Configuration.GetConnectionString("DefaultConnection"))));
+            
             services.AddDbContext<MysqlDbContext>(op=> {
                 op.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
             });
@@ -110,7 +115,6 @@ namespace SkyMallCore.WebApi
                     return new BadRequestObjectResult(new { Success = false, Data = false, Message = string.Join("；", errors) });
                 };
             });
-
             
 
         }
@@ -153,7 +157,17 @@ namespace SkyMallCore.WebApi
 
 
             app.UseStaticFiles();
-            
+
+
+
+            app.UseIdentityServer();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyMallCoreWebApi");
+            });//https://www.cnblogs.com/wms01/p/6667771.html
+
+
             app.UseMvc(routes =>
             {
                
@@ -171,10 +185,7 @@ namespace SkyMallCore.WebApi
 
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c=> {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyMallCoreWebApi");
-            });//https://www.cnblogs.com/wms01/p/6667771.html
+
 
 
         }

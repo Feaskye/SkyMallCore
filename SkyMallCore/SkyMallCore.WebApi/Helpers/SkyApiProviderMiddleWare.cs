@@ -43,7 +43,11 @@ namespace SkyMallCore.WebApi.Helpers
             var referrerUrl = context.Request.Headers["referer"].ToString() + " " + context.Connection.RemoteIpAddress.ToString();
             var fullMessage = context.Request.Headers["User-Agent"];//+ "err message:" + ex.Message + "ex.StackTrace:" + ex.StackTrace;
             var pageUrl = context.Request.Host.ToString() + context.Request.Path.ToString() + context.Request.QueryString.ToString();
-
+            if (!pageUrl.Contains("api"))
+            {
+                await _next(context);
+                return;
+            }
 
 
             ILogger<SkyApiProviderMiddleWare> logger = loggerFactory.CreateLogger<SkyApiProviderMiddleWare>();
