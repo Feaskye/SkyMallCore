@@ -46,8 +46,8 @@ namespace SkyMallCore.WebApiGetway
             services
                .AddOcelot(new ConfigurationBuilder()
                    .AddJsonFile("configuration.json")
-                   .Build())
-               .AddAdministration("/administration", ooptions);
+                   .Build());
+               //.AddAdministration("/admin", ooptions);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         .AddIdentityServerAuthentication("TestKey", ooptions);
