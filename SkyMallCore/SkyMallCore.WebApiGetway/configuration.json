@@ -1,0 +1,133 @@
+﻿{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/values",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/webapia/values",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TestKey",
+        "AllowScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/values",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/webapib/values",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/values/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/WebApiA/values/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "ReRouteIsCaseSensitive": true
+    },
+    {
+      "DownstreamPathTemplate": "/api/values/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/WebApib/values/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/User/GetSex",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/Sex",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Key": "Sex"
+    },
+    {
+      "DownstreamPathTemplate": "/api/User/GetAge",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/Age",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Key": "Age"
+    },
+    {
+      "DownstreamPathTemplate": "/api/User/GetID",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/ID",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Key": "ID"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Counter/Count",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/count",
+      "UpstreamHttpMethod": [ "Get" ],
+      "ServiceName": "Count",
+      "LoadBalancer": "RoundRobin",
+      "UseServiceDiscovery": true
+    },
+    {
+      "DownstreamPathTemplate": "/api/Token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/GetToken",
+      "UpstreamHttpMethod": [ "Get" ]
+    }
+  ],
+  "Aggregates": [
+    {
+      "ReRouteKeys": [
+        "Sex",
+        "Age",
+        "ID"
+      ],
+      "UpstreamPathTemplate": "/GetUserInfo"
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500
+    }
+  }
+}
