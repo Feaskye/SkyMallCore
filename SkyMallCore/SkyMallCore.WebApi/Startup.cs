@@ -94,6 +94,15 @@ namespace SkyMallCore.WebApi
             //请求日志、数据过滤、加密等操作
             services.AddSkyApiProvider();
 
+
+            //另一种校验：时间戳、Token等校验授权 api authorized middleware
+            services.AddApiAuthorized(options =>
+            {
+                options.EncryptKey = Configuration.GetSection("ApiKey")["EncryptKey"];
+                options.ExpiredSecond = Convert.ToInt32(Configuration.GetSection("ApiKey")["ExpiredSecond"]);
+            });
+
+
             //官方文档：https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc?view=aspnetcore-2.1
             //博客用法：https://www.strathweb.com/2018/02/exploring-the-apicontrollerattribute-and-its-features-for-asp-net-core-mvc-2-1/
             services.Configure<ApiBehaviorOptions>(options =>
@@ -115,7 +124,11 @@ namespace SkyMallCore.WebApi
                     return new BadRequestObjectResult(new { Success = false, Data = false, Message = string.Join("；", errors) });
                 };
             });
-            
+
+
+
+
+
 
         }
 
@@ -140,6 +153,8 @@ namespace SkyMallCore.WebApi
             //或者
             //app.UseMiddleware<SkyApiProviderMiddleWare>();
 
+            //api authorized middleware
+            app.UseApiAuthorized();
 
             app.UseExceptionHandler(errorApp =>
             {
