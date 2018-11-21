@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyNetCore.Web", "SkyNetCore.Web\SkyNetCore.Web.csproj", "{97EA05A5-BDC5-401A-AB5D-9FD2361619D9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyNetCore.GenericHostExample", "SkyNetCore.GenericHostExample\SkyNetCore.GenericHostExample.csproj", "{3B615FFD-FFD7-4C1B-9837-D74EBDA39A55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyNetCore.Common", "SkyNetCore.Common\SkyNetCore.Common.csproj", "{28F1F150-BCAA-41AF-B66F-01E95E90E63C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{97EA05A5-BDC5-401A-AB5D-9FD2361619D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97EA05A5-BDC5-401A-AB5D-9FD2361619D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97EA05A5-BDC5-401A-AB5D-9FD2361619D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B615FFD-FFD7-4C1B-9837-D74EBDA39A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B615FFD-FFD7-4C1B-9837-D74EBDA39A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B615FFD-FFD7-4C1B-9837-D74EBDA39A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B615FFD-FFD7-4C1B-9837-D74EBDA39A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28F1F150-BCAA-41AF-B66F-01E95E90E63C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28F1F150-BCAA-41AF-B66F-01E95E90E63C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28F1F150-BCAA-41AF-B66F-01E95E90E63C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28F1F150-BCAA-41AF-B66F-01E95E90E63C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 namespace SkyNetCore.Web.Services
 {
     #region snippet1
+    /// <summary>
+    /// 如果使用DBContext请使用构造函数注入 IServiceScopeFactory
+    ///  var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+    /// https://stackoverflow.com/questions/48368634/how-should-i-inject-a-dbcontext-instance-into-an-ihostedservice
+    /// </summary>
     internal class TimedHostedService : IHostedService, IDisposable
     {
         private readonly ILogger _logger;

@@ -9,4 +9,8 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SkyNetCore.Common\SkyNetCore.Common.csproj" />
+  </ItemGroup>
+
 </Project>

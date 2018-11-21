@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SkyNetCore.Common;
 using SkyNetCore.Web.Models;
+using SkyNetCore.Web.Services;
 
 namespace SkyNetCore.Web
 {
@@ -16,6 +18,7 @@ namespace SkyNetCore.Web
     {
         public Startup(IConfiguration configuration)
         {
+
             Configuration = configuration;
         }
 
@@ -30,8 +33,11 @@ namespace SkyNetCore.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+
             //services.AddSignalR();
+
+
+            services.AddHostedService<PrinterHostedService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -44,6 +50,7 @@ namespace SkyNetCore.Web
             //    route.MapHub<MessageHub>("/msghub");
             //});
 
+            //WebSocket的写法
             app.Map("/ws", Services.SocketHandler.Map);
 
             if (env.IsDevelopment())
