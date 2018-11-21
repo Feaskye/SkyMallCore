@@ -1,4 +1,4 @@
-﻿###	Net Core相关知识点：
+﻿###	Net Core Notes：
 
 	深耕Core相关知识
 		1:底层理解（重要）
@@ -20,6 +20,11 @@
 
 >		继承此类后都可以使用如下方式调用：
 >		services.AddHostedService<PrinterHostedService>();
+
+> 若要使用DbContext数据仓储，那就注入IServiceScopeFactory
+> 
+> var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+
 
 >	注意：Web & Console程序停止，后台任务Service进程并未停止，需要引用一个变量来记录要运行的任务，将其从StartAsync方法中解放出来。
 >	比如：bool _stopping ，在StartAsync或ExecuteAsync中循环时做是否停止判断，在StopAsync停止时设置为false 
