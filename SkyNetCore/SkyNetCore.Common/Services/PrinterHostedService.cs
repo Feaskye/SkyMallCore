@@ -25,11 +25,11 @@ namespace SkyNetCore.Common
         {
             _logger.LogInformation("Printer1 Starting");
 
-            new Timer(async x=> {
+            //new Timer(async x=> {
 
-                _logger.LogInformation("Started polling");
+            //    _logger.LogInformation("Started polling");
 
-            },null,1000,1000);
+            //},null,1000,1000);
 
 
             return Task.CompletedTask;

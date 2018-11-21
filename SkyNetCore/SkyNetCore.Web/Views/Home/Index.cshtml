@@ -51,5 +51,12 @@
 
     //window.onload = onInit;
 
+    $.post("/auth/token", { username: "Member", password:"123"}, function (result) {
+        if (result) {
+            console.log(result);
+        }
+    }, "json");
+
+
 </script>
 }
