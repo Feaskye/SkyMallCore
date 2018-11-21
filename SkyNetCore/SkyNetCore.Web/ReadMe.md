@@ -30,11 +30,7 @@
 >	比如：bool _stopping ，在StartAsync或ExecuteAsync中循环时做是否停止判断，在StopAsync停止时设置为false 
 
 
-
-
-
-
-#####
+##### 使用JwtBearer对WebApi生成Token <a href='UseJwt.md'></a>
 
 
 
