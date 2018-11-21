@@ -1,10 +1,4 @@
-﻿###	Net Core Notes：
-
-	深耕Core相关知识
-		1:底层理解（重要）
-		2:第三方库（按需）
-		3:新知识如：SingleR、IHostedService、BackgroundService（按需）
-
+﻿###	Net Core Notes
 
 #####	WebSocket
 	     app.Map("/ws", Services.SocketHandler.Map);
