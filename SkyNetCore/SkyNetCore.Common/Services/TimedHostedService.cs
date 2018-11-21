@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SkyNetCore.Web.Services
+namespace SkyNetCore.Common
 {
     #region snippet1
     /// <summary>
