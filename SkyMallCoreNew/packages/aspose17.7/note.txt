@@ -1,0 +1,5 @@
+没有做太多仔细的测试，基本能用，有问题请留言。
+
+github例子地址：https://github.com/aspose-slides  (替换组件名称即各个demo地址)
+
+by wuhensoft.com 2017年11月21日13:41:57
