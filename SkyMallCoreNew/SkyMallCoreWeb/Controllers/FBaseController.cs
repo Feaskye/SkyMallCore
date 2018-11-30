@@ -22,12 +22,9 @@ namespace SkyMallCoreWeb.Controllers
     [MemberAuth]
     public class FBaseController : Areas.BaseController
     {
-
-        public IArticleCategoryService _ArticleCategoryService;
-
+        
         public FBaseController()
         {
-            _ArticleCategoryService = CoreContextProvider.GetService<IArticleCategoryService>();
         }
 
 
@@ -44,7 +41,7 @@ namespace SkyMallCoreWeb.Controllers
                 var layCateList = CoreContextProvider.MemCache.GetCache<List<ListItem>>("LayCateList");
                 if (layCateList == null || !layCateList.Any())
                 {
-                    layCateList = GetArticleCateList(null, null);
+                    layCateList = GetArticleCateList(null,null, null);
                     CoreContextProvider.MemCache.SetCache(layCateList, "LayCateList");
                 }
 
@@ -74,10 +71,13 @@ namespace SkyMallCoreWeb.Controllers
         /// </summary>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        public List<ListItem> GetArticleCateList(string currentId, string parentId,bool containsChild = false)
+        public List<ListItem> GetArticleCateList(IArticleCategoryService articleCategoryService, string currentId, string parentId,bool containsChild = false)
         {
-            
-            return _ArticleCategoryService.GetCateList(currentId, parentId, containsChild);
+            if (articleCategoryService == null)
+            {
+                articleCategoryService = CoreContextProvider.GetService<IArticleCategoryService>();
+            }
+            return articleCategoryService.GetCateList(currentId, parentId, containsChild);
         }
 
 

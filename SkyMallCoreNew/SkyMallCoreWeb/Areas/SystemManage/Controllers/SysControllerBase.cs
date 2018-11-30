@@ -108,10 +108,6 @@ namespace SkyMallCoreWeb.Areas
 
         public BaseController()
         {
-            if (ConfigManager.SysConfiguration == null)
-            {
-                BusinessHelper.LoadSysConfiguration();
-            }
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

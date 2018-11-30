@@ -54,7 +54,6 @@ namespace SkyMallCoreWeb.Areas.SystemManage.Controllers
             config.Id = keyValue;
             _Service.SubmitForm(config);
             ConfigManager.SysConfiguration = null;
-            BusinessHelper.LoadSysConfiguration();
             return Success("操作成功。");
         }
         [HttpPost]

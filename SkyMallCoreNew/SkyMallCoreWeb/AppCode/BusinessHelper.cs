@@ -16,41 +16,6 @@ namespace SkyMallCoreWeb
     /// </summary>
     public class BusinessHelper
     {
-        /// <summary>
-        /// 加载配置文件
-        /// </summary>
-        /// <returns></returns>
-        public static void LoadSysConfiguration()
-        {
-
-            try
-            {
-                var configService = CoreContextProvider.GetService<ISysConfigurationService>();
-                var configs = configService.GetList().Select(u => new { u.ConfigCode, u.ConfigValue }).ToDictionary(k => k.ConfigCode, v => v.ConfigValue);
-                var _sysConfig = new SysConfigurationModel()
-                {
-                    SiteName = configs.TryGetValue("SiteName"),
-                    UploadFolder = configs.TryGetValue("UploadFolderCode"),
-                    SiteKeywords = configs.TryGetValue("SiteKeywords"),
-                    SiteDescription = configs.TryGetValue("SiteDescription"),
-                    SiteLogo = configs.TryGetValue("SiteLogo"),
-                    SiteQQ = configs.TryGetValue("SiteQQ"),
-                    SysMailPassword = configs.TryGetValue("SysMailPassword"),
-                    SysMailUser = configs.TryGetValue("SysMailUser"),
-                    //SiteQQ = configs.TryGetValue("SiteQQ"),
-                    //VoiceRootFolder = configlist.Where(w => w.ConfigCode == ConstParameters.VoiceRootFolderCode).Select(u => u.ConfigValue).FirstOrDefault() //,
-                    //ExecuteHour = Convert.ToInt32(CoreContextProvider.Configuration.GetSection("SysConfiguration")["JobExecuteHour"]),
-                    //ExecuteMunite = Convert.ToInt32(CoreContextProvider.Configuration.GetSection("SysConfiguration")["JobExecuteMunite"])
-                };
-                ConfigManager.SysConfiguration = _sysConfig;
-            }
-            catch (Exception ex)
-            {
-                ILogger logger = CoreContextProvider.GetLogger("LoadSysConfiguration");
-                logger.LogError(ex, ex.Message);
-            }
-        }
-
 
         /// <summary>
         /// 获取文件类型

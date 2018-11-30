@@ -35,7 +35,7 @@ namespace SkyMallCoreWeb.Controllers
         /// <param name="keyword"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        public IActionResult Index([FromQuery]ArticleSearchView search,int pageIndex = 1)
+        public IActionResult Index([FromServices]IArticleCategoryService articleCategoryService, [FromQuery]ArticleSearchView search,int pageIndex = 1)
         {
             if (search == null)
             {
@@ -45,7 +45,7 @@ namespace SkyMallCoreWeb.Controllers
 
             ListItem cateInfo = new ListItem { Text = "全部" };
             //所有分类
-            var allCateList = GetArticleCateList(null, null, true);
+            var allCateList = GetArticleCateList(articleCategoryService, null, null, true);
             ViewBag.CateList = allCateList;
             //cid参数
             string cid = Request.Query["cid"];

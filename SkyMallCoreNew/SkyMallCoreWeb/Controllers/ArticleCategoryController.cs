@@ -28,10 +28,10 @@ namespace SkyMallCoreWeb.Controllers
 
         [Route("/cate")]
         [Route("/cate/Index")]
-        public IActionResult Index([FromServices]IArticleTopicService topicService)
+        public IActionResult Index([FromServices]IArticleTopicService topicService,[FromServices]IArticleCategoryService articleCategoryService)
         {
             AddPageCrumbs("资源分类");
-            var cateList = _ArticleCategoryService.GetCateList(null, null, true);
+            var cateList = articleCategoryService.GetCateList(null, null, true);
 
             //var topicService = SkyCore.GlobalProvider.CoreContextProvider.GetService<IArticleTopicService>();
             ViewBag.TopicCates = topicService.GetTopicCateList(null, null);

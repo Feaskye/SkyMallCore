@@ -59,14 +59,15 @@ namespace SkyMallCoreWeb
                 options.Filters.Add(typeof(ErrorAttribute));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            
             services.AddMapConfig();
 
             services.AddMemoryCache();
             services.AddSession();
 
-            services.AddCoreProvider();
+            services.AddHostedService<SysConfigService>();
 
+            services.AddCoreProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

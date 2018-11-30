@@ -32,7 +32,7 @@ namespace SkyMallCoreWeb.Controllers
         //首页
         public IActionResult Index([FromServices]IArticleTopicService articleTopicService,
             [FromServices]IHelpService helpService,[FromServices]INewsService newsService
-            ,[FromServices]ILinkService linkService)
+            ,[FromServices]ILinkService linkService, [FromServices]IArticleCategoryService articleCategoryService)
         {
            
 
@@ -41,7 +41,7 @@ namespace SkyMallCoreWeb.Controllers
 
             ViewBag.HotTopics = articleTopicService.GetHotTopics(8);
 
-            ViewBag.BestCates = _ArticleCategoryService.GetCateList(new ArticleCateSearchView { IsRemmand = true },1,6);
+            ViewBag.BestCates = articleCategoryService.GetCateList(new ArticleCateSearchView { IsRemmand = true },1,6);
 
             var tradeScores = _IMemberScoreService.GetList(true, 5);
             ViewBag.TradeScores = tradeScores;

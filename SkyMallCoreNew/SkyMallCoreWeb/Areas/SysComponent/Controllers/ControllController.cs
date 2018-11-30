@@ -93,9 +93,9 @@ namespace SkyMallCoreWeb.Areas.SysComponent.Controllers
         /// <param name="parentId"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetArticleCates(string currentId, string parentId)
+        public ActionResult GetArticleCates([FromServices]IArticleCategoryService articleCategoryService, string currentId, string parentId)
         {
-            return Content(GetArticleCateList(currentId, parentId).ToJson());
+            return Content(GetArticleCateList(articleCategoryService, currentId, parentId).ToJson());
         }
 
         /// <summary>
