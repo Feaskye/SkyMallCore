@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
+}
+<script type="text/javascript" src="/js/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/js/ueditor/ueditor.all.js"></script>
+<script>
+    var ue = initUeditor();
+
+    var keyValue = $.request("keyValue");
+    //if (keyValue.length > 0) {
+    //    $("#ConfigCode").prop("disabled", "disabled");
+    //}
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SystemManage/SysHelp/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                    $("#Description").html(data.Description);
+
+                    $("#container").html(data.Description);
+                    ue = initUeditor();
+                }
+            });
+        }
+    });
+
+    function initUeditor() { 
+        return UE.getEditor('container', {
+            initialFrameWidth: 525,
+            initialFrameHeight: 150
+        });
+    }
+
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        var Title = $("#Title").val();
+        if (Title.length == 0) {
+            $.modalMsg("帮助名称不能为空");
+            return false;
+        }
+
+        if ($("#HelpCode").val() == '@((int)HelpCode.HomeCarousel)') { 
+            if ($("#ResourceUrl").val() == '') { 
+                $.modalMsg("轮播图链接不能为空");
+                return false;
+            }
+            if ($("#CoverUrl").val() == '') {
+                $.modalMsg("轮播图封面图不能为空");
+                return false;
+            }
+        }
+
+
+        var des = getContent('container');
+        if (des.length == 0 && $("#HelpCode").val() !== '@((int)HelpCode.HomeCarousel)') {
+            $.modalMsg("内容不能为空");
+            return false;
+        }
+        $("textarea[name='Description']").html(des);
+        var data = $("#form1").formSerialize();
+        data.Description = des;
+        $.submitForm({
+            url: "/SystemManage/SysHelp/SubmitForm?keyValue=" + keyValue,
+            param: data,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+</script>
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">名称</th>
+                <td class="formValue">
+                    <input id="Title" name="Title" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">类别</th>
+                <td class="formValue">
+                    <select id="HelpCode" name="HelpCode" class="form-control">
+                        @foreach (var item in EnumCommon.GetEnumList<HelpCode>())
+                        {
+                            <option value="@item.Key">@item.Value</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">链接</th>
+                <td class="formValue">
+                    <input id="ResourceUrl" name="ResourceUrl" type="text" class="form-control" placeholder="类别为轮播图时填写" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">帮助内容</th>
+                <td class="formValue">
+                    <textarea id="container"></textarea>
+                    <textarea id="Description" name="Description" style="display: none;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">封面图</th>
+                <td class="formValue">
+                    <input id="CoverUrl" name="CoverUrl" type="hidden" class="form-control" />
+                    <partial name="_FileUpload" model="@(new FileUploadModel{ControlId="CoverUrl", Id="CoverUp", ActionType= UpLoadAction.cover})" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排序</th>
+                <td class="formValue">
+                    <input id="SortCode" name="SortCode" type="text" class="form-control required" value="1" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="height: 35px;">选项</th>
+                <td class="formValue" style="padding-top: 1px;">
+                    <div class="ckbox">
+                        <input id="EnabledMark" name="EnabledMark" type="checkbox" checked="checked"><label for="EnabledMark">有效</label>
+                    </div>
+                </td>
+            </tr>
+            @*<tr>
+            <th class="formTitle" valign="top" style="padding-top: 11px;">
+                备注
+            </th>
+            <td class="formValue">
+                <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+            </td>
+        </tr>*@
+        </table>
+    </div>
+</form>
+
+
+@section Scripts{
+    <!-- 配置文件 -->
+    <script type="text/javascript">
+      
+
+        //var desc = $("#Description").html();
+        //if (desc.length > 0) {
+        //    console.log("Description初始化");
+        //    ue.setContent(desc, false);
+        //}
+
+    </script>
+}

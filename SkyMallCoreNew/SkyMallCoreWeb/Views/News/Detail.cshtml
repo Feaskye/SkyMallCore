@@ -1,0 +1,77 @@
+﻿@model NewsPageView
+@{
+    ViewData["Title"] = "文章详细";
+    if(Model!=null)
+    {
+        ViewData["Title"] = Model.NewsDetail.Title;
+    }
+    var AboutNews = (ViewBag.AboutNews as List<NewsDetailView>) ?? new List<NewsDetailView>();
+    var CateList = (ViewBag.CateList as List<ListItem>) ?? new List<ListItem>();
+}
+
+
+<div class="left MarB20 search_720">
+    <input name="ctl00$Content$hiddenCn" type="hidden" id="Content_hiddenCn">
+    <div class="camTitle">
+        <div class="camNavA">
+            @foreach (var item in CateList)
+            {
+                <a href="/News/Index?nid=@item.Code" class="@(item.Selected ? "selected" : "")"> @item.Text</a>
+                @*<a id="aa_1" href="news-1.html" class="selected">
+                文库公告
+            </a>*@
+            }
+        </div>
+    </div>
+    <div class="longConCam p20">
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td height="30" colspan="2" align="center" style="padding: 0px 0px 10px 0px;">
+                        <font style="color: #222; font-family: '微软雅黑',Tahoma,sans-serif; font-size: 20px;
+                            line-height: 30px;">
+                            @Model.NewsDetail.Title
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="15" colspan="2" align="center">
+                        <div style="text-align: center; font-size: 14px; color:#888; padding: 0px 10px 10px 10px;">
+                            @Model.NewsDetail.CreatorTime.ToDateTimeString()&nbsp;&nbsp; |&nbsp;&nbsp;@Model.NewsDetail.ReadCount 人气
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="1" bgcolor="#ebeef2" align="center" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td align="left" class="newscontent huanhang pt20" colspan="2" style="line-height: 24px;" valign="top">
+                        @Html.Raw(Model.NewsDetail.Description)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="right MarB10 search_259">
+    <div class="box download-rank bgF block" style="width: 257px;">
+        <div class="boxHd">
+            <h2 class="left font-normal font16 font-yahei" style="font-size: 15px; color: #666;">
+                相关信息
+            </h2>
+        </div>
+        <div class="first-second-third cl mt10" style="width: 228px; height: 250px; margin-top: 10px;">
+            <dl class="jiaochengpaihang">
+                @foreach (var item in AboutNews)
+                {
+                    <dd>
+                        <a target="_blank" href="@Url.Action("Detail", "News", new { nid = item.Id })" title="@item.Title">
+                            @item.Title
+                        </a>
+                    </dd>
+                }
+            </dl>
+        </div>
+    </div>
+    
+</div>

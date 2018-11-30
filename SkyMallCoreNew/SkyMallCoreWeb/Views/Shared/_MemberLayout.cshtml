@@ -1,0 +1,108 @@
+﻿@{
+    //ViewBag.Title = "个人中心";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pathUrl = Context.Request.Path.ToString().ToLower();
+}
+@section HScripts{ 
+    @RenderSection("HScripts",required:false)
+}
+    <div class=" bag_1130 mt10 mb10">
+        <table class="longTable">
+            <tbody>
+                <tr>
+                    <th valign="top" style="background-color: #f8f8f8;" class="longTableTh">
+
+                        <div class="longSideBar">
+
+                            <ul>
+                                <dl class="item">
+                                    <dt data-col="2" class='selected'>
+                                        <a class="title" href="javascript:void(0)">
+                                            账户管理
+                                        </a>
+                                    </dt>
+
+                                    <dd style='display: block;'>
+
+                                        <ul>
+
+                                            <li>
+                                                &nbsp; <a data-id="4" target="_self" href="/Member"
+                                                          class='@(pathUrl == "/member"?"cur":"")'>
+                                                    个人中心
+                                                </a>
+                                            </li>
+                                            <li>
+                                                &nbsp; <a data-id="4" target="_self" href="/Member/modify" class='@(pathUrl == "/member/modify"?"cur":"")'>
+                                                    信息修改
+                                                </a>
+                                            </li>
+                                            <li>
+                                                &nbsp; <a data-id="4" target="_self" href="/Member/ChangePwd" class='@(pathUrl == "/member/changepwd"?"cur":"")'>
+                                                    密码修改
+                                                </a>
+                                            </li>
+                                            <li>
+                                                &nbsp; <a data-id="4" target="_self" href="/Member/UserScore" class='@(pathUrl == "/member/userscore"?"cur":"")'>
+                                                    我的积分
+                                                </a>
+                                            </li>
+                                            <li>
+                                                &nbsp; <a data-id="4" target="_self" href="/FlexPaper/BookGroup" class='@((pathUrl == "/flexpaper/bookgroup"||pathUrl == "/flexpaper/addbookgroup")?"cur":"")'>
+                                                    我的专题
+                                                </a>
+                                            </li>
+                                            <li>
+                                                &nbsp; <a data-id="4" target="_self" href="/FlexPaper/AddBook" class='@(pathUrl == "/flexpaper/addbook"?"cur":"")'>
+                                                    上传资源
+                                                </a>
+                                            </li>
+                                            <li>
+                                                &nbsp; <a data-id="4" target="_self" href="/FlexPaper/BookList" class='@(pathUrl == "/flexpaper/booklist"?"cur":"")'>
+                                                    我的资源
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </dd>
+                                </dl>
+
+                            </ul>
+                        </div>
+
+                        <input type="hidden" name="ctl00$hfMenuId" id="hfMenuId" />
+                    </th>
+                    <td valign="top">
+
+                        <div class="admin_border clearfix">
+                            @if (pathUrl.IndexOf("flexpaper") <= -1)
+                            {
+                            <ul class="admin_head">
+                                <li><a href="@(pathUrl == "/member" ? "#" : "/member")" class="@(pathUrl == "/member" ? "cur" : "")">个人中心</a></li>
+                                <li><a href="@(pathUrl == "/member/modify" ? "#" : "/member/modify")" class="@(pathUrl == "/member/modify" ? "cur" : "")">个人资料</a></li>
+
+                                <li><a href="@(pathUrl == "/member/zoomimage" ? "#" : "/member/zoomimage")" class="@(pathUrl == "/member/zoomimage" ? "cur" : "")">头像设置</a></li>
+                                <li><a href="@(pathUrl == "/member/changepwd" ? "#" : "/member/changepwd")" class="@(pathUrl == "/member/changepwd" ? "cur" : "")">修改密码</a></li>
+
+                                @*<li><a href="UserAuthentication.aspx">申请认证</a></li>*@
+                            </ul>
+                            }
+                            @RenderBody()
+                        </div>
+
+                        <br />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--main end-->
+    <span id="LabelScript"></span>
+@section Scripts{
+    @RenderSection("Scripts", required: false);
+    <script type="text/javascript">
+        var fileType = "-1";
+        initFileType();
+    </script>
+}

@@ -1,0 +1,26 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "错误";
+}
+
+<h2 class="text-danger">错误.</h2>
+@if (Model.Message == null)
+{
+    <p class="text-danger">处理您的请求时发生错误。</p>
+}
+else
+{
+    <p class="text-danger">@Model.Message</p>
+}
+@*@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}*@
+
+<h4>您可以做如下操作</h4>
+<h5>
+    <a href="javascript:history.go(-1)">返回</a>
+    <a href="javascript:history.go(1)">前进</a>
+</h5>

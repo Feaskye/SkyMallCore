@@ -1,0 +1,377 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+     <!--<PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\SysComponent\Data\**" />
+    <Compile Remove="Areas\SysComponent\Models\**" />
+    <Compile Remove="Areas\SysComponent\Views\**" />
+    <Compile Remove="Areas\SystemManage\Models\**" />
+    <Compile Remove="Areas\SystemManage\Views\LineMessage\**" />
+    <Compile Remove="Areas\SystemManage\Views\SkyVoice\**" />
+    <Compile Remove="Areas\SystemManage\Views\SysMemGroup\**" />
+    <Compile Remove="Areas\SystemManage\Views\VoiceStatistics\**" />
+    <Compile Remove="Areas\SystemSecurity\Models\**" />
+    <Compile Remove="wwwroot\files\**" />
+    <Content Remove="Areas\SysComponent\Data\**" />
+    <Content Remove="Areas\SysComponent\Models\**" />
+    <Content Remove="Areas\SysComponent\Views\**" />
+    <Content Remove="Areas\SystemManage\Models\**" />
+    <Content Remove="Areas\SystemManage\Views\LineMessage\**" />
+    <Content Remove="Areas\SystemManage\Views\SkyVoice\**" />
+    <Content Remove="Areas\SystemManage\Views\SysMemGroup\**" />
+    <Content Remove="Areas\SystemManage\Views\VoiceStatistics\**" />
+    <Content Remove="Areas\SystemSecurity\Models\**" />
+    <Content Remove="wwwroot\files\**" />
+    <EmbeddedResource Remove="Areas\SysComponent\Data\**" />
+    <EmbeddedResource Remove="Areas\SysComponent\Models\**" />
+    <EmbeddedResource Remove="Areas\SysComponent\Views\**" />
+    <EmbeddedResource Remove="Areas\SystemManage\Models\**" />
+    <EmbeddedResource Remove="Areas\SystemManage\Views\LineMessage\**" />
+    <EmbeddedResource Remove="Areas\SystemManage\Views\SkyVoice\**" />
+    <EmbeddedResource Remove="Areas\SystemManage\Views\SysMemGroup\**" />
+    <EmbeddedResource Remove="Areas\SystemManage\Views\VoiceStatistics\**" />
+    <EmbeddedResource Remove="Areas\SystemSecurity\Models\**" />
+    <EmbeddedResource Remove="wwwroot\files\**" />
+    <None Remove="Areas\SysComponent\Data\**" />
+    <None Remove="Areas\SysComponent\Models\**" />
+    <None Remove="Areas\SysComponent\Views\**" />
+    <None Remove="Areas\SystemManage\Models\**" />
+    <None Remove="Areas\SystemManage\Views\LineMessage\**" />
+    <None Remove="Areas\SystemManage\Views\SkyVoice\**" />
+    <None Remove="Areas\SystemManage\Views\SysMemGroup\**" />
+    <None Remove="Areas\SystemManage\Views\VoiceStatistics\**" />
+    <None Remove="Areas\SystemSecurity\Models\**" />
+    <None Remove="wwwroot\files\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="AppCode\NRecoPdfRenderer.cs" />
+    <Compile Remove="AppCode\OfficeScanner.cs" />
+    <Compile Remove="AppCode\TranferFileHelper.cs" />
+    <Compile Remove="AppCode\TransferFile.cs" />
+    <Compile Remove="Areas\SystemManage\Controllers\LineMessageController.cs" />
+    <Compile Remove="Areas\SystemManage\Controllers\SkyVoiceController.cs" />
+    <Compile Remove="Areas\SystemManage\Controllers\SysMemGroupController.cs" />
+    <Compile Remove="Areas\SystemManage\Controllers\VoiceStatisticsController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\SystemManage\Views\Home\Index - 复制.cshtml" />
+    <Content Remove="Areas\SystemManage\Views\Shared\_Form - 复制.cshtml" />
+    <Content Remove="Areas\SystemManage\Views\Shared\_Index - 复制.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.7" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
+    <PackageReference Include="SimpleMvcSitemap" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkyCore.GlobalProvider\SkyCore.GlobalProvider.csproj" />
+    <ProjectReference Include="..\SkyCore.Logging\SkyCore.Logging.csproj" />
+    <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
+    <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
+    <ProjectReference Include="..\SkyMallCore.Services\SkyMallCore.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\SystemManage\Views\Login\Index.cshtml" />
+    <None Include="wwwroot\js\jplayer\jquery.jplayer.js" />
+    <None Include="wwwroot\js\jplayer\jquery.jplayer.min.js" />
+    <None Include="wwwroot\js\jplayer\jquery.jplayer.swf" />
+    <None Include="wwwroot\js\ueditor\dialogs\attachment\attachment.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\background\background.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\chart.config.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\charts\charts.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\emotion\emotion.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\help\help.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\image\image.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\internal.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\music\music.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\scrawl\scrawl.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\searchreplace\searchreplace.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\spechars\spechars.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\table\edittable.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\config.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\template\template.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\video\video.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\fClipboard_ueditor.swf" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\imageUploader.swf" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\tangram.js" />
+    <None Include="wwwroot\js\ueditor\dialogs\wordimage\wordimage.js" />
+    <None Include="wwwroot\js\ueditor\lang\en\en.js" />
+    <None Include="wwwroot\js\ueditor\lang\zh-cn\zh-cn.js" />
+    <None Include="wwwroot\js\ueditor\net\controller.ashx" />
+    <None Include="wwwroot\js\ueditor\net\README.md" />
+    <None Include="wwwroot\js\ueditor\net\Web.config.bak" />
+    <None Include="wwwroot\js\ueditor\third-party\codemirror\codemirror.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\adapters\mootools-adapter.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\adapters\mootools-adapter.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\adapters\prototype-adapter.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\adapters\prototype-adapter.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\adapters\standalone-framework.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\adapters\standalone-framework.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\highcharts-more.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\highcharts-more.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\highcharts.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\highcharts.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\annotations.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\annotations.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\canvas-tools.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\canvas-tools.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\data.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\data.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\drilldown.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\drilldown.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\exporting.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\exporting.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\funnel.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\funnel.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\heatmap.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\heatmap.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\map.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\map.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\no-data-to-display.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\modules\no-data-to-display.src.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\themes\dark-blue.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\themes\dark-green.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\themes\gray.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\themes\grid.js" />
+    <None Include="wwwroot\js\ueditor\third-party\highcharts\themes\skies.js" />
+    <None Include="wwwroot\js\ueditor\third-party\jquery-1.10.2.js" />
+    <None Include="wwwroot\js\ueditor\third-party\jquery-1.10.2.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\jquery-1.10.2.min.map" />
+    <None Include="wwwroot\js\ueditor\third-party\snapscreen\UEditorSnapscreen.exe" />
+    <None Include="wwwroot\js\ueditor\third-party\SyntaxHighlighter\shCore.js" />
+    <None Include="wwwroot\js\ueditor\third-party\video-js\font\vjs.svg" />
+    <None Include="wwwroot\js\ueditor\third-party\video-js\video-js.swf" />
+    <None Include="wwwroot\js\ueditor\third-party\video-js\video.dev.js" />
+    <None Include="wwwroot\js\ueditor\third-party\video-js\video.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\Uploader.swf" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.custom.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.custom.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.flashonly.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.flashonly.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.html5only.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.html5only.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.withoutimage.js" />
+    <None Include="wwwroot\js\ueditor\third-party\webuploader\webuploader.withoutimage.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\xss.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.min.js" />
+    <None Include="wwwroot\js\ueditor\third-party\zeroclipboard\ZeroClipboard.swf" />
+    <None Include="wwwroot\js\ueditor\ueditor.all.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.all.min.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.config.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.config_news.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.parse.js" />
+    <None Include="wwwroot\js\ueditor\ueditor.parse.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\SystemManage\Views\ArticleTopic\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\ArticleTopic\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\ArticleTopic\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\ArticleCategory\Form - 复制.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\Crawler\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\News\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\News\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\News\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\NewsCategory\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\NewsCategory\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\NewsCategory\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\Home\FileUploadControl.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\Home\FileUpload0.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\Shared\_FileUpload.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysHelp\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysHelp\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysMemScore\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysMemScore\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysMemScore\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysMember\MemberPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysMember\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysMember\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysMember\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\ArticleCategory\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\ArticleCategory\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\ArticleCategory\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\Article\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\Article\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\Article\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysConfiguration\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysConfiguration\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysConfiguration\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysLink\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysLink\Form.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\SystemManage\Views\SysLink\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\SystemSecurity\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\SystemSecurity\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Article\ImgDetail.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Login\ChangeConfirm.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Login\ForgetPass.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_FUploadPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Topics\List.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Topics\Detail.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Topics\index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\ArticleCategory\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Article\Detail.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Article\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Help\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Login\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Member\ChangeEmail.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Member\ChangePwd.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Member\UserScore.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Member\ZoomImage.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Member\Modify.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Member\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\News\Detail0.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\News\Detail.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\News\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_MemberLayout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UEditorNetCore">
+      <HintPath>..\packages\ueditorcore\UEditorNetCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

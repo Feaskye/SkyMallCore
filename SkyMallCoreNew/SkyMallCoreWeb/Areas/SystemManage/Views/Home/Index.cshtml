@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "首页";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+
+<div>欢迎首页</div>
+@*<script src="~/js/bootstrap/fileinput/fileinput.min.js"></script>
+    <link href="~/js/bootstrap/fileinput/fileinput.min.css" rel="stylesheet" />
+    <script src="~/js/bootstrap/fileinput/locale-zh.js"></script>
+    <script type="text/javascript">
+        initFileInput("input-b2", "/User/EditPortrait");
+        //初始化fileinput控件（第一次初始化）
+        function initFileInput(ctrlName, uploadUrl) {
+            var control = $('#' + ctrlName);
+
+            control.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: uploadUrl, //上传的地址
+                allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
+                showUpload: false, //是否显示上传按钮
+                showCaption: false,//是否显示标题
+                dropZoneEnabled: false,
+                browseClass: "btn btn-primary", //按钮样式
+                mainClass: "input-group-lg",
+                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            });
+        }
+    </script>
+    <input id="input-b2" name="input-b2" type="file" class="file" style="width:100px" data-show-preview="false" />*@
+
+@*<input id="inputId" type="text" />*@
+
+
+@*@Html.Partial("/Areas/SystemManage/Views/Home/FileUpload0.cshtml", new FileUploadModel { ControlId = "inputId" })*@
+
+
+@*<button type="button" id="dddddd" class="btn btn-primary" onclick="btn_edit()">
+    上传文件1
+</button>
+<script type="text/javascript">
+    function btn_edit() {
+        $.modalOpen({
+            id: "Form",
+            title: "上传文件",
+            url: "/SystemManage/Home/FileUpload",
+            width: "350px",
+            height: "250px",
+            callBack: function (iframeId) {
+                var files = top.frames[iframeId].submitForm();
+                if (files !== false && files.indexOf('.') > -1) {
+                    console.log(files);
+                    $("#inputId").val(files);
+                }
+            }
+        });
+    }
+</script>*@

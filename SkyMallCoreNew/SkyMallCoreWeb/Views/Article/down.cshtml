@@ -1,0 +1,375 @@
+﻿@model ArticleDetailView
+@{
+    ViewData["Title"] = Model.Title + "-" + "资源下载";
+}
+@section HScripts{
+    <style>
+        #wx_d {
+            background: url(/web/images/wx_d.jpg) no-repeat left top;
+            cursor: pointer;
+            float: left;
+            border: 0px;
+            padding: 0 0;
+        }
+
+        input.textbox {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        #wx_d:hover {
+            background: url(/web/images/wx_d.jpg) no-repeat left -154px;
+        }
+
+        #alipy_d {
+            background: url(/web/images/alipy_d.jpg) no-repeat left top;
+            cursor: pointer;
+            float: left;
+            border: 0px;
+            padding: 0 0;
+        }
+
+            #alipy_d:hover {
+                background: url(/web/images/alipy_d.jpg) no-repeat left -154px;
+            }
+
+        #passpay_d {
+            background: url(/web/images/passpay_d.png) no-repeat left top;
+            cursor: pointer;
+            float: left;
+            border: 0px;
+            padding: 0 0;
+        }
+
+            #passpay_d:hover {
+                background: url(/web/images/passpay_d.png) no-repeat left -154px;
+            }
+
+        .tuij {
+            float: left;
+            font-size: 14px;
+            width: 700px;
+            margin-top: 0px;
+        }
+
+            .tuij .ttop {
+                height: 27px;
+                margin-bottom: 15px;
+                padding-top: 5px;
+                padding-bottom: 10px;
+                border-bottom: solid 2px #eaeaea;
+            }
+
+            .tuij .title {
+                font-size: 20px;
+                line-height: 30px;
+                font-weight: normal;
+                color: #333;
+                width: 100px;
+            }
+
+            .tuij .pic1 img {
+                width: 98px;
+                height: 120px;
+                border: solid 1px #ddd;
+            }
+
+            .tuij .pic1 {
+                height: 120px;
+                width: 98px;
+                overflow: hidden;
+                position: relative;
+                vertical-align: middle;
+                line-height: 120px;
+                display: table-cell;
+            }
+
+                .tuij .pic1 img:hover {
+                    border: solid 1px #ff1100;
+                }
+
+            .tuij .tt {
+                font-size: 14px;
+                line-height: 20px;
+                height: 40px;
+                overflow: hidden;
+                color: #666;
+                width: 98px;
+                padding-top: 5px;
+            }
+
+                .tuij .tt a {
+                    color: #666;
+                }
+
+            .tuij .read {
+                font-size: 12px;
+                color: #999;
+                line-height: 20px;
+                padding-top: 5px;
+                margin-bottom: 20px;
+            }
+
+            .tuij .pic span, .tuij .pic1 span {
+                right: 0px;
+                bottom: 0px;
+                position: absolute;
+                cursor: pointer;
+                _bottom: 1px;
+                _right: 1px;
+                display: block;
+                width: 18px;
+                height: 17px;
+                overflow: hidden;
+            }
+
+            .tuij .td1 {
+                padding-right: 18px;
+            }
+
+            .tuij .td2 {
+            }
+
+        .btn_118_40 {
+            background: url(../../images/fabu_bg.png) no-repeat;
+            width: 118px;
+            height: 40px;
+            line-height: 40px;
+            border: 0;
+            color: #a33300 !important;
+            text-decoration: none !important;
+            font-size: 14px;
+            font-family: "微软雅黑";
+            font-weight: 100;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .sel0 {
+            border: solid 3px #ddd;
+            padding: 2px 2px;
+            margin-top: 0px;
+            cursor: pointer;
+        }
+
+        .sel1 {
+            border: solid 3px #ff6600;
+            padding: 2px 2px;
+            margin-top: 0px;
+            cursor: pointer;
+        }
+
+        .log0 {
+            color: #fff;
+            padding: 10px 0px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            width: 200px;
+            float: left;
+            cursor: pointer;
+            background-color: #00a2c9;
+        }
+
+        .log1 {
+            background-color: #f49800;
+            color: #fff;
+            padding: 10px 0px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            width: 200px;
+            float: left;
+            cursor: pointer;
+        }
+
+        .btn_150_40 {
+            background: url(/web/images/150_40.png) #4ebe25 no-repeat;
+            width: 150px;
+            height: 40px;
+            line-height: 40px;
+            border: 0;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            font-size: 14px;
+            font-family: "微软雅黑";
+            font-weight: 100;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .download-img-show {
+            margin-left: 10px;
+            margin-right: 10px;
+            width: 250px;
+            height: 300px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+            .download-img-show img {
+                max-width: 220px;
+                max-height: 300px;
+                _width: expression(this.width>300?"300px":true);
+                _height: expression(this.height>300?"300px":true);
+            }
+
+        .Textbox {
+            height: 30px;
+            line-height: 30px;
+        }
+    </style>
+}
+
+<div class="bag" style="border: 0; background-color: Transparent;">
+
+
+    <div class="download-main-bd clearfix" style="background-color: #fff; border: solid 1px #ddd; padding: 30px 0px 0px 0px">
+        <div class="fl download-img-show" id="showMore" style="height: 100%;">
+            <a href="/article/detail?aid=@Model.Id">
+                <img onerror="this.src='/web/images/@BusinessHelper.GetErrorImage(Model.ResourceType)'"
+                     src="@Model.CoverUrl"
+                     alt="@Model.Title" />
+            </a>
+            <br />
+            <br />
+            <a class="btn_gray" href='/article/detail?aid=@Model.Id' style="display: block; text-decoration: none; color: #333; margin: 0px auto;">阅读全文</a>
+        </div>
+        <div class="download-img-manage fl">
+            <div class=" word-wrap">
+                <a href='/article/detail?aid=@Model.Id'>
+                    @Model.Title
+                </a>
+                <span class="clearfix">
+                    @*<div id="baiduShare" class="fRight   clearfix">
+                            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a></div>
+                            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+                        </div>*@
+                </span>
+            </div>
+            <ul class="download-img-info">
+                @*<li class="download-img-info-item">
+                        资源星级：<span class="mb2 works-star-level works-star-8"></span>
+                    </li>*@
+
+                <li class="download-img-info-item">
+                    <span>资源大小：<span class="font-tahoma">5.03MB</span></span>
+                    &nbsp;&nbsp;全文页数：@(Model.PageCount)页
+                </li>
+
+                <li class="download-img-info-item">
+                    <span itemprop="mode">资源格式：&nbsp;<span class="font-tahoma">@Model.ResourceType</span></span>&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;
+                    下载权限：<b class="font-tahoma red1">注册会员</b>
+
+                    &nbsp;&nbsp;&nbsp;下载费用：<b class="font-tahoma red1">@Model.RequireAmount</b>下载积分
+                </li>
+            </ul>
+
+
+            <div class="download-pwd-box" style="padding:0px 0px; border:0;">
+                <div id="logdiv1" class="download-pay-tip" style="font-size: 14px; padding:20px 20px;">
+                    <div style="padding-bottom:10px;">
+                        下载资源需要<b class="font-tahoma red1">@Model.RequireAmount</b>下载积分
+                    </div>
+                    @if (Model.Attachment.IsEmpty())
+                    {
+                        <p>该资源 资源文件不存在，无法下载</p>
+                    }
+                    else
+                    {
+                        <input name="ctl00$Content$hiddenType" type="hidden" id="Content_hiddenType" />
+                        <input type="button" name="ctl00$Content$Button2" value="立即下载" onclick="javascript: download_Dialog();" id="Content_Button2" class="btn_150_40" style="font-size: 16px; font-weight: bold; cursor: pointer;" />
+                    }
+                </div>
+            </div>
+
+            <div class="download-pwd-box">
+                <table width="100%">
+                    <tr>
+                        <td style="line-height: 30px;">
+                            <div>
+                                <b style="font-size: 16px">友情提示</b>
+                            </div>
+                            <div class="kfdianhua" style="font-weight: bold; font-size: 14px;">
+                                1:<a href="/help" style="color: #ff1100" target="_blank">下载资料失败解决办法</a>&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div class="kfdianhua">
+                                2:本站资源不支持迅雷下载,请使用浏览器直接下载(不支持QQ浏览器)
+                            </div>
+                            <div class="kfdianhua">
+                                3:本站资源下载后的文档和图纸-无水印,预览文档经过压缩，下载后原文更清晰&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div class="kfqq">
+                                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=@(ConfigManager.SysConfiguration.SiteQQ)&amp;site=qq&amp;menu=yes"
+                                   target="_blank">
+                                    <img border="0" src="/web/images/12937911459857ef.gif" />网站客服
+                                </a><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=@(ConfigManager.SysConfiguration.SiteQQ)&amp;site=qq&amp;menu=yes"
+                                       target="_blank"><img border="0" src="/web/images/12937911459857ef.gif" />侵权投诉</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mt30" style="margin-top: 0px; height: 0px; overflow: hidden;">
+                <h3 class=" word-wrap">
+                    @Model.Title
+                </h3>
+                <div>
+                    @Model.ShortTitle
+                </div>
+            </div>
+
+            <br />
+        </div>
+    </div>
+</div>
+
+<dl class="download-notice clearfix "
+    style="background-color: #F8F8FF; border: solid 1px #ddd; margin-top: 5px;">
+    <dt class="left download-notice-title" style="float: left">
+        <span class="inline-block vertical-middle mr5 mb5 download-notice-ico ico"></span>注意事项
+    </dt>
+    <dd class="download-notice-detail">
+
+        <p>
+            本文（@Model.Title）为本站会员（@Model.MemberId）主动上传，石油文库仅提供信息存储空间，仅对用户上传内容的表现方式做保护处理，对上载内容本身不做任何修改或编辑。
+
+            若此文所含内容侵犯了您的版权或隐私，请立即通知@(ConfigManager.SysConfiguration.SiteName)（发送邮件至@(ConfigManager.SysConfiguration.SysMailUser)或直接QQ联系客服），我们立即给予删除！
+
+        </p>
+        <p>
+            <b>温馨提示：如果因为网速或其他原因下载失败请重新下载，重复下载不扣分。</b>
+        </p>
+    </dd>
+</dl>
+
+<script type="text/javascript">
+    var obj;
+    function CloseMe() {
+        obj.close();
+    }
+    function RefreshMe() {
+        CloseMe();
+        window.location.reload();
+    }
+</script>
+<script src="/js/dialog/dialog.js"></script>
+<script src="/js/framework-ui.js"></script>
+<script type="text/javascript">
+        function download_Dialog() {
+            var isLogin =@(Html.Raw((CoreContextProvider.CurrentMember != null).ToString().ToLower()));
+            if (!isLogin) {
+
+                $.modalMsg("请先登录后，刷新页面重新下载", "", "/login?returnUrl=" + encodeURI("/article/down/@Model.Id"));
+                return;
+            }
+            $.modalMsg("正在下载，请稍后...", "","/article/download?aid=@Model.Id");
+        }
+    
+</script>
+

@@ -1,0 +1,668 @@
+﻿@model ArticlePageView
+@{
+    ViewData["Title"] = "文章详细";
+    if (Model != null)
+    {
+        ViewData["Title"] = Model.ArticleDetail.Title;
+    }
+}
+
+@section HScripts{
+    <link href="/web/css/BookReport.css" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            background: url(/web/images/step_bg.png);
+        }
+    </style>
+
+    <link href="/web/js/artDialog-5.0.3/skins/default.css" rel="stylesheet" />
+    <style type="text/css">
+        .Content_tvMenus_0 {
+            text-decoration: none;
+        }
+    </style>
+}
+
+<script type="text/javascript">
+    var cw = 930; var operateType = 1; var uid = "0"; var DocID = "@Model.ArticleDetail.Id"; var urlroot = "@ConfigManager.SysConfiguration.SiteDomain"; var zw = 4728; var zh = 3389; var zrate = (zw == 0 || zh == 0) ? 1 : (zh / zw); var isplay = "0"; var width = "910"; var height = getClientHeight(); if (height < 560) height = 560; height = ('False' == 'True' ? 560 : height); height = 560; var scorename = "下载积分"; var params = {}; var BookMarkPage = '0';
+</script>
+<div id="J_worksBigImg" style="position: absolute; top: 230px; left: 50%; display: none; width: 1220px; padding: 10px; margin-left: -622px; text-align: center; overflow: hidden; background-color: #fff; z-index: 99990;">
+    <div style="text-align: center; font-size: 21px; margin-bottom: 5px; font-weight: bold;">@Model.ArticleDetail.Title</div>
+    <img style="max-width: 1220px;" onclick="document.getElementById('J_worksBigImg').style.display = 'none'" src="@(Model.ArticleDetail.Attachment??Model.ArticleDetail.CoverUrl)" alt="@(Model.ArticleDetail.Title)">
+</div>
+<div class="clearfix">
+    <div class="fLeft detail-main mb10" id="boxleft">
+        <div class="works-show-box">
+            <div class="swf_head clearfix mb10">
+                <h1>
+                    <img alt="@Model.ArticleDetail.Title" style="margin: 5px 2px 0px 0px" class="@Model.ArticleDetail.ResourceType" src="/web/Images/s.gif">
+                    @Model.ArticleDetail.Title
+                </h1>
+                <div class="content Hidden">@Model.ArticleDetail.Description</div>
+                @*<p>
+                    <a href="javascript:void(0)" onclick="popFolder();" title="收藏">收藏</a>
+                </p>*@
+            </div>
+            <div class="works-show2 relative swfs" style="height: auto; text-align: center;">
+                @if (ConfigManager.UploadAllowFlashExtension.Contains(Model.ArticleDetail.ResourceType))
+                {
+                    <script language="JavaScript" type="text/javascript" src="/web/css/view/swfobject.js"></script>
+                    <script type="text/javascript">
+                    var height = parseInt(zrate * 840 + "") == 0 ? 560 : parseInt(zrate * 840 + "");
+                    params.wmode = "transparent"; swfobject.embedSWF("@Model.ArticleDetail.Attachment", "myElement", "840", height, "9.0.0", null, null, params);
+                    </script>
+                    <object type="application/x-shockwave-flash" data="@Model.ArticleDetail.Attachment" width="840" height="840" id="myElement" style="visibility: visible;">
+                        <param name="wmode" value="transparent">
+                    </object>
+                    <div id="errNoDocument" style="padding-top: 3px; display: none">
+                        如果不能观看，请先确认是否已经将网站添加到信任站点，并且安装了
+                        <a target="_blank" style="color: blue" href="http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04a.html#119065"> Adobe Flash控件</a>.
+                    </div>
+                }
+                else if (ConfigManager.UploadAllowVideoExtension.Contains(Model.ArticleDetail.ResourceType))
+                {
+                    <video src="@Model.ArticleDetail.Attachment" width="830" height="600" controls="" autobuffer="" poster="@Model.ArticleDetail.CoverUrl">
+                        <div style="color:red; font-size:14px; padding:20px 20px; text-align:center;">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="images/error.png" width="100">
+                                        </td>
+                                        <td style="padding-left: 20px"> 你的浏览器不支持H5 video标签。请使用Chrome，Firefox，Safari，IE10及以上版本浏览器浏览！ </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </video>
+                }
+                else if (ConfigManager.UploadAllowVoiceExtension.Contains(Model.ArticleDetail.ResourceType))
+                {
+                    var resType = "";
+                    if (!Model.ArticleDetail.Attachment.IsEmpty())
+                    {
+                        resType = FileHelper.GetExtension(FileHelper.MapFilePath(Model.ArticleDetail.Attachment)).Replace(".", "");
+                    }
+                    <link href="/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+                    <script type="text/javascript" src="/js/jquery-ui/jquery-ui.min.js"></script>
+                    <script type="text/javascript" src="/js/jplayer/jquery.jplayer.min.js"></script>
+                    <style>
+                        #jplayer_title {
+                            height: 30px;
+                            text-align: center;
+                            vertical-align: middle;
+                            padding: 4px;
+                            font-size: 15px;
+                        }
+
+                        .jp-gui {
+                            position: relative;
+                            padding: 20px;
+                            width: 460px;
+                        }
+
+                        .cui-content {
+                            border: 1px dashed #d7d7d7;
+                            margin-left: auto;
+                            margin-right: auto
+                        }
+
+                        .jp-gui.jp-no-volume {
+                            width: 432px;
+                        }
+
+                        .jp-gui ul {
+                            margin: 0;
+                            padding: 0;
+                        }
+
+                            .jp-gui ul li {
+                                position: relative;
+                                float: left;
+                                list-style: none;
+                                margin: 2px;
+                                padding: 4px 0;
+                                cursor: pointer;
+                            }
+
+                                .jp-gui ul li a {
+                                    margin: 0 4px;
+                                }
+
+                        .jp-gui li.jp-repeat,
+                        .jp-gui li.jp-repeat-off {
+                            margin-left: 344px;
+                        }
+
+                        .jp-gui li.jp-mute,
+                        .jp-gui li.jp-unmute {
+                            margin-left: 20px;
+                        }
+
+                        .jp-gui li.jp-volume-max {
+                            margin-left: 120px;
+                        }
+
+                        li.jp-pause,
+                        li.jp-repeat-off,
+                        li.jp-unmute,
+                        .jp-no-solution {
+                            display: none;
+                        }
+
+                        .jp-progress-slider {
+                            position: absolute;
+                            top: 28px;
+                            left: 100px;
+                            width: 300px;
+                        }
+
+                            .jp-progress-slider .ui-slider-handle {
+                                cursor: pointer;
+                            }
+
+                        .jp-volume-slider {
+                            position: absolute;
+                            top: 31px;
+                            left: 508px;
+                            width: 100px;
+                            height: .4em;
+                        }
+
+                            .jp-volume-slider .ui-slider-handle {
+                                height: .8em;
+                                width: .8em;
+                                cursor: pointer;
+                            }
+
+                        .jp-gui.jp-no-volume .jp-volume-slider {
+                            display: none;
+                        }
+
+                        .jp-current-time,
+                        .jp-duration {
+                            position: absolute;
+                            top: 42px;
+                            font-size: 0.8em;
+                            cursor: default;
+                        }
+
+                        .jp-current-time {
+                            left: 100px;
+                        }
+
+                        .jp-duration {
+                            right: 70px;
+                        }
+
+                        .jp-gui.jp-no-volume .jp-duration {
+                            right: 70px;
+                        }
+
+                        .jp-clearboth {
+                            clear: both;
+                        }
+                        -->
+                    </style>
+
+                    <script type="text/javascript">
+                        //<![CDATA[
+                        $(document).ready(function () {
+
+                            /*
+                             * jQuery UI ThemeRoller
+                             *
+                             * Includes code to hide GUI volume controls on mobile devices.
+                             * ie., Where volume controls have no effect. See noVolume option for more info.
+                             *
+                             * Includes fix for Flash solution with MP4 files.
+                             * ie., The timeupdates are ignored for 1000ms after changing the play-head.
+                             * Alternative solution would be to use the slider option: {animate:false}
+                             */
+
+
+                            var myPlayer = $("#jquery_jplayer_1"),
+                                myPlayerData,
+                                fixFlash_mp4, // Flag: The m4a and m4v Flash player gives some old currentTime values when changed.
+                                fixFlash_mp4_id, // Timeout ID used with fixFlash_mp4
+                                ignore_timeupdate, // Flag used with fixFlash_mp4
+                                options = {
+                                    ready: function (event) {
+                                        // Hide the volume slider on mobile browsers. ie., They have no effect.
+                                        if (event.jPlayer.status.noVolume) {
+                                            // Add a class and then CSS rules deal with it.
+                                            $(".jp-gui").addClass("jp-no-volume");
+                                        }
+                                        // Determine if Flash is being used and the mp4 media type is supplied. BTW, Supplying both mp3 and mp4 is pointless.
+                                        fixFlash_mp4 = event.jPlayer.flash.used && /m4a|m4v/.test(event.jPlayer.options.supplied);
+                                        // Setup the player with media.
+                                        var media_file = "@Model.ArticleDetail.Attachment";
+                                        var media_suppler = "@resType";
+                                        //console.log("media_file:"+media_file);
+                                        var mediaData = {};
+                                        if (media_suppler == "mp3") {
+                                            mediaData.mp3 = media_file;
+                                        }
+                                        else if (media_suppler == "oga") {
+                                            mediaData.oga = media_file;
+                                        }
+                                        else if (media_suppler == "m4a") {
+                                            mediaData.m4a = media_file;
+                                        }
+                                        else {
+                                            mediaData.wav = media_file;
+                                        }
+                                        $(this).jPlayer("setMedia", mediaData);
+                                    },
+                                    timeupdate: function (event) {
+                                        if (!ignore_timeupdate) {
+                                            myControl.progress.slider("value", event.jPlayer.status.currentPercentAbsolute);
+                                        }
+                                    },
+                                    volumechange: function (event) {
+                                        if (event.jPlayer.options.muted) {
+                                            myControl.volume.slider("value", 0);
+                                        } else {
+                                            myControl.volume.slider("value", event.jPlayer.options.volume);
+                                        }
+                                    },
+                                    swfPath: "/js/jplayer",
+                                    supplied: "mp3,m4a,oga,wav",
+                                    cssSelectorAncestor: "#jp_container_1",
+                                    wmode: "window",
+                                    keyEnabled: true,
+                                    solution: "html,flash",
+                                    auroraFormats: "wav,flac,oga"
+                                },
+                                myControl = {
+                                    progress: $(options.cssSelectorAncestor + " .jp-progress-slider"),
+                                    volume: $(options.cssSelectorAncestor + " .jp-volume-slider")
+                                };
+
+                            // Instance jPlayer
+                            myPlayer.jPlayer(options);
+
+                            // A pointer to the jPlayer data object
+                            myPlayerData = myPlayer.data("jPlayer");
+
+                            // Define hover states of the buttons
+                            $('.jp-gui ul li').hover(
+                                function () { $(this).addClass('ui-state-hover'); },
+                                function () { $(this).removeClass('ui-state-hover'); }
+                            );
+
+                            // Create the progress slider control
+                            myControl.progress.slider({
+                                animate: "fast",
+                                max: 100,
+                                range: "min",
+                                step: 0.1,
+                                value: 0,
+                                slide: function (event, ui) {
+                                    var sp = myPlayerData.status.seekPercent;
+                                    if (sp > 0) {
+                                        // Apply a fix to mp4 formats when the Flash is used.
+                                        if (fixFlash_mp4) {
+                                            ignore_timeupdate = true;
+                                            clearTimeout(fixFlash_mp4_id);
+                                            fixFlash_mp4_id = setTimeout(function () {
+                                                ignore_timeupdate = false;
+                                            }, 1000);
+                                        }
+                                        // Move the play-head to the value and factor in the seek percent.
+                                        myPlayer.jPlayer("playHead", ui.value * (100 / sp));
+                                    } else {
+                                        // Create a timeout to reset this slider to zero.
+                                        setTimeout(function () {
+                                            myControl.progress.slider("value", 0);
+                                        }, 0);
+                                    }
+                                }
+                            });
+
+                            // Create the volume slider control
+                            myControl.volume.slider({
+                                animate: "fast",
+                                max: 1,
+                                range: "min",
+                                step: 0.01,
+                                value: $.jPlayer.prototype.options.volume,
+                                slide: function (event, ui) {
+                                    myPlayer.jPlayer("option", "muted", false);
+                                    myPlayer.jPlayer("option", "volume", ui.value);
+                                }
+                            });
+
+                        });
+                        //]]>
+
+                    </script>
+                    <div id="jquery_jplayer_1" data-media="" class="jp-jplayer"></div>
+                    <div id="jp_container_1">
+                        <div class="jp-gui ui-widget ui-widget-content ui-corner-all cui-content">
+                            <ul>
+                                <li class="jp-play ui-state-default ui-corner-all"><a href="javascript:;" class="jp-play ui-icon ui-icon-play" tabindex="1" title="播放">播放</a></li>
+                                <li class="jp-pause ui-state-default ui-corner-all"><a href="javascript:;" class="jp-pause ui-icon ui-icon-pause" tabindex="1" title="暂停">暂停</a></li>
+                                <li class="jp-stop ui-state-default ui-corner-all"><a href="javascript:;" class="jp-stop ui-icon ui-icon-stop" tabindex="1" title="停止">停止</a></li>
+                                @*<li class="jp-repeat ui-state-default ui-corner-all"><a href="javascript:;" class="jp-repeat ui-icon ui-icon-refresh" tabindex="1" title="repeat">repeat</a></li>
+                        <li class="jp-repeat-off ui-state-default ui-state-active ui-corner-all"><a href="javascript:;" class="jp-repeat-off ui-icon ui-icon-refresh" tabindex="1" title="repeat off">repeat off</a></li>
+                        <li class="jp-mute ui-state-default ui-corner-all"><a href="javascript:;" class="jp-mute ui-icon ui-icon-volume-off" tabindex="1" title="mute">mute</a></li>
+                        <li class="jp-unmute ui-state-default ui-state-active ui-corner-all"><a href="javascript:;" class="jp-unmute ui-icon ui-icon-volume-off" tabindex="1" title="unmute">unmute</a></li>
+                        <li class="jp-volume-max ui-state-default ui-corner-all"><a href="javascript:;" class="jp-volume-max ui-icon ui-icon-volume-on" tabindex="1" title="max volume">max volume</a></li>*@
+                            </ul>
+                            <div class="jp-progress-slider"></div>
+                            @*<div class="jp-volume-slider"></div>*@
+                            <div class="jp-current-time"></div>
+                            <div class="jp-duration"></div>
+                            <div class="jp-clearboth"></div>
+                        </div>
+                        <div class="jp-no-solution">
+                            <span>Update Required</span>
+                            要播放媒体，您需要将浏览器更新为最新版本或更新Flash插件<a href="http://get.adobe.com/flashplayer/" target="_blank">Flash插件</a>.
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <img onerror="this.src='/web/images/90x80_no.gif'" onclick="zoomWorksImg()" title="点击查看大预览图" id="J_worksImg" style="max-width: 800px; max-height: 560px;" src="@(Model.ArticleDetail.Attachment??Model.ArticleDetail.CoverUrl)">
+                }
+            </div>
+        </div>
+        <div class="works-img-about border-left border-right clearfix">
+            <div class="fLeft works-img-about-intro c666">
+                <span>
+                    编号：
+                    <span class="font-tahoma">@Model.ArticleDetail.Id</span>
+                </span> &nbsp;&nbsp;
+                <span>
+                    类型：
+                    <span class="font-tahoma">共享资源</span>
+                </span> &nbsp;&nbsp;
+                <span>
+                    大小：
+                    <span class="font-tahoma">@((Model.ArticleDetail.ResourceSize / 1024.00).ToString("0.00"))KB</span>
+                </span> &nbsp;&nbsp;
+                <span itemprop="mode">
+                    格式：
+                    <span class="font-tahoma">@Model.ArticleDetail.ResourceType</span>
+                </span> &nbsp;&nbsp;
+                <span itemprop="mode">
+                    上传时间：
+                    <span class="font-tahoma">@Model.ArticleDetail.CreatorTime.ToDateString()</span>
+                </span>
+                @*<br>
+                <span itemprop="pixel&amp;dpi">
+                    尺寸：
+                    <span class="font-tahoma">4728x3389像素 </span>
+                </span>&nbsp;&nbsp;
+                <span>
+                    分辨率：
+                    <span class="font-tahoma">300dpi</span>
+                </span>&nbsp;&nbsp;
+                <span itemprop="mode">
+                    颜色：
+                    <span class="font-tahoma">RGB</span>
+                </span> &nbsp;&nbsp;
+                <span itemprop="mode">
+                    工具：
+                    <span class="font-tahoma"></span>
+                </span> &nbsp;&nbsp;*@
+            </div>
+            <div class="fr works-img-price mt5 align-center">
+                <span class="relative mb5 works-price-box">
+                    <span class="absolute arrow"></span>
+                    <b> @Model.ArticleDetail.RequireAmount </b>
+                </span>
+                <br>
+                <em class="mt5"> 下载积分</em>
+            </div>
+        </div>
+        <div class="works-manage-box shenshu">
+            @*<a href="javascript:jubao()" title="举报" class="fLeft works-manage-item works-manage-report">
+                <span class="inline-block ico ">
+                    <img src="images/jubao.jpg" alt="举报">
+                </span>
+                <br> 举报
+            </a>
+            <a href="UserManage/CopyrightAppeal.aspx?bid=70612" title="版权申诉" class="fLeft works-manage-item works-manage-report" target="_blank"
+                                            <span="">
+                                                <img src="images/bang_tan.gif" width="18" alt="版权申诉">
+                                                    <br> 版权申诉
+                                                    </a>*@
+            <a class="fLeft" style="display:block; padding-top:17px; padding-left:20px;font-size:14px;">word格式文档无特别注明外均可编辑修改；预览文档经过压缩，下载后原文更清晰！ </a>
+            <a href="/Article/down/@(Model.ArticleDetail.Id)" title="点击进入下载" class="fr hover-none works-manage-download">
+                <em class="mr5">立即下载</em>
+                <span class="download-ico2 ico inline-block vertical-middle"></span>
+            </a>
+            <input type="hidden" value="1332" id="tu_id">
+        </div>
+        <dl class="works-intro gray2 cl pb10" style="border-bottom: none; padding-bottom: 0">
+            <dt class="fl">关&nbsp;键&nbsp;词：</dt>
+            <dd class="fl wordwrap c666">@(Model.ArticleDetail.Keyword) </dd>
+        </dl>
+        <dl class="works-intro gray2 ">
+            <dt class="fl">资源描述：</dt>
+            <dd class="fLeft wordwrap viewdesc"> @(Model.ArticleDetail.Description)  </dd>
+        </dl>
+        <div class="works-intro gray2 c666">
+            <span class=" notice-ico">
+                <img src="/web/images/bang_tan.gif" style="padding-left: 24px; vertical-align: middle">
+            </span>&nbsp; @(ConfigManager.SysConfiguration.SiteName)所有资源均是用户自行上传分享，仅供网友学习交流，未经上传用户书面授权，请勿作他用。
+        </div>
+        <!--ta的资源-->
+        <div class="mt10 related-pic-box" id="brandlist" style="height: 418px;">
+            <div class="works-comment-hd">
+                ta的资源
+                @*<a href="u-466.html" class="fr" style="font-size: 12px; font-weight: normal" hidefocus="true" target="_blank">更多&gt;&gt;</a>*@
+            </div>
+            <div id="related-pic-list" class="related-pic-list cl" style="padding-left:12px; padding-right:0px;">
+                <ul>
+                    @foreach (var item in Model.AboutArticles as List<ArticleDetailView>)
+                    {
+                        var typeImage = "90x80_no.gif";
+                        if (item.ResourceType == "swf")
+                        {
+                            typeImage = "d_video.gif";
+                        }
+                        else if (item.ResourceType == "pdf")
+                        {
+                            typeImage = "d_pdf.png";
+                        }
+                        <li>
+                            <a href="@Url.Action("Detail","Article", new { aid = item.Id })" target="_parent" title="@item.Title">
+                                <img src='@item.CoverUrl' alt="@item.Title" onerror="this.src='/web/images/@typeImage'" /> @item.Title
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="mt10 related-pic-box" id="Div1" style="height: 418px;">
+            <div class="works-comment-hd"> 猜你喜欢 </div>
+            <div id="related-pic-list" class="related-pic-list cl" style="padding-left:12px; padding-right:0px;">
+                <ul>
+                    @foreach (var item in Model.LikeArticles as PagedList<ArticleDetailView>)
+                    {
+                        var typeImage = "90x80_no.gif";
+                        if (item.ResourceType == "swf")
+                        {
+                            typeImage = "d_video.gif";
+                        }
+                        else if (item.ResourceType == "pdf")
+                        {
+                            typeImage = "d_pdf.png";
+                        }
+                        <li>
+                            <a href="@Url.Action("Detail","Article", new { aid = item.Id })" target="_parent" title="@item.Title">
+                                <img src='@item.CoverUrl' alt="@item.Title" onerror="this.src='/web/images/@typeImage'" /> @item.Title
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!--评论区-->
+        <div id="Content_UpdatePanel1">
+            <div class="mt10 works-comment">
+                <div class="works-comment-hd">
+                    <span class="red font-tahoma"> 0</span>条评论
+                </div>
+                <ul class="works-comment-list"></ul>
+                <div class="work-comment-more clearfix">
+                    <textarea name="content" placeholder="请输入评论内容" class="J_Comment_Content P_shuru" onclick="alert('请先登录！');window.location.href='/login'"></textarea>
+                    <p class="P_pinglun pt20 pb20">
+                        还可以输入
+                        <span class="red1" id="name_word">200</span>字符
+                        <input type="button" class="P_pinglun_bottom" onclick="alert('请先登录！');window.location.href='/login'">
+                    </p>
+                    <p class="pinglun_wu"> 暂无评论，赶快抢占沙发吧。</p>
+                    <ul class="pinglun_ul clearfix"></ul>
+                </div>
+            </div>
+        </div>
+        <!--评论区-->
+        <div class="mt10 works-comment">
+            <div class="works-comment-hd">
+                <span class="font-tahoma">关于本文</span>
+            </div>
+            <div style="line-height: 25px; padding: 10px 20px;">
+                本文标题： @(Model.ArticleDetail.Title)
+                <br> 链接地址：
+                <a href="/article/down/@Model.ArticleDetail.Id">/article/down/@Model.ArticleDetail.Id</a>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="fr detail-aside relative" id="boxright" style="z-index: 3; position: relative;">
+        <div class="box hot-keywords mt10" style="width: 258px;">
+            <div class="boxHd" style="padding-bottom: 0px;">
+                <div class="fl nt-ico mr5 ml13 ico" style="margin-top: 3px;"></div>
+                <h2 class="fl font-normal font16 font-yahei" style="font-size: 16px; padding: 0px 0px; margin: 0px 0px; font-weight: 100; margin-left: 0px; margin-top: 3px; font-family: 微软雅黑"> 当前资源信息</h2>
+            </div>
+            <div style="padding: 10px 10px">
+                <table class="pingjia" width="100%" style="line-height: 22px;">
+                    <tbody>
+                        <tr>
+                            <td valign="middle" style="width: 50px">
+                                @*<span id="spanScore" style="color: #ff6600; font-size: 24px; font-weight: bold; font-family: 微软雅黑, 微软雅黑"> 4.0</span>*@
+                            </td>
+                            <td valign="middle" style="padding-top: 5px; width: 100px" class="bookscore">
+                                @Model.ArticleDetail.Title
+                                @*<div id="cancel-custom" style="border: 0px solid red; width: 100px;">
+                                    <img id="cancel-custom-1" src="js/RatyPlugin/img/star-on.png" alt="1" title="很差" class="cancel-custom">
+                                    <img id="cancel-custom-2" src="js/RatyPlugin/img/star-on.png" alt="2" title="较差" class="cancel-custom">
+                                    <img id="cancel-custom-3" src="js/RatyPlugin/img/star-on.png" alt="3" title="还行" class="cancel-custom">
+                                    <img id="cancel-custom-4" src="js/RatyPlugin/img/star-on.png" alt="4" title="推荐" class="cancel-custom">
+                                    <img id="cancel-custom-5" src="js/RatyPlugin/img/star-off.png" alt="5" title="力荐" class="cancel-custom">
+                                    <input id="cancel-custom-score" type="hidden" name="score" value="4">
+                                </div>*@
+                                @*<div id="cancel-custom2" style="border: solid 0px red"></div>*@
+                            </td>
+                            <td valign="middle">
+                                &nbsp;
+                                <span id="msg"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-bottom: 5px; color: #999">
+                                @*(
+        <span id="spanScoreCount">2</span>人评价)*@
+                                <br> 浏览：@(Model.ArticleDetail.ReadCount)次
+                                <br>
+                                <a href="u-466.html" target="_blank"> @Model.ArticleDetail.Member</a>上传于@(Model.ArticleDetail.CreatorTime.ToDateString())
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb10">
+            <a href="/Article/down/@(Model.ArticleDetail.Id)" class="download">点击下载此资源</a>
+        </div>
+        <div class="box hot-keywords mt10" style="width: 258px;">
+            <div class="boxHd" style="padding-bottom: 0px;">
+                <div class="fl keywords-ico mr5 ml13 ico"></div>
+                <h2 class="fl font-normal font16 font-yahei" style="font-size: 16px; font-weight: 100; margin-left: 0px; margin-top: 3px; font-family: 微软雅黑"> 相关资源</h2>
+            </div>
+            <div id="author-works-list" class="author-works-list bgF" style="height: 314px; overflow: auto">
+                @foreach (var item in Model.AboutArticles as List<ArticleDetailView>)
+                {
+                    <li>
+                        <img alt="@item.Title" class="@item.ResourceType" src="/web/Images/s.gif">
+                        <a target="_parent" href="@Url.Action("Detail","Article", new { aid = item.Id })" title="@item.Title">@item.Title</a>
+                    </li>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/web/js/artDialog-5.0.3/artDialog.min.js"></script>
+<script type="text/javascript" src="/web/js/view2.js"></script>
+<script type="text/javascript">$(document).ready(function () { var maxwidth = 700; $('.viewdesc img').css({ "max-height": maxwidth, height: "auto" }); $('.viewdesc input').css({ "max-height": maxwidth, height: "auto" }); initbookScore('4', '0'); }); function RefreshMe() { window.location.href = window.location.href; }</script>
+@*<div id="jubao" class="jubao" style="display: none;">
+    <div class="jubaoTitle"> 举报类型</div>
+    <ul>
+        <li style="text-align: center; height: 50px; margin-top: 10px;">
+            <input type="hidden" id="hidTypeID" />
+            <input type="button" onclick="saveJuBao()" value="提 交" />&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" onclick="$('#jubao').hide();" value="取 消" />
+        </li>
+    </ul>
+</div>
+<div id="jubaoResponse" class="jubao" style="display: none;">
+    <div class="jubaoTitle"> 提示</div>
+    <ul>
+        <li>
+            <h4 style="text-align: center; color: rgb(83, 136, 35);"></h4>
+        </li>
+        <li style="text-align: center; height: 50px; margin-top: 10px;">
+            <input type="button" onclick="$('#jubaoResponse').hide();" value="关 闭" />
+        </li>
+    </ul>
+</div>*@
+
+
+@section Scripts{
+    <script type="text/javascript">
+        Encoder.EncodeType = "entity";
+        var nodecode = '0001500006';
+        var adhtml = ""; var adarray = Encoder.htmlDecode(adhtml); initWidth();
+        var product_id = "@Model.ArticleDetail.Id"; var product_code = "@Model.ArticleDetail.Id";
+        var mtp = @Model.ArticleDetail.OnlinePageCount; var fCount = @Model.ArticleDetail.PageCount; var stp = 1; var lmt = @Model.ArticleDetail.PageCount;
+        var ForceFreepage = parseInt('500'); if (lmt > ForceFreepage) lmt = ForceFreepage; var mhs = 595 * 501; var mhi = new Array("342774");
+        var mhls = new Array("0"); var mfvs = new Array("0"); var sw = 595; var sh = 501; var IsDealSwfSize = sw > 0; var minwidth = 920; var BookMarkPage = parseInt('1');
+        var adpagecount = parseInt("2"); var defaultShowPage = parseInt("3"); var defaultShowPage2 = defaultShowPage;
+        var leftfilecount = fCount - defaultShowPage;
+        if (leftfilecount
+            < 0) leftfilecount = 0; var scorename = "下载积分"; var LimitText = '0'; var LimitButtonText = '现在购买'; var DocScoreDownLoad = parseFloat('0'); var ReadLimitDays = "365"; var bookrelArray = ""; var url_root = "/"; var goumaiico = '/web/images/xiazai_1.gif'; var lmtext = '';
+        lmtext = '<div class="inner_page_more" id = "page_more" style = "width:930px; height:260px; line-height:30px;" > '
+                    + '<div id = "html-reader-go-more" class="banner-wrap more-btn-banner" style = "padding-top:40px; width:930px;" > '
+                        + '<p style = "text-align:center;font-size:18px;" > 亲，很抱歉，此页已超出免费预览范围啦！<br />如果喜欢就下载吧，价低环保！</p ><p style="text-align:center;font-size:14px;">'
+                        + '<b></b><span><b style="color:#ff0000">@(Model.ArticleDetail.RequireAmount)</b> 下载积分</span>' + '&nbsp;&nbsp;<span class="fcff">@(Model.ArticleDetail.DownloadCount)人已下载</span>'
+                        + '</p><p style="text-align:center; padding-top:30px;">'
+                        + '<a href="javascript:;" onclick="DownLoad()" class="ui-bz-btn-senior banner-download" style="padding:5px 35px; font-size:15px; text-decoration:none">'
+                        + '<b style="color:#fff">立即下载</b></a>'
+                        + '&nbsp;&nbsp;&nbsp;<a href="UserManage/Recharge.aspx?f=0" class="ui-bz-btn-senior2 banner-download" style="padding:5px 35px; font-size:15px; text-decoration:none">'
+                        + '<b style="color:#fff">加入VIP</b></a>'
+            + '</p></div ></div > ';
+        var curtotalpage = defaultShowPage;
+        function showmorepage() {
+                            var from = curtotalpage + 1; var leftcount = ((mtp - curtotalpage)
+                                < defaultShowPage ? mtp : (curtotalpage + defaultShowPage)); Viewer._pageCount = leftcount; for (var i = from; i <= leftcount; i++) { Viewer._Addpage(i); curtotalpage += 1; } leftfilecount = mtp - (curtotalpage); Viewer.InitAD_left(); Viewer._dfsp = curtotalpage; if (leftfilecount <= 0) { $("#ftip").text("最后一页预览完了！喜欢就下载吧，查找使用更方便"); $("#ntip2").hide(); $("#ntip").hide(); } var st = ($(this).scrollTop()); $(this).scrollTop(st + 1); $("#spanpage").text(fCount - curtotalpage);
+        }
+        function showmoretopage(to) {
+            var from = curtotalpage + 1; var leftcount = ((mtp - curtotalpage)
+                < defaultShowPage ? mtp : (curtotalpage + defaultShowPage)); if (to > leftcount) leftcount = to; Viewer._pageCount = leftcount; for (var i = from; i <= leftcount; i++) { Viewer._Addpage(i); curtotalpage += 1; } leftfilecount = mtp - (curtotalpage); Viewer.InitAD_left(); Viewer._dfsp = curtotalpage; if (leftfilecount <= 0) { $("#ftip").text("最后一页预览完了！喜欢就下载吧，查找使用更方便"); $("#ntip2").hide(); $("#ntip").hide(); } var st = ($(this).scrollTop()) - 2; $(this).scrollTop(st + 1); setTimeout("adss()", 100); $("#spanpage").text(fCount - curtotalpage);
+        }
+        function adss() {
+            var st = ($(this).scrollTop()) - 2; $(this).scrollTop(st);
+        }
+    </script>
+    <script type="text/javascript">
+        var operateType = 1; var uid = "0"; var DocID = "@Model.ArticleDetail.Id"; var zw = 595; var zh = 501; var zrate = (zw == 0 || zh == 0) ? 1 : (zh / zw); var isplay = 0; var width = "830"; var height = getClientHeight(); if (height < 560) height = 560; height = ('False' == 'True' ? 570 : height); var scorename = "下载积分"; var params = {};
+    </script>
+    <script>$(function () { $("#jubao input[type='radio']").click(function () { $("#hidTypeID").val($(this).val()); }); }); function jubao() { var userid = '0'; if (userid != "" && userid != undefined && userid != "0") { $("#jubao").show(); } else { alert("请登录!"); window.location.href = '/login'; } } function saveJuBao() { var bookid = '60'; var type = $("#hidTypeID").val(); if (type != "" && type != undefined && bookid != "" && bookid != undefined) { $.ajax({ type: "post", url: "View.aspx/JuBao", data: "{bookid: '" + bookid + "', type: '" + type + "' }", contentType: "application/json; charset=utf-8", dataType: "json", success: function (data) { $("#jubao").hide(); $("#jubaoResponse").show(); if (data.d != "0") { $("#jubaoResponse h4").html("您的举报提交成功"); } else { $("#jubaoResponse h4").html("您的举报提交失败"); } } }); } else { alert("请选择投诉类型或者数据错误请刷新重试!"); } } $(function () { $(document).bind("contextmenu", function (e) { return false; }); });</script>
+    <script type="text/javascript">var fileType = "-1"; initFileType();</script>
+}

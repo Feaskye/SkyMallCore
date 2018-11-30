@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "系统日志";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+@section ScriptsHead{
+    <style type="text/css">
+
+        .ui-jqgrid tr.jqgrow td {
+            /* jqGrid cell content wrap  */
+            white-space: normal !important;
+            height: auto;
+        }
+    </style>
+    <script>
+        $(function () {
+            gridList("/SystemSecurity/Log/GetGridJson", $(window).height() - 240,false, [
+                { label: '主键', name: 'Id', hidden: true },
+                {
+                    label: '日期', name: 'Date', width: 120, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }
+                },
+                { label: '账户', name: 'Account', width: 80, align: 'left' },
+                { label: '姓名', name: 'NickName', width: 80, align: 'left' },
+                { label: '操作菜单', name: 'ModuleName', width: 100, align: 'left' },
+                {
+                    label: '操作类型', name: 'Type', width: 80, align: 'left',
+                    formatter: function (cellvalue) {
+                        return top.clients.dataItems["DbLogType"][cellvalue] == undefined ? "" : top.clients.dataItems["DbLogType"][cellvalue]
+                    }
+                },
+                {
+                    label: 'IP地址', name: 'IPAddress', width: 150, align: 'left',
+                    formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue + ";" + rowObject.IPAddressName;
+                    }
+                },
+                { label: '日志内容', name: 'Description', width: 300, align: 'left' }
+            ]);
+        });
+
+        function btn_removelog() {
+            $.modalOpen({
+                id: "removelog",
+                title: "清空日志",
+                url: "/SystemSecurity/Log/RemoveLog",
+                width: "400px",
+                height: "180px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+    </script>
+}
+
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="NF-removelog" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_removelog()"><i class="fa fa-eraser"></i>清空日志</a>
+        </div>
+    </div>
+    <div class="search">
+        <form id="searchform">
+            <table>
+                <tr>
+                    <td style="padding-left: 10px;">
+                        <div class="input-group">
+                            日期：<input id="startTime" name="startTime" type="text" class="input-small inline form-control formdate" value="@(DateTime.Now.ToString("yyyy-MM-01 00:00:00"))" style="width: 120px;float:none;display:inline-block">-
+                            <input id="endTime" name="endTime" type="text" class="input-small inline form-control formdate" value="@(DateTime.Now.ToString("yyyy-MM-dd 23:59:59"))" style="width: 120px;float:none;display:inline-block">
+                        </div>
+                        <input type="hidden" value="1" id="timeType" name="timeType" />
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            用户名：
+                            <input id="txt_admin" name="admin" type="text" class="input-small inline form-control" placeholder="请输入用户名" style="width: 100px;float:none;display:inline-block">
+                        </div>
+                    <td>
+                        <div class="input-group" style="padding-left: 10px;">
+                            <input id="txt_keyword" name="keyword" type="text" class="form-control" placeholder="请输入关键字" style="width: 100px;">
+
+                            <span class="input-group-btn">
+                                <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </td>
+                    @*<td style="padding-left: 10px;">
+                            <div id="time_horizon" class="btn-group">
+                                <a class="btn btn-default" data-value="1">今天</a>
+                                <a class="btn btn-default" data-value="2">近7天</a>
+                                <a class="btn btn-default" data-value="3">近1个月</a>
+                                <a class="btn btn-default" data-value="4">近3个月</a>
+                            </div>
+                        </td>*@
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".formdate").focus(function () {
+                var objId = $(this).attr("id");
+                WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss', maxDate: '@(DateTime.Now.ToString("yyyy-MM-dd 23:59:59"))', lang: 'zh-cn' });
+            });
+        });
+
+    </script>
+}

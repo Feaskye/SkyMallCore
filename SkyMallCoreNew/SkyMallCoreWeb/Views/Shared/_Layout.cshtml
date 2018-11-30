@@ -1,0 +1,543 @@
+﻿@{
+    var PageCrumbs = ViewBag.PageCrumbs as List<ListItem>;
+
+ }
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>
+        @Html.Raw(ViewBag.Title + "-" + ConfigManager.SysConfiguration.SiteName)
+    </title>
+    <meta name="keywords" content="@Html.Raw(ViewBag.Keywords??ConfigManager.SysConfiguration.SiteKeywords)" />
+    <meta name="description" content="@Html.Raw(ViewBag.Description??ConfigManager.SysConfiguration.SiteDescription)" />
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="/web/css/new/base.css" rel="stylesheet" type="text/css" />
+    <link href="/web/css/new/style.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .top_bg {
+            background-color: #f5f5f5;
+        }
+
+        .nav_bg {
+            background-color: #00a2ca;
+        }
+
+        .nav li a {
+            background-color: #00a2ca;
+        }
+
+        .nav #conAll0 a {
+            background-color: #00a2ca;
+        }
+
+        .nav #conAll0:hover a {
+            background-color: #00a2ca;
+        }
+
+        .nav li a:Hover {
+            background-color: #0095bb;
+        }
+
+        .nav li.over a {
+            background-color: #0095bb;
+        }
+
+        .nav #conAll0:hover a:hover {
+            background-color: #0095bb;
+        }
+
+        .nav #conAll0.over a {
+            background-color: #0095bb;
+        }
+
+        .nav #conAll0:hover a {
+            background-color: #0095bb;
+        }
+
+        .topupload {
+            background-color: #ff6500;
+        }
+
+            .topupload:hover {
+                background-color: #ff3300;
+            }
+    </style>
+    <script src="/js/jquery/jquery-2.1.1.min.js"></script>
+    @*<script type="text/javascript" src="/web/scripts/jquery-1.7.2.min.js"></script>*@
+    <!--IE8只能支持jQuery1.9-->
+    <!--[if lte IE 8]>
+    <script src="/web/JS/jquery1.9.0.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="/web/JS/Prototype.js"></script>
+    <script src="/web/js/webui.js"></script>
+    @RenderSection("HScripts", required: false)
+
+    <style type="text/css">
+        .fix:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .fix {
+            display: inline-block;
+            min-height: 1%;
+        }
+        /*\*/
+        *html .fix {
+            zoom: 1;
+        }
+
+        .fix {
+            display: block;
+        }
+
+        .sina_ico, .tweibo_ico, .qq_ico, .xn_ico, .msn_ico, .kaixin_ico, .feixin_ico, .youku_ico {
+            background: url(/web/images/site2_v1.png) 0 0 no-repeat;
+            width: 0;
+            height: 33px;
+            display: inline-block;
+            padding-left: 33px;
+            overflow: hidden;
+        }
+
+        .tweibo_ico {
+            background-position: -50px 0;
+        }
+
+        .qq_ico {
+            background-position: -100px 0;
+        }
+
+        .xn_ico {
+            background-position: -150px 0;
+        }
+
+        .msn_ico {
+            background-position: 0 -50px;
+        }
+
+        .kaixin_ico {
+            background-position: -50px -50px;
+        }
+
+        .feixin_ico {
+            background-position: -100px -50px;
+        }
+
+        .youku_ico {
+            background-position: -150px -50px;
+        }
+
+        .side {
+            float: right;
+            width: 350px;
+            display: inline;
+        }
+
+        .reg .side {
+            margin-right: 0px;
+        }
+
+        .reg .other {
+            padding: 10px 20px 20px;
+            width: 299px;
+            color: #808080;
+            line-height: 2;
+            border: 5px solid #f5f5f5;
+        }
+
+            .reg .other .login {
+                margin-bottom: 8px;
+                padding-bottom: 8px;
+                border-bottom: 1px dotted #ccc;
+            }
+
+                .reg .other .login a {
+                    display: inline-block;
+                    width: 65px;
+                    height: 26px;
+                }
+
+            .reg .other .outer_sites {
+                line-height: 1.5;
+            }
+
+                .reg .other .outer_sites li {
+                    float: left;
+                    width: 148px;
+                    height: 34px;
+                    overflow: hidden;
+                    line-height: 34px;
+                    margin-top: 18px;
+                }
+
+        .reg .outer_sites a {
+            outline: none;
+            cursor: pointer;
+        }
+
+        .reg .outer_sites b {
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+    </style>
+
+
+    <script>
+        var limitlogin = 0;
+        var havelogin = 0;
+    </script>
+</head>
+<body>
+
+
+
+
+    <meta content="IE=7" http-equiv="X-UA-Compatible" />
+
+    <script type="text/javascript">
+        function browserRedirect() {
+            var sUserAgent = navigator.userAgent.toLowerCase();
+            var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+            var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+            var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+            var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+            var bIsAndroid = sUserAgent.match(/android/i) == "android";
+            var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+            var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+            var MobileRootUrl = "/";
+
+
+            if (bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+
+                var href = window.location.href.toLowerCase();
+                if (href.indexOf("welcome.aspx") > -1) {
+                    var right = href.substring(href.indexOf("welcome.aspx"));
+                    location.href = MobileRootUrl + right;
+                }
+                else if (href.indexOf("p-") > -1) {
+                    var right = href.substring(href.indexOf("p-"));
+                    location.href = MobileRootUrl + right;
+                }
+                else if (href.indexOf("c-") > -1) {
+                    var right = href.substring(href.indexOf("c-"));
+                    location.href = MobileRootUrl + right;
+                }
+                else if (href.indexOf("u-") > -1) {
+                    var right = href.substring(href.indexOf("u-"));
+                    location.href = MobileRootUrl + right;
+                }
+                else if (href.indexOf("view_list.aspx") > -1) {
+                    var right = href.substring(href.indexOf("id=") + 3);
+                    location.href = MobileRootUrl + "p-" + right + "..html";
+                }
+                else if (href.indexOf("usermanage") > -1 || href.indexOf("admin") > -1 || href.indexOf("flexpaper") > -1) {
+                }
+                else {
+                    location.href = MobileRootUrl;
+                }
+            }
+            else {
+            }
+        }
+        browserRedirect();
+    </script>
+
+    <!--head-->
+    <div id="headerplace" style="height: 36px; overflow: hidden; width: 100%;">
+        <div class="bg_100 top_bg">
+            <div class="top">
+                @if (CoreContextProvider.CurrentMember == null)
+                {
+                    <span>
+
+                        <a target="_parent" href="/Reg">会员注册</a> | <a target="_parent" href="/Login">
+                            登录
+                        </a>
+                        |
+                        @*<a target="_parent" href="javascript:void(0)" style="cursor: pointer" onclick="toQzoneLogin()" title="QQ登录"><img src="/web/images/Connect_logo_7.png" align="absmiddle" style="margin-bottom:3px;" alt="QQ登录" /></a>
+                        |*@
+                        <a target="_parent" href="/help">帮助中心</a>
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        <a target="_parent" style="color: #eb0064" href="/Member/Index">
+                            @CoreContextProvider.CurrentMember.Account
+                        </a>
+                        @*<a target="_parent" class="tmsg" href="/Member/" title="未读消息"></a>*@
+                        | <a target="_parent" href="/Member/Index">
+                            个人主页
+                        </a>
+                        | <a target="_parent" href="/Login/OutLogin">安全退出</a>
+                        |
+                        <a target="_parent" href="/help/index">帮助中心</a>
+                    </span>
+                }
+                @ConfigManager.SysConfiguration.SiteName
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bg_100 logo_bg" style="z-index: 1001; min-width: 1130px;">
+        <div class="logo_box" style="z-index: 1002">
+            <div class="logo">
+                <a title="首页" href="/">
+                    <img src="@ConfigManager.SysConfiguration.SiteLogo" title="@ConfigManager.SysConfiguration.SiteName"
+                         alt="@ConfigManager.SysConfiguration.SiteName" style="border: 0;" />
+                </a>
+            </div>
+            <div class="form_box" style="z-index: 2; position: relative;">
+                <div class="form_div" style="z-index: 10003">
+                    <form method="get" id="form0" target="_blank"
+                          action="/Article/Index" class="form_search" style="z-index: 1000;  position:relative; height:40px; line-height:40px;width:578px;">
+                        <input id="p" type="hidden" name="p" value='0' />
+
+                        <input type="text" maxlength="100" placeholder="请输入您要搜索的关键词…" class="input-text sch_key"
+                               style="width:540px;height:40px; line-height:40px;" name="q" value="@ViewBag.SearchKey" id="hotKeyword"  />
+
+                        <input name="" type="submit" value="" class="form_so" style=" height:40px; line-height:40px" onclick="return CheckKeyWords();" />
+
+                    </form>
+
+                </div>
+                @*<p class="form_bottom">
+                    热门搜索:
+
+
+                    <a href="search.html~p=0&q=压裂.html" title="压裂">
+                        压裂
+                    </a>
+
+
+                    <a href="/search.html?p=0&q=%e6%b2%b9%e6%b0%94%e7%94%b0" title="油气田">
+                        油气田
+                    </a>
+
+
+                    <a href="/search.html?p=0&q=%e4%b8%ad%e5%9b%bd%e6%9e%84%e9%80%a0%e6%9c%9f%e6%ac%a1" title="中国构造期次">
+                        中国构造期次
+                    </a>
+
+
+                    <a href="search.html~p=0&q=反演.html" title="反演">
+                        反演
+                    </a>
+
+
+                    <a href="search.html~p=0&q=体积压裂.html" title="体积压裂">
+                        体积压裂
+                    </a>
+
+
+                    <a href="/search.html?p=0&q=%e7%a4%ba%e8%b8%aa%e5%89%82" title="示踪剂">
+                        示踪剂
+                    </a>
+
+                    <script type="text/javascript">
+
+                        function viewrel2(k) {
+                            var url = "search.html~p=0&q=.html" + k;
+                            window.open(url);
+                        }</script>
+                </p>*@
+            </div>
+            <div class="topr">
+                <a title="上传资源" class="block upload-link" hidefocus="true" href="/flexpaper/AddBook"></a>
+            </div>
+        </div>
+    </div>
+    <div class="bg_100 nav_bg MarB10">
+        <div class="nav">
+            <ul>
+
+                <li class='index_link an'>
+                    <a href="/" target="_self">
+                        首页
+                    </a>
+                </li>
+
+                <li id="conAll0" class='an'>
+                    <a href="/cate" target="_self">
+                        资源分类
+                    </a>
+
+                    <ul id="conAll" style="display: none; z-index: 9999999;">
+                        @foreach (var item in ViewData["LayCateList"] as List<ListItem>)
+                        {
+                            <li>
+                                <a href="/Article/Index?cid=@item.Code" title="@item.Text" target="_self">
+                                    @item.Text
+                                </a>
+                            </li>
+                        }
+                        <li><a href="/topics">资源专题</a></li>
+                    </ul>
+                </li>
+
+                <li class='an'>
+                    <a href="/topics" target="_self">
+                        资源专题
+                    </a>
+                </li>
+                <li class='an'>
+                    <a href="/News" target="_self">
+                        新闻与展会
+                    </a>
+                </li>
+                @*@foreach (var item in (ViewData["LayCateList"] as List<ListItem>).Take(5))
+                {
+                    <li class='an'>
+                        <a href="/Article/Index?cid=@item.Code">
+                            @item.Text
+                        </a>
+                    </li>
+                }*@
+                
+                <li class='an'>
+                    <a href="/help/22a171e5-b168-4131-ba53-d8e851e035e4">
+                        关于我们
+                    </a>
+                </li>
+                <li style="float: right; text-align: right;">
+                    <a class="home" href="/member"
+                       target="_self">
+                        <img src="/web/images/s.gif" align="absmiddle" alt="" />
+                        个人中心
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!--head end-->
+    <!--main-->
+    <div class="bg_100 main_bg clearfix">
+        <div class="main clearfix">
+
+            @if (PageCrumbs != null && PageCrumbs.Any())
+            {
+            <div class="nav_ui">
+                <a href="/">
+                    <img src="/web/images/home.gif" width="16" height="16" align="absmiddle" alt="首页" />
+                    @(ConfigManager.SysConfiguration.SiteName)
+                </a>
+                @foreach (var item in PageCrumbs)
+                {
+                    @Html.Raw("&nbsp; &gt; &nbsp;")
+                    @if (!item.ParentId.IsEmpty())
+                    {
+                        <a href="@item.ParentId">@item.Text</a>
+                    }
+                    else
+                    {
+                        @item.Text
+                    }
+                }
+            </div>
+            }
+
+            @RenderBody()
+
+            <!-- JiaThis Button END -->
+            <span id="LabelScript"></span>
+
+
+        </div>
+    </div>
+    <!--foot-->
+    <div class="bg_100 foot_nav_bg MarT10">
+        <div class="foot_nav">
+
+            <a href="/help/22a171e5-b168-4131-ba53-d8e851e035e4" target="_blank">关于我们</a> - <a href="/help/ad429874-936f-4a99-b731-e508b74468e6"
+                                                              target="_blank">网站声明</a> - 
+            @*<a href="/help/868801b2-dbc1-4d47-83e8-e468cb0cbaa1" target="_blank">
+                网站地图
+            </a>  - <a href="/sitemap.xml" target="_blank">
+                资源地图
+            </a>
+            -*@ 
+            <a href="/friend" target="_blank">友情链接</a> -
+
+            <a href="tencent://message/?uin=@(ConfigManager.SysConfiguration.SiteQQ)">
+                网站客服<img border="0"
+                         alt="客服" width="61" height="16" style="background-color: rgb(255, 255, 255);
+                  display: none;" align="middle" title="点击这里,给@(ConfigManager.SysConfiguration.SiteName)发消息,QQ:@(ConfigManager.SysConfiguration.SiteQQ)"
+                         src="/web/images/qq_d.gif" />
+            </a>
+
+            - <a href="/help/00b83ffc-3e38-4b44-b36b-519552225360" target="_blank">联系我们</a>
+
+        </div>
+    </div>
+    <div class="bg_100 siteInner_bg">
+        <div class="siteInner">
+
+
+            copyright@@ 2016-2020
+            @(ConfigManager.SysConfiguration.SiteName)网站版权所有<br />
+            经营许可证编号:浙B2-20120048，ICP备案号：浙ICP备11026253号-10号
+
+            <div align="center">
+
+                <script type="text/javascript">
+                    var _bdhmProtocol = (("https:" === document.location.protocol) ? " https://" : " http://");
+                    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%0fe9b2e86f0b2c57b38d6836ce9ebdc1' type='text/javascript'%3E%3C/script%3E"));
+                </script>
+
+            </div>
+            <div align="center">
+                <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cspan id='cnzz_stat_icon_1259885308'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1259885308%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+            </div>
+        </div>
+    </div>
+    <!--foot end-->
+
+
+    <!-- 代码部分begin -->
+    <div class="QQ_S">
+        <div class="Q_top" onclick="HideFoot()"> <span class="signi"></span>收起</div>
+        <div class="Q_botm">
+            <div class="Q_pic">
+                <div class="Q_pic_hide"> <a href="http://wpa.qq.com/msgrd?v=3&uin=@(ConfigManager.SysConfiguration.SiteQQ)&site=qq&menu=yes" target="_blank" title="在线客服" rel="nofollow"><span class="hide_pic"></span>在线客服</a> </div>
+            </div>
+
+            <div class="Q_anser">
+                <div class="Q_anser_hide">
+                    <a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=@(ConfigManager.SysConfiguration.SiteQQ)@@qq.com" title="意见反馈">
+                        <span class="hide_pic1"></span>意见反馈
+                    </a>
+                </div>
+            </div>
+            <div class="Q_sign">
+                <div class="Q_sign_hide" onclick="backToTop();"><a href="javascript:void(0)" title="返回顶部"><span class="hide_pic2"></span>返回顶部 </a></div>
+            </div>
+        </div>
+    </div>
+    <div class="QQ_S1">
+        <div class="Q_top1" onclick="ShowFoot()"> <span class="signj"></span>展开</div>
+        <div class="Q_botm1">
+            <div class="Q_pic1">
+                <div class="Q_pic1_hide"> <a href="http://wpa.qq.com/msgrd?v=3&uin=@(ConfigManager.SysConfiguration.SiteQQ)&site=qq&menu=yes" rel="nofollow"><span class="hide_pic3"></span>QQ交谈</a></div>
+            </div>
+            <div class="Q_sign1">
+                <div class="Q_sign1_hide" onclick="backToTop();"><a href="javascript:void(0)">返回顶部</a></div>
+            </div>
+        </div>
+    </div>
+    <!-- 代码部分end -->
+    @Html.AntiForgeryToken()
+    <script type="text/javascript" src="/web/JS/lanrenzhijia.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,66 @@
+﻿@model TopicSearchView
+@{
+    ViewData["Title"] = "精彩专题";
+}
+
+<div class="zt_main">资源专题是基于某一兴趣点的精选文档的合辑，同时还可以“一键购买”专题里的所有文档哦！^_^</div>
+
+    <div class="ztm_title">
+        <p class="title"><font color="#ff6333">精品</font>推荐</p>
+        <p class="add_title"><a href="/FlexPaper/AddBookGroup" target="_blank"></a></p>
+    </div>
+    <div class="blank15"></div>
+    <div class="ztm_hot">
+        @foreach (var item in Model.HotTopics)
+        {
+        <li>
+            <p class="img">
+                <a href="/topics/detail/@item.Id" target="_blank">
+                    <img src="@item.CoverUrl" alt="@item.Title" onerror="this.src='/web/images/sc.gif'">
+                </a>
+            </p>
+            <p class="title ells"><a href="/topics/detail/@item.Id" target="_blank">@item.Title</a></p>
+            <p class="zy">资源数量：<b>@item.ResourceCount</b><span><span class="linex">|</span>打包价：<span class="jg">@item.PackageAmount</span>积分</span></p>
+            <p class="cjr">专题专建人：<a href="javascript:;" target="_blank">@item.MemberName</a></p>
+            <p class="yl">浏览次数：@item.ReadCount</p>
+            <p class="time">最近更新：@item.CreatorTime.ToDateTimeString(true)</p>
+        </li>
+        }
+     
+    </div>
+    <div class="blank15"></div>
+
+
+    <div class="blank15"></div>
+    <div class="zt_cat">
+        <li><a class="jh">全部分类</a></li>
+        @foreach (var item in Model.TopicCates)
+        {
+            <li id="tj0@(Model.TopicCates.IndexOf(item)+1)">
+                <a href="/topics/list/@item.Code">
+                    @item.Text
+                </a>
+            </li>
+        }
+     
+    </div>
+    <div class="blank15"></div>
+
+    <div class="zt_catlist" style="float:left; height:auto;">
+        @foreach (var item in Model.TopicList)
+        {
+            <li>
+                <p class="img">
+                    <a href="/topics/detail/@item.Id" target="_blank">
+                        <img src="@item.CoverUrl" alt="@item.Title" onerror="this.src='/web/images/sc.gif'">
+                    </a>
+                </p>
+                <p class="title ells"><a href="/topics/detail/@item.Id" target="_blank">@item.Title</a></p>
+                <p class="zy">资源数量：<b>@item.ResourceCount</b><span><span class="linex">|</span>打包价：<span class="jg">@item.PackageAmount</span>积分</span></p>
+                <p class="cjr">专题专建人：<a href="javascript:;" target="_blank">@item.MemberName</a></p>
+                <p class="yl">浏览次数：@item.ReadCount</p>
+                <p class="time">最近更新：@item.CreatorTime.ToDateTimeString(true)</p>
+            </li>
+        }
+    </div>
+

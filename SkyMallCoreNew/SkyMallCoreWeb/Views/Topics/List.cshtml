@@ -1,0 +1,229 @@
+﻿@model TopicSearchView
+@{
+    ViewData["Title"] = "文章列表";
+    var hotTopics = (ViewBag.HotTopics as List<ListItem>)??new List<ListItem>();
+}
+@section HScripts{
+    <style type="text/css">
+        .ct1 li {
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            padding-left: 20px;
+            overflow: hidden;
+            display: block;
+            float: left;
+        }
+
+            .ct1 li a {
+                color: #555;
+                font-size: 14px;
+            }
+
+        .ct1 {
+            margin-bottom: 25px;
+            padding: 10px 0px 10px 0px;
+            float: left;
+            width: 100%;
+        }
+
+        .ct2 li {
+            height: 30px;
+            line-height: 30px;
+            margin-left: 20px;
+            overflow: hidden;
+            display: block;
+        }
+
+            .ct2 li a {
+                font-size: 15px;
+            }
+
+        .ct2 {
+            margin-bottom: 10px;
+            padding: 10px 0px;
+        }
+
+        .catetable tr {
+            background: url(images/shouye_s.png) repeat-x left bottom;
+        }
+
+        .catetable td {
+            text-align: center;
+            font-size: 14px;
+            padding: 15px 0px;
+        }
+
+        .catetable div {
+            text-align: left;
+            line-height: 24px;
+        }
+
+        a.f1 {
+            color: #666;
+            font-weight: bold;
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        a.f2 {
+            color: #666;
+            font-size: 13px;
+            margin-right: 10px;
+        }
+
+        a.f3 {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .ztt {
+            line-height: 20px;
+            font-size: 14px;
+            text-align: left;
+            height: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .boxHd1 {
+            background-color: #f5f5f5;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 20px;
+        }
+
+        .boxHd2 {
+            background-color: #f5f5f5;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 20px;
+        }
+    </style>
+}
+    <div class="zt_main">
+        @(ConfigManager.SysConfiguration.SiteName)已创建
+        <span>@Model.TopicCount </span>个专题，它是基于某一兴趣点的精选文档的合辑，同时还可以“一键购买”专题里的所有文档哦！^_^
+    </div>
+<div class="ztm_title relative mb10">
+    <p class="title">
+        <font color="#ff6333">精品</font>推荐
+    </p>
+    <p class="add_title">
+        <a href="FlexPaper/BookGroupAdd.aspx" target="_blank"></a>
+    </p>
+</div>
+<div class="left MarB20 search-main" style="width: 928px; overflow: hidden; ">
+    <div class="longConCam" style=" border:0;margin:0;">
+        <!--筛选-->
+        <div class="camZpSmall personHome borderTop mb10" style="border: 1px solid #e5e5e5">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="camZpBox">
+                                <dl>
+                                    <dt>分类：</dt>
+                                    <dd>
+                                        <a href="/topics/list" class="@(ViewBag.TopicCateId == null?"selected":"")">全部</a>
+                                        @foreach (var item in Model.TopicCates)
+                                        {
+                                            <a href="/topics/list/@item.Code" class="@(ViewBag.TopicCateId == item.Code?"selected":"")"> @item.Text</a>
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                        </td>
+                        <td class="camRightTdC relative" style="padding:0px 0px; width:116px;">
+                            @*<span class="fr absolute" style="right:0px;top:0px;">
+                                <span class="fr">
+                                    <a href="gl-0-1-0.html" title="列表模式">
+                                        <img src="/web/images/2_04.gif" alt="列表模式">
+                                    </a>
+                                </span>
+                                <span class="fr">
+                                    <a href="gl-0-1-1.html" title="视图模式">
+                                        <img src="/web/images/1_03.gif" alt="视图模式">
+                                    </a>
+                                </span>
+                            </span>*@
+                            <div class="n" style="margin-top:48px; text-align:center; border-top :solid 1px #f4f4f4; padding:3px 10px;"> @Model.TopicCount</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--筛选 end-->
+        <!--列表-->
+        <ul class="huati2_list mb30">
+            @{
+                if (Model.TopicList != null)
+                {
+                    foreach (var item in Model.TopicList)
+                    {
+                        <li class="pt30 pb30 clearfix">
+                            <div class="ziyuan_img5" style="width: 166px; height: 123px;">
+                                <a href="/topics/detail/@item.Id" target="_blank" title="@item.Title">
+                                    <img alt="@item.Title" src="@item.CoverUrl" style="width: 166px; height: 123px;" onerror="this.src='/web/images/90x80_no.gif'">
+                                </a>
+                            </div>
+                            <div class="huati2_txt">
+                                <h2>
+                                    <a href="/topics/detail/@item.Id" target="_blank"> @item.Title</a>
+                                </h2>
+                                <p class="huati2_jieshao f14"> @item.ShortTitle</p>
+                                <table width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p class="huati2_fabu pt10">
+                                                    发布时间：
+                                                    <span>@item.CreatorTime.ToDateTimeString(true)</span> /
+                                                    <span> @item.ResourceCount</span> 资源 /
+                                                    <span> @item.ReadCount</span> 人气
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="huati2_name">
+                                                    <a href="javascript:;" target="_blank">
+                                                        @item.MemberName
+                                                        <i>
+                                                            <img src="@item.MemHeader" alt="cngo" onerror="this.src='/web/images/avatar_small.gif'" width="30" height="30">
+                                                        </i>
+                                                    </a>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+        <!--话题 end-->
+        <!-- 分页信息 -->
+        <partial name="_PagerPartial" model="Model.TopicList" />
+        <!-- 分页信息 end -->
+    </div>
+</div>
+<div class="sidebar" style="width: 260px; float: right; overflow: hidden; margin-right: 0px;margin-left:0px">
+    <div class="box download-rank bgF block" style="width: 258px;">
+        <div class="boxHd">
+            <h2 class="left font-normal font16 font-yahei" style="font-size: 15px; color: #666;"> 精品推荐</h2>
+        </div>
+        <div class="first-second-third cl mt10" style="height: 250px; padding:5px 5px; margin:0; overflow:hidden; margin-top: 10px;">
+            <dl class="jiaochengpaihang">
+                @foreach (var item in hotTopics)
+                {
+                    <dd>
+                        <a target="_blank" href="/topics/detail/@item.Code" title="@item.Text">
+                            @item.Text
+                        </a>
+                    </dd>
+                }
+            </dl>
+        </div>
+    </div>
+</div>

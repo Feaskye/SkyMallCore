@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "网站数据爬取";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="search">
+            爬取网站：石油文库 http://www.oilwenku.com/
+            <a id="craw" class="btn btn-primary" onclick="startCraw()">开始爬取</a>
+    </div>
+<div class="gridPanel">
+    <div class="container">
+        <div class="edui-message" id="message" style="margin:20px;overflow:scroll;overflow-x:hidden;width:600px;height:400px">
+
+        </div>
+    </div>
+</div>
+
+    <script language="javascript" type="text/javascript">
+        var socket;
+        var uri = "ws://" + window.location.host + "/ws";
+        var output;
+        var text = "test echo";
+        var $message = $("#message");
+        function doConnect() {
+            socket = new WebSocket(uri);
+            socket.onopen = function (e) {
+                $message.append("<p>正在执行...<p>");
+                //doSend();
+            };
+            socket.onclose = function (e) {
+                //write("closed");
+            };
+            socket.onmessage = function (e) {
+                try {
+                    var b = write(e.data);
+                    if (!b) {
+                        socket.close();
+                    }
+                } catch (e) {
+                    console.log(e.message);
+                    socket.close();
+                    $message.append("<p>解析数据异常: " + e.data + "<p>");
+                }
+                //socket.close();
+            };
+            socket.onerror = function (e) {
+                $message.append("<p>异常: " + e.data + "<p>");
+            };
+        }
+
+
+
+    function startCraw() {
+        //2000 间歇2秒发起请求
+        $.post("startCraw", { interval: 2000 }, function (data) {
+
+            if (data !== undefined && data.state === 1) {
+                doConnect();
+            }
+        }, "json");
+    }
+
+
+
+        function write(s) {
+            var result = JSON.parse(s);
+            var $p = $("<p><p>");
+            $p.text(result.message);
+            if ($message.find("p").length >= 20) {
+                $message.html('');
+            }
+            $message.append($p);
+            var currHeight = $p.offset().top + $p.height() + $message.height();
+            //$message.offset({ top: currHeight });
+            $message.animate({ scrollTop: currHeight }, 1000);
+            if (result.state === "error") {
+                interval = 365 * 24 * 24 * 1000;
+                console.log(interval);
+                $message.append("<p>远程请求被屏蔽，请过段时间再次爬取......</p>");
+                $message.append("<p>终止数据爬取......</p>");
+                return false;
+            }
+            return true;
+        }
+
+        
+</script>
+@if ((Convert.ToBoolean(ViewBag.CrawlerRunning)))
+{
+<script type="text/javascript">
+    doConnect();
+</script>
+}

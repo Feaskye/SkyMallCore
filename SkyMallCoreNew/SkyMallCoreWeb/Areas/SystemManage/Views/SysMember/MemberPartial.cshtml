@@ -1,0 +1,100 @@
+﻿@model  string
+<script type="text/javascript">
+    var memberId = '@Model';
+    $(function () {
+        //获取基本信息展示
+        $.ajax({
+            url: "/SystemManage/SysMember/GetFormJson",
+            data: { keyValue: memberId },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#RealName").html(data.RealName);
+                $("#MobilePhone").html(data.MobilePhone);
+                $("#Telephone").html(data.Telephone);
+                $("#Birthday").html(data.Birthday);
+                $("#Address").html(data.Address);
+                $("#Company").html(data.Company);
+                // $("#GroupId").html(data.GroupId);
+                $("#Tax").html(data.Tax);
+                $("#HomePhone").html(data.HomePhone);
+                $("#Email").html(data.Email);
+                $("#ZipCode").html(data.ZipCode);
+                $("#Position").html(data.Position);
+                $("#Description").html(data.Description);
+                //$("#form1").formSerialize(data);
+
+                var $memPhone = $("#MemPhone");
+                if (typeof ($memPhone) !== "undefined") {
+                    $memPhone.val(data.MobilePhone + "-" + data.Telephone);
+                }
+                $.getJSON("/SystemManage/SysMemGroup/GetTreeSelectJson?groupid=" + data.GroupId, function (result) {
+                    if (result.length > 0) {
+                        $("#GroupId").html(result[0].text);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<table class="form">
+    <tr>
+        <th class="formTitle">姓名：</th>
+        <td class="formValue">
+            <label type="text" id="RealName" name="RealName" class="required" placeholder="请输入姓名">
+            </label>
+        </td>
+        <th class="formTitle">手机：</th>
+        <td class="formValue">
+            <label type="text" id="MobilePhone" name="MobilePhone" class=" required isPhone" />
+        </td>
+        <th class="formTitle">电话：</th>
+        <td class="formValue">
+            <label type="text" id="Telephone" name="Telephone" class=" isTel" />
+        </td>
+        <th class="formTitle">生日：</th>
+        <td class="formValue" style="width:120px">
+            <label type="text" id="Birthday" name="Birthday" />
+        </td>
+    </tr>
+    <tr>
+        <th class="formTitle">地址：</th>
+        <td class="formValue">
+            <label type="text" id="Address" name="Address" class="" />
+        </td>
+        <th class="formTitle">单位：</th>
+        <td class="formValue">
+            <label type="text" id="Company" name="Company" class="" />
+        </td>
+        <th class="formTitle">分组：</th>
+        <td class="formValue">
+            <label id="GroupId" name="GroupId" class="required"></label>
+        </td>
+        <th class="formTitle">传真：</th>
+        <td class="formValue">
+            <label id="Tax" name="Tax" type="text" class="" placeholder="请输入传真" />
+        </td>
+    </tr>
+    <tr>
+        <th class="formTitle">宅电：</th>
+        <td class="formValue">
+            <label id="HomePhone" name="HomePhone" type="text" class="" placeholder="请输入宅电" />
+        </td>
+        <th class="formTitle">邮箱：</th>
+        <td class="formValue">
+            <label type="text" id="Email" name="Email" class=" email" />
+        </td>
+        <th class="formTitle">邮编：</th>
+        <td class="formValue">
+            <label type="text" id="ZipCode" name="ZipCode" class="" />
+        </td>
+        <th class="formTitle">职务：</th>
+        <td class="formValue">
+            <label type="text" id="Position" name="Position" class="" />
+        </td>
+        <th class="formTitle">备注：</th>
+        <td class="formValue">
+            <label id="Description" name="Description" class="" style="height: 60px;"></label>
+        </td>
+    </tr>
+</table>

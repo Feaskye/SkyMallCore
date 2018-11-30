@@ -1,0 +1,89 @@
+﻿@model MemberDetailView
+@{
+    ViewBag.Title = "个人中心";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+
+    var cateBookStatics = (ViewBag.CateBookStatics as List<ListItem>)??new List<ListItem>();
+    var auditStatics = (ViewBag.AuditStatics as List<ListItem>) ?? new List<ListItem>();
+}
+
+<div class="clearfix pb20 mt20" style="border-bottom: 1px solid #e5e5e5; margin: 15px 15px;">
+    <div class="fl relative member-avatar2">
+        <a href="/member/ZoomImage" target="_blank">
+            <img alt="@Model.NickName" src='@Model.HeadIcon'
+                 onerror="this.src='/web//images/default_self.png'" width="120" height="120">
+        </a>
+        <br />
+        <a href="/member/ZoomImage">头像设置>></a>
+    </div>
+    <ul class="fl member-info">
+        <li class="member-info-item clearfix">
+            <label class="fl ">
+                账&nbsp;&nbsp;&nbsp;&nbsp;户：
+            </label><span>
+                @Model.UserName
+            </span>
+        </li>
+        <li class="member-info-item clearfix">
+            <label class="fl ">
+                昵&nbsp;&nbsp;&nbsp;&nbsp;称：
+            </label><span>
+        @Model.NickName
+</span>
+        </li>
+        <li class="member-info-item member-info-grade clearfix">
+            <label class="fl ">
+                会员级别：
+            </label><a class="hover-none f12 bold" hidefocus="true">
+                @(EnumCommon.GetDescription((UserLevel)Model.UserLevel))
+            </a>
+
+        </li>
+
+        <li class="member-info-item clearfix">
+            <label class="fl ">
+                积分：
+            </label><b class="  font-tahoma f14" style="color:#e10074;">@Model.UserScore</b> 分
+        </li>
+
+        <li class="member-info-item clearfix">
+            <label class="fl ">
+                邮&nbsp;&nbsp;&nbsp;&nbsp;箱：
+            </label><b class="red font-tahoma f14">@Model.Email</b>
+        </li>
+    </ul>
+</div>
+<div class="user-works-manage-box" style="margin: 15px 15px;">
+    <div class="user-works-num">
+        @foreach (var item in cateBookStatics)
+        {
+        <span class="user-works-num-item">
+            @item.Text：<b class="blue1 font-tahoma">@item.Code</b>
+        </span>
+        }
+    </div>
+    <div style="width: 750px">
+        <a title="上传资源" class="block upload-link" hidefocus="true" href="/flexpaper/addbook">
+        </a>
+    </div>
+    <div class="clearfix works-status pl20">
+        @foreach (var item in auditStatics)
+        {
+        <a hidefocus="true" title="@item.Text" class="fl" href="/flexpaper/BookList?BookStatus=@item.Type">
+            @item.Text<b>
+                @item.Code
+            </b>
+        </a>
+        }
+    </div>
+</div>
+<div class="communication-box" style="margin: 15px 15px;">
+    <span class="fl pr10 f14">客服QQ:@(ConfigManager.SysConfiguration.SiteQQ)</span> <span class="fl font-tahoma communication-way">
+        <span class="fl qq_business">
+            <a class="qq-consult" style="height: 27px" hidefocus="true"
+               rel="nofollow" title="qq交谈" href="tencent://message/?uin=@(ConfigManager.SysConfiguration.SiteQQ)">
+                <img src="/web/images/qq.png" />
+            </a>
+        </span><span class="blue1  f14">在线时间：08:00-23:30</span>
+    </span>
+</div>

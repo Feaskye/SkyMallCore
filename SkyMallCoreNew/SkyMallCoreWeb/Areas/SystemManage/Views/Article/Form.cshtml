@@ -1,0 +1,414 @@
+﻿@{
+    ViewBag.Title = "文库编辑";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
+}
+
+<script type="text/javascript" src="/js/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/js/ueditor/ueditor.all.js"></script>
+<script>
+   
+    var ue = initUeditor();
+
+
+    var keyValue = $.request("keyValue");
+    var audit = $.request("audit");
+    
+    //if (keyValue.length > 0) {
+    //    $("#ConfigCode").prop("disabled", "disabled");
+    //}
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SystemManage/Article/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#Member").text(data.Member);
+                    $("#form1").formSerialize(data);
+                    if (data.AuditMessage) { 
+                        $("#AuditMessage").show();
+                    }
+                    $("#hdCategoryId").val(data.CategoryId);
+                    var parentId = data.ParentCategoryId;
+
+                    initControl('ParentCategoryId', parentId);
+                    initControl('SpecialTopicId', data.SpecialTopicId);
+                    $("#Description").html(data.Description);
+                    $("#container").html(data.Description);
+                    ue = initUeditor();
+                }
+            });
+        }
+        
+
+
+        $("#BookStatus").change(function () { 
+            if ($(this).val() == '-2' || $(this).val() == '-3' || $(this).val() == '-1') { 
+                $("#AuditMessage").show();
+                return;
+            }
+            $("#AuditMessage").hide();
+        });
+
+
+
+    });
+
+    function initUeditor() {
+        return UE.getEditor('container', {
+            initialFrameWidth: 525,
+            initialFrameHeight: 300
+        });
+    }
+    
+
+
+    function initControl(cateobjId, currentId, parentId) {
+        $("#" + cateobjId).html("<option value=''>--请选择--</option>");
+
+        if (parentId == '0' || parentId == '1' || parentId == undefined) {
+            parentId = '';
+        }
+        var url = "/SysComponent/Controll/GetArticleCates?parentId=" + parentId;
+        if (cateobjId == "SpecialTopicId") {
+            url = "/SysComponent/Controll/GetArticleTopics";
+        }
+        $("#" + cateobjId).bindSelect({
+            url: url,
+            id: "Code",
+            text: "Text",
+            selected: currentId,
+            callback: function () {
+                if (cateobjId !== "CategoryId") {
+                    $("#" + cateobjId).change(function () {
+                        var parentId = $(this).val();
+                        if (cateobjId == 'ParentCategoryId') {
+                            cateobjId = 'CategoryId';
+                            currentId = $("#hdCategoryId").val();
+                        }
+                        if (cateobjId == "SpecialTopicId") { 
+                            return;
+                        }
+                        initControl(cateobjId, currentId , parentId);
+                    });
+                }
+            }
+        });
+    }
+
+
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        var Title = $("#Title").val();
+        if (Title.length == 0) {
+            $.modalMsg("文库名称不能为空");
+            return false;
+        }
+
+        var des = getContent('container');
+        if (des.length == 0) {
+            $.modalMsg("内容不能为空");
+            return false;
+        }
+        $("textarea[name='Description']").html(des);
+        var data = $("#form1").formSerialize();
+        data.Description = des;
+        data.ShortTitle = data.ShortTitle.replace("&nbsp;","");
+        data.Copyright = data.Copyright.replace("&nbsp;", "");
+        $.submitForm({
+            url: "/SystemManage/Article/SubmitForm?keyValue=" + keyValue,
+            param: data,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+
+    function auditForm() {
+        if ($("#BookStatus").val() === '0') { 
+            $.modalMsg("请选择审核状态");
+            return false;
+        }
+        //if ($("#BookStatus").val() == '1') {
+        //    $.modalMsg("请选择审核状态");
+        //    return false;
+        //}
+        if ($("#BookStatus").val() === '-2' || $("#BookStatus").val() === '-1') {
+            console.log($("#AuditMessage").val());
+            if ($("#AuditMessage").val().length <= 0) {
+                $.modalMsg("请输入审核失败原因");
+                return false;
+            }
+        }
+        $.modalConfirm("只更新审核状态，确定要审核吗？", function (b) { 
+            if (b) { 
+                $.submitForm({
+                    url: "/SystemManage/Article/AuditArticle?keyValue=" + keyValue,
+                    param: { Id: keyValue, auditStatus: $("#BookStatus").val(), AuditMessage: $("#AuditMessage").val()},
+                    success: function () {
+                        $.modalCloseAll();
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                });
+            }
+        });
+    }
+
+</script>
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">文库名称</th>
+                <td class="formValue">
+                    <input id="Id" name="Id" type="hidden" type="text" class="form-control" />
+                    <input id="Title" name="Title" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">文库关键词</th>
+                <td class="formValue">
+                    <input id="Keyword" name="Keyword" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">一级分类</th>
+                <td class="formValue">
+                    <select id="ParentCategoryId" name="ParentCategoryId" type="text" class="form-control cate">
+                        <option value="">--请选择--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">二级分类</th>
+                <td class="formValue">
+                    <select id="CategoryId" name="CategoryId" type="text" class="form-control cate">
+                        <option value="">--请选择--</option>
+                    </select>
+                    <input type="hidden" id="hdCategoryId" name="hdCategoryId" value="" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">所属专题</th>
+                <td class="formValue">
+                    <select id="SpecialTopicId" name="SpecialTopicId" class="form-control cate" type="1">
+                        <option value="">--请选择--</option>
+                    </select>
+                </td>
+            </tr>
+            @*<tr>
+            <th class="formTitle">文库分类</th>
+            <td class="formValue">
+                <select id="CategoryId" name="CategoryId" type="text" class="form-control"></select>
+            </td>
+        </tr>*@
+            <tr>
+                <th class="formTitle" style="vertical-align:top">文库简述</th>
+                <td class="formValue">
+                    <textarea id="ShortTitle" name="ShortTitle" class="form-control"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">封面图</th>
+                <td class="formValue">
+                    <input type="hidden" value="" name="CoverUrl" id="CoverUrl" />
+                    <partial name="_FileUpload" model="@(new FileUploadModel{ControlId="CoverUrl", Id="CoverUp", ActionType= UpLoadAction.cover})" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">版权状况</th>
+                <td class="formValue">
+                    <select id="Copyright" name="Copyright" class="form-control">
+                        @foreach (var item in ViewBag.CopyrightList as List<ListItem>)
+                        {
+                            <option value="@item.Code">@item.Text</option>
+                        }
+                        @*<option value="0">下架</option>
+                    <option value="1">转载</option>
+                    <option value="2">原创</option>
+                    <option value="3">授权</option>*@
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">积分要求</th>
+                <td class="formValue">
+                    <select id="ScoreRequire" name="ScoreRequire" class="form-control">
+                        <option value="0">共享分</option>
+                        @*<option value="1">现金</option>*@
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">分享类型</th>
+                <td class="formValue">
+                    <select id="ShareType" name="ShareType" class="form-control">
+                        <option value="0">共享资源</option>
+                        @*<option value="0">资源售卖</option>*@
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">分享积分/金额</th>
+                <td class="formValue">
+                    <input id="RequireAmount" type="text" name="RequireAmount" class="form-control" />
+                </td>
+            </tr>
+
+            <tr>
+                <th class="formTitle" style="vertical-align:top">是否在线浏览</th>
+                <td class="formValue">
+                    <div class="ckbox">
+                        <input id="IsOnline" name="IsOnline" type="checkbox" checked="checked"><label for="IsOnline">是</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">预览页数设定</th>
+                <td class="formValue">
+                    <input id="OnlinePageCount" name="OnlinePageCount" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">总页数</th>
+                <td class="formValue">
+                    <input id="PageCount" type="text" name="PageCount" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">资源大小</th>
+                <td class="formValue">
+                    <input id="ResourceSize" type="text" name="ResourceSize" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">是否允许下载</th>
+                <td class="formValue">
+                    <div class="ckbox">
+                        <input id="AllowDownload" name="AllowDownload" type="checkbox" checked="checked"><label for="AllowDownload">是</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">上传者</th>
+                <td class="formValue">
+                    <label id="Member" name="Member"></label>
+                    <input id="MemberId" name="MemberId" value="" type="hidden" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">阅读量</th>
+                <td class="formValue">
+                    <input type="text" id="ReadCount" name="ReadCount" class="form-control" value="0" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">下载量</th>
+                <td class="formValue">
+                    <input type="text" id="DownloadCount" name="DownloadCount" class="form-control" value="0" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">附件</th>
+                <td class="formValue">
+                    <input type="hidden" id="Attachment" name="Attachment" value="" class="form-control" />
+                    <partial name="_FileUpload" model="@(new FileUploadModel{ControlId="Attachment", Id="AttachmentUp", ActionType= UpLoadAction.attichfile})" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">资源类型</th>
+                <td class="formValue">
+                    <select id="ResourceType" name="ResourceType" class="form-control">
+                        @foreach (var item in ViewBag.ResourceTypeList as List<ListItem>)
+                        {
+                            <option value="@item.Code">@item.Text</option>
+                        }
+                        @*<option value="rar">压缩</option>*@
+                        @*<option value="mp4">压缩</option>*@
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">原文链接</th>
+                <td class="formValue">
+                    <input type="text" id="ResourceUrl" name="ResourceUrl" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">文库内容</th>
+                <td class="formValue">
+                    <textarea id="container"></textarea>
+                    <textarea id="Description" name="Description" style="display: none;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排序</th>
+                <td class="formValue">
+                    <input id="SortCode" name="SortCode" type="text" class="form-control required" value="1" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">审核状态</th>
+                <td class="formValue">
+                    @*BookStatus*@
+                    <select id="BookStatus" name="BookStatus" class="form-control required">
+                        <option value="0">待审核</option>
+                        <option value="1">审核通过</option>
+                        <option value="-1">审核失败</option>
+                        <option value="-2">重复资源</option>
+                        <option value="-3">已下架</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">审核失败原因</th>
+                <td class="formValue">
+                    <textarea id="AuditMessage" name="AuditMessage" class="form-control" style="display:none"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="height: 35px;">选项</th>
+                <td class="formValue" style="padding-top: 1px;">
+                    <div class="ckbox">
+                        <input id="EnabledMark" name="EnabledMark" type="checkbox" checked="checked"><label for="EnabledMark">有效</label>
+                    </div>
+                </td>
+            </tr>
+            @*<tr>
+            <th class="formTitle" valign="top" style="padding-top: 11px;">
+                备注
+            </th>
+            <td class="formValue">
+                <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+            </td>
+        </tr>*@
+        </table>
+    </div>
+</form>
+
+
+@section Scripts{
+    <!-- 配置文件 -->
+    <script type="text/javascript">
+
+
+                //var desc = $("#Description").html();
+                //if (desc.length > 0) {
+                //    console.log("Description初始化");
+                //    ue.setContent(desc, false);
+                //}
+        initControl('ParentCategoryId');
+        if (audit == '1') { 
+            $("#form1").find('.form-control,select,input,textarea').attr('readonly', 'readonly');
+            $("#BookStatus").removeAttr("readonly");
+            $("#AuditMessage").removeAttr("readonly");
+        }
+    </script>
+}

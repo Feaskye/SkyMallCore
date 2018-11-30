@@ -1,0 +1,158 @@
+﻿@model FileUploadModel
+@{
+    Layout = null;
+}
+<div style="padding-top: 20px; margin-right: 20px;margin-left: 20px;" id="@Model.Id">
+    <table class="form utab_@Model.Id">
+        <tr>
+            <td align="left" valign="top" style="display:inline-block;vertical-align:top;">
+                <input id="txt_upload_@(Model.Id)_inputfile" name="txt_upload_inputfile" @(Model.ShowMultiple ? "multiple" : "" ) type="file" />
+                <button type="button" id="btn_@(Model.Id)_fileUpload" class="btn btn-primary" title="保存">上传</button>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="text-align:left;">
+                <div id="kartik-@(Model.Id)-file-errors"></div>
+                <div id="kartik-@(Model.Id)-upload-progress"></div>
+                <div class="block" style="padding-top:3px;" id="show_@(Model.Id)_list_files">
+                </div>
+                <div class="block" style="display:none;" id="hide_uploaded">
+                    <input id="hide_@(Model.Id)_uploadedfiles" type="hidden" />
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>
+<style type="text/css">
+    .file-input {
+        float:left;
+        margin-right:10px;
+    }
+</style>
+
+<script>
+    $(function () {
+        var $fileInputScripts = $("#fileInputScripts");
+        if ($fileInputScripts === undefined || $fileInputScripts.length === 0) {
+            $("head").addScript("fileInputScripts", "/js/bootstrap/fileinput/fileinput.js");
+            $("head").addStyle("/js/bootstrap/fileinput/fileinput.min.css");
+            $("head").addScript("fileInputScripts1", "/js/bootstrap/fileinput/locale-zh.js");
+        @*document.getElementsByTagName("head")[0].append("<script id=\"fileInputScripts\" src=\"~/js/bootstrap/fileinput/fileinput.js\"></script>");
+ document.getElementsByTagName("head")[0].append('<link href="~/js/bootstrap/fileinput/fileinput.min.css" rel="stylesheet" />');
+ document.getElementsByTagName("head")[0].append('<script src="~/js/bootstrap/fileinput/locale-zh.js"></script>');*@
+        }
+        var actionType =@((int)Model.ActionType);
+        var uploadUrl = '/SysComponent/Controll/UploadFiles?action=@((int)Model.ActionType)&specilName=@Model.SpecilName';
+        $(document).on('ready', function () {
+            var $filecontrol = $("#txt_upload_@(Model.Id)_inputfile");
+            var $listtip_files = $("#show_@(Model.Id)_list_files");
+            var $controllId = $("#@(string.IsNullOrWhiteSpace(Model.ControlId) ? "hide_uploadedfiles" : Model.ControlId)");
+            if ($controllId && $controllId.val() && $controllId.val().length > 0) {
+                showUploadedFile($controllId.val().split(';'));
+            }
+
+            $filecontrol.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: uploadUrl, //上传的地址
+                allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
+                showUpload: false, //是否显示上传按钮
+                showCaption: false,//是否显示标题
+                dropZoneEnabled: false,
+                showRemove: false,
+                browseClass: "btn btn-primary", //按钮样式
+                mainClass: "input-group-lg",
+                elErrorContainer: '#kartik-@(Model.Id)-file-errors1',
+                progressContainer: '#kartik-@(Model.Id)-upload-progress1',
+                showPreview: false,
+                enctype: 'multipart/form-data',
+                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                uploadExtraData: {
+                    ownid: @(Model.SpecilName.IsEmpty()?Html.Raw("''"):Html.Raw("$('#UserName').val()"))
+            },
+                fileuploaded: $filecontrol.on("fileuploaded", function (event, data, previewId, index) {
+                    var result = data.response;
+                    if (result === null) {
+                        $.modalMsg("上传失败");
+                        return;
+                    }
+
+                    if (result.state === "success") {
+                        $controllId.val(result.data);
+                        if (result.data) {
+                            $listtip_files.html('');
+                            showUploadedFile(result.data.split(','));
+                        }
+                    }
+                    else {
+                        $.modalMsg(result.message);
+                    }
+                }),
+                fileerror: $filecontrol.on('fileerror', function (event, data, msg) {
+                    //console.log("Upload failed:" + msg);
+                    $.modalMsg(msg);
+                })
+            });
+
+            function showUploadedFile(files) {
+                var $tab = $("table.utab_@Model.Id");
+                if ($tab.find(".img-list").length <= 0) {
+                    $tab.append('<tr><td colspan="2" height="50px"><div class="img-list" id="img-list"></div></td></tr>');
+                }
+
+                $.each(files, function (i, file) {
+                    var $img = $("<img />").attr("src", file).css({ "width": "70px" });
+                    if (actionType !== @((int)UpLoadAction.cover)) {
+                        $img = $("<p />").html("<a href='" + file + "' target='_blank'>" + file.substr(file.lastIndexOf("/") + 1) + "</a>");
+                    }
+                    //console.log($filecontrol.attr("multiple"));
+                    if ($filecontrol.attr("multiple")) {
+                        $tab.find(".img-list").append($img);
+                    }
+                    $tab.find(".img-list").html($img);
+                });
+            }
+
+            $("#btn_@(Model.Id)_fileUpload").click(function () {
+                $filecontrol.fileinput("upload");
+            });
+
+            $filecontrol.change(function () {
+                //console.log("change:" + $(this).prop('files').length);
+                if ($(this).prop('files').length > 0) {
+                    $listtip_files.html('');
+                    $.each($(this)[0].files, function (i, file) {
+                        $listtip_files.append('<p><span class="file-input-name">' + file.name + '</span></p>');
+                    });
+                }
+            });
+            $(".fileinput-remove-button").click(function () {
+                $listtip_files.html('');
+            });
+
+            $(".btn-file span").removeClass("hidden-xs");
+        });
+    });
+        </script>
+<style type="text/css">
+    .file-input-new {
+        width: 100px;
+        height: 30px;
+        float: left
+    }
+</style>
+        @*@if (string.IsNullOrWhiteSpace(Model.ControlId))
+        {
+            <script type="text/javascript">
+    function submitForm() {
+        var uploadedfiles = $("#hide_@(Model.Id)_uploadedfiles").val();
+        if (uploadedfiles.length === 0) {
+            $.modalMsg("请选择文件并上传！");
+            return false;
+        }
+        $.modalClose();
+        return uploadedfiles;
+    }
+            </script>
+        }*@
+

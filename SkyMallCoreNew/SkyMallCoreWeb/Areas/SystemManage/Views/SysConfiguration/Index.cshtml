@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "系统配置";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+        gridList("/SystemManage/SysConfiguration/GetGridJson",
+            $(window).height() - 240, false, [
+                { label: "主键", name: "Id", hidden: true, key: true },
+                {
+                    label: '配置名称', name: 'ConfigName', width: 80, align: 'left'
+                },
+                { label: '配置编码', name: 'ConfigCode', width: 200, align: 'left' },
+                { label: '配置值', name: 'ConfigValue', width: 200, align: 'left' },
+                //{ label: '创建人员', name: 'CreatorUserId', width: 100, align: 'left' },
+                {
+                    label: '创建时间', name: 'CreatorTime', width: 100, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i' }
+                },
+                { label: '备注', name: 'Description', width: 300, align: 'left' }
+            ]);
+    });
+    //function gridList() {
+    //    var $gridList = $("#gridList");
+    //    $gridList.dataGrid({
+    //        url: "/SystemManage/SysConfiguration/GetGridJson",
+    //        height: $(window).height() - 240,
+    //        colModel: [
+    //            { label: "主键", name: "Id", hidden: true, key: true },
+    //            {
+    //                label: '配置名称', name: 'ConfigName', width: 80, align: 'left'
+    //            },
+    //            { label: '配置编码', name: 'ConfigCode', width: 200, align: 'left' },
+    //            { label: '配置值', name: 'ConfigValue', width: 200, align: 'left' },
+    //            //{ label: '创建人员', name: 'CreatorUserId', width: 100, align: 'left' },
+    //            {
+    //                label: '创建时间', name: 'CreatorTime', width: 100, align: 'left',
+    //                formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i' }
+    //            },
+    //            { label: '备注', name: 'Description', width: 300, align: 'left' }
+    //        ]
+    //    });
+    //    $("#btn_search").click(function () {
+    //        $gridList.jqGrid('setGridParam', {
+    //            postData: { keyword: $("#txt_keyword").val() },
+    //        }).trigger('reloadGrid');
+    //    });
+    //}
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新建配置",
+            url: "/SystemManage/SysConfiguration/Form",
+            width: "450px",
+            height: "400px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if (!keyValue) {
+            $.modalMsg("请选中要修改的项");
+            return;
+        }
+        $.modalOpen({
+            id: "Form",
+            title: "修改配置",
+            url: "/SystemManage/SysConfiguration/Form?keyValue=" + keyValue,
+            width: "550px",
+            height: "570px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_delete() {
+        $.deleteForm({
+            url: "/SystemManage/SysConfiguration/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().Id },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Details",
+            title: "查看配置",
+            url: "/SystemManage/SysConfiguration/Details?keyValue=" + keyValue,
+            width: "450px",
+            height: "520px",
+            btn: null,
+        });
+    }
+</script>
+
+<div class="topPanel">
+    <form id="searchform">
+        <div class="search">
+            <table>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input id="txt_keyword" name="keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;display:inline-block;vertical-align:middle;">
+                            <span class="input-group-btn" style="vertical-align:middle;">
+                                <button id="btn_search" type="button" class="btn btn-primary small-btn"><i class="fa fa-search"></i></button>
+                            </span>
+                            <div class="btn-group btntool" style="vertical-align:top;">
+                                <a id="edit" authorize="yes" onclick="btn_edit()" class="btn  btn-primary"><i class="fa fa-pencil-square-o"></i>修改配置</a>
+                                <a id="delete" authorize="yes" onclick="btn_delete()" class="btn  btn-primary"><i class="fa fa-trash-o"></i>删除配置</a>
+                                <a id="Details" authorize="yes" onclick="btn_details()" class="btn  btn-primary"><i class="fa fa-search-plus"></i>查看配置</a>
+                                <a id="add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建配置</a>
+                                <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>

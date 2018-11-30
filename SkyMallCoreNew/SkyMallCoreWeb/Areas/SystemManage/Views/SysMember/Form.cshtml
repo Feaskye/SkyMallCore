@@ -1,0 +1,242 @@
+﻿@{
+    ViewBag.Title = "新建会员";
+    if (ViewData["act"] != null)
+    {
+        Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
+    }
+}
+@*https://www.cnblogs.com/linjiqin/p/3431835.html*@
+@if (ViewData["act"] != null)
+{
+    <link href="~/js/select2/select2.min.css" rel="stylesheet" />
+    <script src="~/js/select2/select2.min.js"></script>
+    <link href="~/js/wizard/wizard.css" rel="stylesheet" />
+    <script src="~/js/wizard/wizard.js"></script>
+    <script src="~/js/validate/jquery.validate.min.js"></script>
+    <style type="text/css">
+        .formValue {
+            width: 40%;
+        }
+        .formValue input[type=text], .formValue select {
+            width: 80%;
+        }
+        .select2-container {
+            width: 80% !important;
+        }
+        /*.ckbox {
+            width: 120px
+        }*/
+    </style>
+}
+<script src="~/js/datepicker/WdatePicker.js"></script>
+<script>
+    var keyValue = $.request("keyValue");
+    var mobile = $.request("mobile");
+    $(function () {
+        //initControl();
+        if (!!keyValue || !!mobile) {
+            $.ajax({
+                url: "/SystemManage/SysMember/GetFormJson",
+                data: { keyValue: keyValue, mobile: mobile },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                    $("#memberId").val(data.Id);
+                    if (data.Id) {
+                        $("#Password").attr("placeholder", "不填写密码提交时原密码不变！");
+                        $("#Password").removeClass("required");
+                    }
+                }
+            });
+        }
+    });
+    //function initControl() {
+    //    $("#GroupId").bindSelect({
+    //        url: "/SystemManage/SysMemGroup/GetTreeSelectJson",
+    //    });
+    //}
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            $.modalMsg("未输入或验证未通过");
+            return false;
+        }
+        //var groupId = $('#GroupId').val();
+        //if (groupId === "" || groupId === "-1") {
+        //    $.modalMsg("请选择分组");
+        //    return false;
+        //}
+        keyValue = $("#memberId").val();
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/SystemManage/SysMember/SubmitForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                if (keyValue.length > 0) {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+                else {
+                    window.location.href = "/SystemManage/SysMember/Index";
+                }
+            }
+        });
+    }
+</script>
+<form id="form1">
+    <table class="form" style="@(ViewData["act"]==null?"":"width:50%")">
+        <tr>
+            <th class="formTitle">用户名</th>
+            <td class="formValue">
+                <input type="hidden" id="memberId" name="memberId" />
+                <input type="text" id="UserName" name="UserName" class="form-control required" placeholder="请输入用户名" value="" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">密码</th>
+            <td class="formValue">
+                <input type="password" id="Password" name="Password" class="form-control required" placeholder="请输入密码" value="" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">头像</th>
+            <td class="formValue">
+                <input type="hidden" value="" name="HeadIcon" id="HeadIcon" />
+                <partial name="_FileUpload" model="@(new FileUploadModel{ControlId="HeadIcon", Id="HeadIcon", ActionType= UpLoadAction.cover, SpecilName="headicon"})" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">用户等级</th>
+            <td class="formValue">
+                <select id="UserLevel" name="UserLevel" class="form-control required">
+                    @foreach (var kteim in EnumCommon.GetEnumList<UserLevel>())
+                    {
+                        <option value="@kteim.Key">@kteim.Value</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">姓名</th>
+            <td class="formValue">
+                <input type="text" id="RealName" name="RealName" class="form-control required" placeholder="请输入姓名" value="" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">手机</th>
+            <td class="formValue">
+                <input type="text" id="MobilePhone" name="MobilePhone" class="form-control required isPhone" placeholder="请输入手机" maxlength="11" value="" />
+            </td>
+        </tr>
+        @*<tr>
+            <th class="formTitle">电话</th>
+            <td class="formValue">
+                <input type="text" id="Telephone" name="Telephone" class="form-control isTel" value="" />
+            </td>
+        </tr>*@
+        <tr>
+            <th class="formTitle">生日</th>
+            <td class="formValue">
+                <input type="text" id="Birthday" name="Birthday" class="form-control formdate" value="" />
+            </td>
+        </tr>
+        @*<tr>
+            <th class="formTitle">地址</th>
+            <td class="formValue">
+                <input type="text" id="Address" name="Address" class="form-control" value="" />
+            </td>
+        </tr>*@
+        <tr>
+            <th class="formTitle">单位</th>
+            <td class="formValue">
+                <input type="text" id="Company" name="Company" class="form-control" value="" />
+            </td>
+        </tr>
+        @*<tr>
+            <th class="formTitle">分组</th>
+            <td class="formValue" >
+                <select id="GroupId" name="GroupId" class="form-control required"></select>
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">传真</th>
+            <td class="formValue">
+                <input id="Tax" name="Tax" type="text" class="form-control" placeholder="请输入传真" value="" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">宅电</th>
+            <td class="formValue">
+                <input id="HomePhone" name="HomePhone" type="text" class="form-control" placeholder="请输入宅电" value="" />
+            </td>
+        </tr>*@
+        <tr>
+            <th class="formTitle">邮箱</th>
+            <td class="formValue">
+                <input type="text" id="Email" name="Email" class="form-control email" value="" />
+            </td>
+        </tr>
+        @*<tr>
+            <th class="formTitle">邮编</th>
+            <td class="formValue">
+                <input type="text" id="ZipCode" name="ZipCode" class="form-control" value="" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle">职务</th>
+            <td class="formValue">
+                <input type="text" id="Position" name="Position" class="form-control" value="" />
+            </td>
+        </tr>*@
+        <tr>
+            <th class="formTitle">显示顺序</th>
+            <td class="formValue">
+                <input id="SortCode" name="SortCode" type="text" class="form-control required" value="1" placeholder="请输入显示顺序" />
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle" style="height: 35px;">选项</th>
+            <td class="formValue" style="padding-top: 1px;">
+                <div class="ckbox">
+                    <input id="AllowEdit" name="AllowEdit" type="checkbox"><label for="AllowEdit">允许编辑</label>
+                </div>
+                <div class="ckbox">
+                    <input id="AllowDelete" name="AllowDelete" type="checkbox"><label for="AllowDelete">允许删除</label>
+                </div>
+                <div class="ckbox">
+                    <input id="EnabledMark" name="EnabledMark" type="checkbox" checked="checked"><label for="EnabledMark">有效</label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th class="formTitle" valign="top" style="padding-top: 5px;">
+                备注
+            </th>
+            <td class="formValue">
+                <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+            </td>
+        </tr>
+    </table>
+    <div style="padding-left: 115px;padding-bottom:20px;" id="btnSubmit">
+        <a class="btn btn-primary" onclick="submitForm()"><i class="fa fa-save" style="margin-right:5px;"></i>确认</a>
+    </div>
+</form>
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".formdate").focus(function () {
+                var objId = $(this).attr("id");
+                WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss', lang: 'zh-cn' });
+            });
+        });
+
+
+        var act = $.request("act");
+        if (act.length <= 0) {
+            $("#btnSubmit").hide();
+        }
+    </script>
+}

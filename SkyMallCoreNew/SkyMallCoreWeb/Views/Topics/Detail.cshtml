@@ -1,0 +1,209 @@
+﻿@model PagedList<ArticleDetailView>
+@{
+    ViewData["Title"] = "专题";
+    var topicView = ViewBag.TopicVIew as TopicDetailView;
+    var hotTopics = (ViewBag.HotTopics as List<ListItem>) ?? new List<ListItem>();
+}
+
+<div class="nav_ui" style="display: none;">
+    <a href="/">
+        <img src="images/home.gif" width="16" height="16" align="absmiddle" alt="首页"> @(ConfigManager.SysConfiguration.SiteName)
+    </a>
+    <span>&nbsp;&gt;&nbsp;</span>
+    <a href="/topics/details">精彩专题</a>
+    <span>&nbsp;&gt;&nbsp;</span>
+    <a href="gl-00001.html">勘探开发</a>
+    <span>&nbsp;&gt;&nbsp;</span>世界油气田资料
+</div>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td valign="top">
+                <div class="zt2017">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td valign="top">
+                                    <div class="zt_img">
+                                        <img src="@topicView.BigCoverUrl" alt="@topicView.Title">
+                                    </div>
+                                </td>
+                                <td valign="top">
+                                    <div class="zt_txt">
+                                        <div class="title">@topicView.Title</div>
+                                        <div class="view">@topicView.Title</div>
+                                        @*<div class="bq">
+                                            标签：
+                                            <span class="tag"> 世界油田</span>
+                                            <span class="tag"> 世界油气田</span>
+                                            <span class="tag"> 全球油气田</span>
+                                            <span class="tag"> 全球油田</span>
+                                        </div>*@
+                                        <div class="db">
+                                            <div class="jg">
+                                                <p class="je">
+                                                    积分
+                                                    <span>@topicView.PackageAmount</span>
+                                                </p>
+                                                <p class="tj">
+                                                    共
+                                                    <span>@topicView.ResourceCount</span>份文档 / 原总价：
+                                                    <span class="s">@topicView.PackageAmount 积分</span>
+                                                </p>
+                                            </div>
+                                            <div class="cart">
+                                                <a href="javascript:;" class="buytopic"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="zt_list" style="margin-bottom:0px;">
+                    <a name="book" id="book"></a>
+                    <div class="viewx">
+                        @foreach (var item in Model)
+                        {
+                        <li>
+                            <span class="@(item.ResourceType.IsEmpty()?"jpg":item.ResourceType)">
+                                <img alt="@item.Title" src="/web/Images/s.gif" align="absmiddle" width="15" height="20" border="0">
+                            </span>
+                            <a href="/Article/Detail?aid=@item.Id" style="clear: both;" target="_blank">@item.Title</a>
+                            <span class="c999">(浏览：@item.ReadCount)</span>
+                            <span class="mb2 works-star-level works-star-8"></span>
+                        </li>
+                        }
+                    </div>
+                    <!-- 分页信息 -->
+                    <partial name="_PagerPartial" model="Model" />
+                    <!-- 分页信息 end -->
+                </div>
+                <div class="db_gou">
+                    <a href="javascript:;" class="buytopic"></a>
+                </div>
+                <div class="blank15"></div>
+            </td>
+            <td style="width: 10px;">&nbsp; </td>
+            <td style="width: 260px;" valign="top">
+                <div class="sidebar" style="width: 260px">
+                    <div style="text-align: center; padding-bottom: 10px;">
+                        <a href="/FlexPaper/AddBookGroup" class="createzt radius5">创建专题，我来当总编</a>
+                    </div>
+                    <div class="box download-rank bgF block" style="width: 260px;">
+                        <div class="boxHd">
+                            <h2 class="left font-normal font16 font-yahei" style="font-size: 15px; color: #666;">精品推荐</h2>
+                        </div>
+                        <div class="first-second-third cl mt10" style="height: 250px; margin-top: 10px;">
+                            <dl class="jiaochengpaihang">
+                                @foreach (var item in hotTopics)
+                                {
+                                    <dd>
+                                        <a target="_blank" href="/topics/detail/@item.Code" title="@item.Text">
+                                            @item.Text
+                                        </a>
+                                    </dd>
+                                }
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="mod1" style="width: 100%;">
+                        <div class="inner">
+                            <div class="hd"> 当前专题信息 </div>
+                            <div class="tb">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle" colspan="2">
+                                                <div style="font-size: 14px; color: #666; font-weight: bold; padding-bottom: 5px;"> 专题作者： </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" style="width: 50px; text-align: left">
+                                                <a href="javascript:;" title="@topicView.MemberName" target="_blank">
+                                                    <img src="/web/images/avatar_small.gif" alt="@topicView.Title" onerror="this.src='/web/images/avatar_small.gif'" style="padding: 2px 2px; width: 50px; height: 50px; border: solid 1px #f2f2f2">
+                                                </a>
+                                            </td>
+                                            <td valign="top" align="left" style="line-height: 20px; padding-top: 3px; color: #666;">
+                                                <div style="padding-left: 1px" class="wordwrap">
+                                                    <a href="javascript:;" title="superplaner" target="_blank"> @topicView.MemberName</a>
+                                                </div>
+                                                <div style="padding-top: 5px">
+                                                    <div class="author-level-bar">
+                                                        <span class="mr5 author-grade author-grade0" title="会员等级" @topicView.UserLevel></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="padding: 10px 0px 0px 7px; line-height: 23px; color: #666;">
+                                                <span>最近更新：@topicView.CreatorTime.ToDateTimeString(true)</span>
+                                                <br>
+                                                <span>资源数量：@topicView.ResourceCount</span>
+                                                <br>
+                                                <span>浏览次数：@topicView.ReadCount</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="mod1" style="margin-top: 10px; width: 100%;">
+                        <div class="inner">
+                            <div class="hd"> 作者其他专题 </div>
+                            <div class="tb">
+                                <table width="100%"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mod1" style="margin-top: 10px; width: 100%;">
+                        <div class="inner">
+                            <div class="hd"> 相关专题 </div>
+                            <div class="tb">
+                                <table width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="username" style="background: url(images/pont_1.gif) no-repeat left 9px; padding-left: 10px;">
+                                                    <a href="g-9.html" title="储量与资源量评估"> 储量与资源量评估</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="username" style="background: url(images/pont_1.gif) no-repeat left 9px; padding-left: 10px;">
+                                                    <a href="g-7.html" title="沉积相及相关资料汇总"> 沉积相及相关资料汇总</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(function () {
+        $(".buytopic").click(function () {
+            $.post("/topics/buytopics", { id:'@topicView.Id', __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
+                if (result.state === "success") {
+                    alert("购买成功！");
+                    location.href = "/Topics/Package/@topicView.Id";
+                }
+                else {
+                    if (result.data) {
+                        location.href = result.data;
+                    }
+                    alert(result.message);
+                }
+            },"json");
+        });
+    });
+</script>

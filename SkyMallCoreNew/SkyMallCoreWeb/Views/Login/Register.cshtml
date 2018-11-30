@@ -1,0 +1,339 @@
+﻿
+@{
+    ViewData["Title"] = "注册";
+    //Layout = "~/Views/Shared/_MemberLayout.cshtml";
+}
+<style type="text/css">
+    .is0 {
+        background: url(images/progressImg1.png) no-repeat 0 0;
+        width: 138px;
+        height: 7px;
+    }
+
+    .is10 {
+        background-position: 0 -7px;
+    }
+
+    .is20 {
+        background-position: 0 -14px;
+    }
+
+    .is30 {
+        background-position: 0 -21px;
+    }
+
+    .is40 {
+        background-position: 0 -28px;
+    }
+
+    .is50 {
+        background-position: 0 -35px;
+    }
+
+    .is60 {
+        background-position: 0 -42px;
+    }
+
+    .is70 {
+        background-position: 0 -49px;
+    }
+
+    .is80 {
+        background-position: 0 -56px;
+    }
+
+    .is90 {
+        background-position: 0 -63px;
+    }
+
+    .is100 {
+        background-position: 0 -70px;
+    }
+
+    #passwordStrengthDiv {
+        margin-top: 6px;
+    }
+
+    .errormsg {
+        color: #ff1100;
+    }
+
+    .main_con_l td {
+        height: 30px;
+    }
+
+    .regtb td {
+        padding: 5px 0px;
+        color: #444;
+    }
+
+    input.main_text {
+        width: 300px;
+    }
+
+    .link-loginyou {
+        display: inline-block;
+        width: 200px;
+        height: 40px;
+        line-height: 34px;
+        background-color: #FF6600;
+        border: 1px solid #ff1100;
+        font-size: 18px;
+        text-align: center;
+        margin-left: 0px;
+        color: #fff;
+        margin-top: 10px;
+        border-radius: 2px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .link-loginyou:hover {
+            background-color: #f7372c;
+            color: #fff;
+            border-color: #f7372c
+        }
+</style>
+
+<div id="Content_pnlReg">
+    <form id="submitForm">
+        @*<div class="nav_ui">
+            <a href="/">
+                <img src="images/home.gif" width="16" height="16" align="absmiddle" alt="首页">
+                石油文库
+            </a>&nbsp;&gt;&nbsp;用户注册
+        </div>*@
+        <div class="regmain" style="width: 100%;float:none; height:auto;">
+            <div class="main_con" style="width: 100%;float:none;">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td valign="top">
+                                <div class="main_con_l" style="padding-top: 5px; padding-left: 0px; text-align: left;
+                    float: none; width: 600px; margin-left:50px;">
+
+                                    <div style="background-color: #efefef; padding: 10px 10px; margin-bottom: 10px;">
+                                        欢迎注册，注册后您就将获取<b style="color: #ff1100">@ViewBag.Score</b>个积分。
+                                    </div>
+
+                                    <table border="0" cellspacing="0" style="width:600px;" cellpadding="0" align="left" class="regtb">
+
+                                        <tbody>
+                                            <tr>
+                                                <td align="right" valign="middle" width="120">
+                                                    用户名：<span class="errormsg">*</span>
+                                                </td>
+                                                <td>
+                                                    <span class="bd_2" style="border: solid 0px red">
+                                                        <input name="userName" type="text" maxlength="25" id="userName" class="main_text" placeholder="请输入用户名" onblur="Chklogin()">
+                                                    </span>
+                                                    <div id="Logininfo" style="color: #FF6600; display: none; line-height: 30px; float: left;
+                                    font-size: 12px;">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" valign="middle">
+                                                    设置密码：<span class="errormsg">*</span>
+                                                </td>
+                                                <td>
+                                                    <span class="bd_2">
+                                                        <input name="password" type="password" id="password" class="main_text" placeholder="请设置登录密码">
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="display: none">
+                                                <td align="right" valign="middle">
+                                                    真实姓名： <span class="errormsg" id="span1" style="display: none">*</span>
+                                                </td>
+                                                <td>
+                                                    <span class="bd_2">
+                                                        <input name="ctl00$Content$txtName" type="text" id="Content_txtName" class="main_text">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr class="top5" style="display: none">
+                                                <td align="right" valign="middle">
+                                                    性别：
+                                                </td>
+                                                <td>
+                                                    <input id="Content_RadioButtonSir" type="radio" name="ctl00$Content$sex" value="RadioButtonSir" checked="checked"><label for="Content_RadioButtonSir">男</label>
+                                                    <input id="Content_RadioButtonGender" type="radio" name="ctl00$Content$sex" value="RadioButtonGender"><label for="Content_RadioButtonGender">女</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="display: none">
+                                                <td align="right" valign="middle">
+                                                    QQ 号码：<span class="errormsg" id="span3" style="display: none">*</span>
+                                                </td>
+                                                <td>
+                                                    <span class="bd_2">
+                                                        <input name="ctl00$Content$TextBoxQQ" type="text" id="Content_TextBoxQQ" class="main_text">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr style="display: none">
+                                                <td align="right" valign="middle">
+                                                    签名信息：<span class="errormsg" id="span4" style="display: none">*</span>
+                                                </td>
+                                                <td>
+                                                    <span class="bd_2">
+                                                        <textarea name="ctl00$Content$TextBoxMark" rows="2" cols="20" id="Content_TextBoxMark" class="main_text" style="height: 80px;
+                                        width: 460px"></textarea>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" valign="middle">
+                                                    验证码：
+                                                </td>
+                                                <td height="30" style="line-height: 30px;">
+                                                    <span class="bd_2">
+                                                        <input name="code" type="text" id="code" class="main_text" style="width: 60px;">&nbsp;
+                                                        <img src="/SysComponent/Controll/GetAuthCode" id="imgcode" title="单击更换验证码" onclick="this.src=(this.src + '?code=' + new Date())" align="absmiddle" style="cursor:pointer;
+                                        height: 28px; width: 80px;">
+                                                        <a id="switchCode" style="text-decoration:underline;">看不清？换一个</a>
+                                                    </span>&nbsp;&nbsp;<span id="Content_RequiredFieldValidator5" style="color:#FF1100;display:none;">请输入验证字符!</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="height: 5px; line-height: 5px;">
+                                                    &nbsp;
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" valign="middle"></td>
+                                                <td>
+                                                    <input id="Content_CheckBoxAgree" type="checkbox" name="ctl00$Content$CheckBoxAgree" checked="checked">
+                                                    我已阅读并接受<a href="/memprotocol" target="_blank">《@(ConfigManager.SysConfiguration.SiteName)用户协议》</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td height="50" valign="middle">
+                                                    <br>
+                                                    &nbsp;
+                                                    <script type="text/javascript">
+                                                        var eId = 'Content_txtEmail';
+                                                        var pId = 'Content_txtPwd';
+                                                    </script><input type="button" name="btnSubmit" value="" id="btnSubmit" class="sub2">
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td valign="top">
+                                <div class="main_con_r reg" style="padding-right: 0px; width: 400px; padding-top: 10px;">
+                                    <div class="side" style="width:90%;">
+                                        <div class="other" style="width:100%;">
+
+                                            <div class="login">
+                                                已经是@(ConfigManager.SysConfiguration.SiteName)用户？<a id="A1" style="display: inline" class="blue bold" href="/login">
+                                                    请登录
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="clear">
+                </div>
+            </div>
+            <div class="pop_flag">
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <script src="/js/dialog/dialog.js"></script>
+    <script src="/js/framework-ui.js"></script>
+    <script type="text/javascript">
+        function Chklogin() {
+            document.getElementById("Logininfo").style.display = "none";
+            var v = true;
+            var userName = document.getElementById("userName").value;
+            if (userName === "") {
+                document.getElementById("Logininfo").innerHTML = "请输入用户名";
+                document.getElementById("Logininfo").style.display = "inline";
+                v = false;
+                return false;
+            }
+            $.getSyncResult({
+                url: "/Member/ExistName?name=" + userName,
+                success:function(result) {
+                    if (result.state === "success") {
+                        document.getElementById("Logininfo").style.display = "inline";
+                        document.getElementById("Logininfo").innerHTML = "该用户名已存在";
+                        $("#userName").focus();
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                tipid:"Logininfo"
+            });
+        }
+
+        $(function () {
+            $("#btnSubmit").click(function () {
+                var oEmail = $("#userName");
+                if (oEmail) {
+                    if (oEmail.val() === "") {
+                        alert("请输入用户名！");
+                        oEmail.focus();
+                        return false;
+                    }
+                }
+
+                // 密码
+                var oPassword = $("#password");
+                if (oPassword) {
+                    if (oPassword.val() === "") {
+                        alert("请输入密码！");
+                        oPassword.focus();
+                        return false;
+                    }
+                    else if (oPassword.val().length < 6) {
+                        alert("密码长度不能小于6位！");
+                        oPassword.focus();
+                        return false;
+                    }
+                }
+
+                // 验证码
+                var oCode = $("#code");
+                if (oCode) {
+                    if (oCode.val() === "") {
+                        alert("请输入验证码！");
+                        oCode.focus();
+                        return false;
+                    }
+                }
+                $.submitForm({
+                    url: "/Login/Register",
+                    param: $("#submitForm").formSerialize(),
+                    success: function () {
+                        //$.modalAlert("注册成功！", "",function () { 
+                        //});
+                        oPassword.val('');
+                        oEmail.val('');
+                        oCode.val('');
+                        alert("注册成功，请到登陆页登陆！");
+                        location.href = "/login";
+                        //$("#switchCode").click(
+                    }
+                });
+            });
+            
+        });
+        
+    </script>
+}

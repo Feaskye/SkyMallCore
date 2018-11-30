@@ -1,0 +1,234 @@
+﻿@model List<ListItem>
+@{
+    ViewData["Title"] = "文章列表";
+    var topics = (ViewBag.TopicCates as List<ListItem>) ?? new List<ListItem>();
+    var hotTopics = ViewBag.HotTopics as PagedList<TopicDetailView>;
+}
+@section HScripts{ 
+    <style type="text/css">
+        .ct1 li {
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            padding-left: 20px;
+            overflow: hidden;
+            display: block;
+            float: left;
+        }
+
+            .ct1 li a {
+                color: #555;
+                font-size: 14px;
+            }
+
+        .ct1 {
+            margin-bottom: 25px;
+            padding: 10px 0px 10px 0px;
+            float: left;
+            width: 100%;
+        }
+
+        .ct2 li {
+            height: 30px;
+            line-height: 30px;
+            margin-left: 20px;
+            overflow: hidden;
+            display: block;
+        }
+
+            .ct2 li a {
+                font-size: 15px;
+            }
+
+        .ct2 {
+            margin-bottom: 10px;
+            padding: 10px 0px;
+        }
+
+        .catetable tr {
+            background: url(images/shouye_s.png) repeat-x left bottom;
+        }
+
+        .catetable td {
+            text-align: center;
+            font-size: 14px;
+            padding: 15px 0px;
+        }
+
+        .catetable div {
+            text-align: left;
+            line-height: 24px;
+        }
+
+        a.f1 {
+            color: #666;
+            font-weight: bold;
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        a.f2 {
+            color: #666;
+            font-size: 13px;
+            margin-right: 10px;
+        }
+
+        a.f3 {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .ztt {
+            line-height: 20px;
+            font-size: 14px;
+            text-align: left;
+            height: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .boxHd1 {
+            background-color: #f5f5f5;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 20px;
+        }
+
+        .boxHd2 {
+            background-color: #f5f5f5;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 20px;
+        }
+    </style>
+}
+<div style="border: solid 1px #e7e6e3; background-color: #fff; margin-bottom: 15px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 260px; border-right: solid 1px #e7e6e3;" valign="top">
+                    <div class="boxHd1   font16 font-yahei">
+                        专题分类
+                    </div>
+                    <div class="clearfix">
+                        <ul class="ct1">
+                            @foreach (var item in topics)
+                            {
+                            <li>
+                                <a href="/topics/list/@item.Code">
+                                    @item.Text
+                                </a>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                <td valign="top">
+                    <div style="font-size: 14px; font-weight: bold; height: 40px; line-height: 40px;
+                        padding: 0px 10px 15px 20px;">
+                        <table width="100%">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a href="group.html" style="color: #333; font-weight: bold; font-size: 16px;">精彩专题</a>
+                                    </td>
+                                    <td align="right" style="padding-right: 8px;">
+                                        <a href="/topics" style="color: #888; font-size: 14px; font-weight: normal;">MORE&gt;</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="padding: 0px 0px 20px 20px">
+                        <table id="Content_rpFlexPaper" cellspacing="0" style="width:100%;border-collapse:collapse;">
+                            <tbody>
+                                <tr>
+                                    @foreach (var item in hotTopics)
+                                    {
+                                    <td align="left" valign="top">
+                                        <div style="padding: 0px 0px 5px 0px; width: 180px; overflow: hidden;">
+                                            <a target="_blank" href="/topics/detail/@item.Id">
+                                                <img class="radius4" alt="@item.Title" src="@item.CoverUrl" onerror="this.src='/web/images/sc.gif'" style="width: 180px; height: 133px">
+                                            </a><br>
+                                            <div class="huanhang ztt Textcenter">
+                                                <a target="_blank" href="/topics/detail/@item.Id">
+                                                    @item.Title
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    }
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div style="border: solid 1px #e7e6e3; background-color: #fff; margin-bottom: 15px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 260px; border-right: solid 1px #e7e6e3;" valign="top">
+                    <div class="boxHd2   font16 font-yahei">
+                        常用分类
+                    </div>
+                    <div class="clearfix">
+                        <ul class="ct1"></ul>
+                    </div>
+                </td>
+                <td valign="top">
+                    <div style="font-size: 14px; font-weight: bold; height: 40px; line-height: 40px;
+                        padding: 0px 0px 0px 20px;">
+                        <table width="100%">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a style="color: #333; font-weight: bold; font-size: 16px;">资源分类</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="padding: 0px 20px">
+                        <table width="100%" cellpadding="0" cellspacing="0" class="catetable">
+
+                            <tbody>
+                        @{ 
+                                var i=1;
+                            foreach (var item in Model)
+                            {
+                                <tr class="tr@(i%2==0?"1":"0")">
+                                    <td style="width: 100px; text-align: left" valign="top">
+                                        <div class="ellipsis w100 Textleft">
+                                            <a class="f1" title="@item.Text" href="/Article/Index?cid=@item.Code">
+                                                @item.Text
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td valign="top">
+                                        <div>
+                                            @foreach (var chi in item.Childs)
+                                            {
+                                            <a class="f2" href="/Article/Index?cid=@chi.Code">
+                                                <nobr>@chi.Text</nobr>
+                                            </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                         }
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,133 @@
+﻿@model MemScoreSearchView
+@{
+    ViewBag.Title = "我的积分";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    var isGet = Model.SearchType == 0;
+}
+@section HScripts{
+    <script src="/js/datepicker/WdatePicker.js"></script>
+}
+<form id="submitForm" action="/member/userscore" method="post">
+    <div style="padding:10px 20px;">
+
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="@(isGet ? "tabCurrenttd" : "tabnormaltd")">
+                        <div class="@(isGet ? "tabCurrent" : "tabnormal")" onclick="window.location.href='/Member/UserScore?SearchType=0';">
+                            获取记录
+                        </div>
+                    </td>
+                    <td class="@(!isGet ? "tabCurrenttd" : "tabnormaltd")">
+                        <div class="@(!isGet ? "tabCurrent" : "tabnormal")" onclick="window.location.href='/Member/UserScore?SearchType=1';">
+                            消费记录
+                        </div>
+                    </td>
+                    @*<td class="tabnormaltd">
+                        <div class="tabnormal" onclick="window.location.href='UserScore.aspx?f=2&amp;t=0';">
+                            充值记录
+                        </div>
+                    </td>
+                    <td class="tabnormaltd">
+                        <div class="tabnormal" onclick="window.location.href='UserScore.aspx?f=3&amp;t=0';">
+                            提现记录
+                        </div>
+                    </td>*@
+                    <td class="tabCurrenttd_other" style="text-align: right">
+                        账户积分余额：<span style="color: #ff6600;  font-weight: bold; font-family: 微软雅黑">
+                            @Model.MemScore
+                        </span>
+                        &nbsp;&nbsp;
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <p>
+            日期：<input name="StartDate" type="text" id="StartDate" class="textbox" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px;" value="@Model.StartDate.ToDateString()">
+            到<input name="EndDate" type="text" id="Content_txtEndDate" class="textbox" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px;" value="@Model.EndDate.ToDateString()">&nbsp;&nbsp;
+            @(isGet ? "获取原因" : "消费原因")：<select name="ScoreType" id="Content_ddlType" class="diccode" diccode="@(isGet? "ScoreType": "ScoreType1")" data="@Model.ScoreType">
+                <option selected="selected" value="-1">-全部-</option>
+                @*<option value="3">资源被全文下载</option>
+                <option value="65">专题被下载</option>
+                <option value="4">资源被全文阅读</option>
+                <option value="7">全文阅读获取退费</option>
+                <option value="31">奖励积分</option>
+                <option value="12">上传资源</option>
+                <option value="1">注册赠送</option>
+                <option value="50">任务求助获取赏金</option>
+                <option value="13">上班打卡</option>
+                <option value="14">下班打卡</option>*@
+            </select>
+            <input name="SearchType" type="hidden" value="@Model.SearchType" />
+            &nbsp;&nbsp; <span class="form-btn downloadBtn1">
+                <input type="submit" name="btnQuery" value="查 询" id="btnQuery" class="form-btn downloadBtn" style="cursor: pointer;">
+            </span>
+        </p>
+        <br>
+        <table class="bmtable" border="0" cellpadding="5" cellspacing="1" width="100%">
+            <thead>
+                <tr>
+                    <td align="center" class="titleRow">
+                        <strong>
+                            @(isGet ? "获取" : "消费")时间
+                        </strong> &nbsp;
+                    </td>
+
+                    <td align="center" class="titleRow">
+                        <strong>
+                            @(isGet ? "获取" : "消费")积分
+                        </strong> &nbsp;
+                    </td>
+
+
+                    <td align="center" class="titleRow">
+                        <strong>
+                            @(isGet ? "获取" : "消费")类型
+                        </strong> &nbsp;
+                    </td>
+
+                    <td align="center" class="titleRow">
+                        <strong>备注</strong> &nbsp;
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ScoreList)
+                {
+                    <tr>
+                        <td align="center" bgcolor="#FFFFFF" style="height: 25px">
+                            @item.CreatorTime.ToDateTimeString()
+                        </td>
+                        <td align="center" bgcolor="#FFFFFF" style="height: 25px">
+                            @item.Score
+                        </td>
+                        <td align="center" bgcolor="#FFFFFF" style="height: 25px">
+                            @item.ScoreType
+                        </td>
+                        <td align="center" bgcolor="#FFFFFF" style="height: 25px"></td>
+                    </tr>
+                }
+                <tr>
+                    <td align="center" bgcolor="#FFFFFF" style="height: 25px">
+                        总计：
+                    </td>
+
+                    <td align="center" bgcolor="#FFFFFF" style="height: 25px">
+                        <b>@Model.TotalScore</b>
+                    </td>
+                    <td align="center" bgcolor="#FFFFFF" style="height: 25px"></td>
+                    <td align="center" colspan="10" bgcolor="#FFFFFF" style="height: 25px"></td>
+
+                </tr>
+
+            </tbody>
+        </table>
+        <partial name="_PagerPartial" model="Model.ScoreList" />
+    </div>
+</form>
+
+
+@section Scripts{
+
+}

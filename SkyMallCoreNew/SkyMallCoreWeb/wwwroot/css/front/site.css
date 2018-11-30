@@ -1,0 +1,41 @@
+﻿body {
+}
+/* Pager */
+.pager {
+    margin: 8px 3px;
+    padding: 3px;
+}
+
+    .pager .disabled {
+        border: 1px solid #ddd;
+        color: #999;
+        margin-top: 4px;
+        padding: 3px;
+        text-align: center;
+    }
+
+    .pager .current {
+        background-color: #6ea9bf;
+        border: 1px solid #6e99aa;
+        color: #fff;
+        font-weight: bold;
+        margin-top: 4px;
+        padding: 3px 5px;
+        text-align: center;
+    }
+
+    .pager span, .pager li {
+        margin: 4px 3px;
+    }
+    .pager .sr-only {
+        display:none;
+    }
+    .pager li {
+        width:15px;
+        border: 1px solid #aaa;
+        padding: 3px 5px;
+        text-align: center;
+        text-decoration: none;
+        float: left;
+        list-style:none;
+    }

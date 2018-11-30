@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "新闻分类";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+<link href="~/js/select2/select2.min.css" rel="stylesheet" />
+<script src="~/js/select2/select2.min.js"></script>
+<script>
+    $(function () {
+        initControl();
+
+        gridList("/SystemManage/NewsCategory/GetGridJson",
+            $(window).height() - 220, false, [
+                { label: "主键", name: "Id", hidden: true, key: true },
+                { label: '分类名称', name: 'Title', width: 150, align: 'left' },
+                { label: '简介', name: 'ShortTitle', width: 150, align: 'left' },
+                {
+                    label: '类别', name: 'CateType', width: 100, align: 'left'
+                },
+                {
+                    label: '父级', name: 'Category', width: 100, align: 'left'
+                },
+                {
+                    label: '创建时间', name: 'CreatorTime', width: 80, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                },
+                {
+                    label: "有效", name: "EnabledMark", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                { label: '备注', name: 'Description', width: 300, align: 'left' }
+            ]);
+    });
+
+    function initControl() {
+        $("#ParentId").bindSelect({
+            url: "/SysComponent/Controll/GetNewsCates",
+            id: "Code",
+            text: "Text"
+        });
+    }
+
+
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增分类",
+            url: "/SystemManage/NewsCategory/Form",
+            width: "450px",
+            height: "280px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Form",
+            title: "修改分类",
+            url: "/SystemManage/NewsCategory/Form?keyValue=" + keyValue,
+            width: "450px",
+            height: "280px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_delete() {
+        $.deleteForm({
+            url: "/SystemManage/NewsCategory/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().Id },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Details",
+            title: "查看分类",
+            url: "/SystemManage/NewsCategory/Details?keyValue=" + keyValue,
+            width: "450px",
+            height: "280px",
+            btn: null,
+        });
+    }
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建分类</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li><a id="edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改分类</a></li>
+                <li><a id="delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除分类</a></li>
+                @*<li><a id="Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看分类</a></li>*@
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <form id="searchform">
+                        <div class="input-group">
+                            &nbsp;&nbsp; 父级分类
+                            <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                <select id="ParentId" name="ParentId" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                            <input id="keyword" name="keyword" type="text" class="form-control" placeholder="分类名称/分类编号" style="width: 200px;">
+                            <span class="input-group-btn">
+                                <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>

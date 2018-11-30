@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Member\IMemberGroupRespository.cs" />
+    <Compile Remove="Member\MemberGroupRespository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkyCore.GlobalProvider\SkyCore.GlobalProvider.csproj" />
+    <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
+    <ProjectReference Include="..\SkyMallCore.Data\SkyMallCore.Data.csproj" />
+    <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
+    <ProjectReference Include="..\SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.configuration.abstractions\2.0.2\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.dependencyinjection.abstractions\2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

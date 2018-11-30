@@ -1,0 +1,144 @@
+﻿@model HelpDetailView
+@{
+    var HelpList = ViewBag.HelpList as List<HelpDetailView>;
+    ViewData["Title"] = Model != null ? Model.Title : "友情链接";
+
+    var links = ViewBag.Links as List<LinkDetailView>;
+}
+
+@section HScripts{
+    <link href="/web/css/listpage.css" rel="stylesheet" />
+    <script type="text/javascript">
+        var col_id = 0;
+
+        $(function () {
+            $(".longSideBar dl dt[data-col=" + col_id + "]").addClass("selected").next("dd").slideToggle();
+
+            $(".longSideBar dl dt").each(function () {
+                $(this).click(function () {
+                    if ($(this).next("dd").find("li").length > 0) {
+                        $(this).next("dd").slideToggle();
+                    }
+                });
+            });
+        });
+    </script>
+}
+<div class="bag mb10">
+    <table class="longTable">
+        <tbody>
+            <tr>
+                <th style="background-color: #f8f8f8;" class="longTableTh">
+                    <div class="longSideBar">
+                        <h2 class="bold fs18 cl font-yahei">
+                            服务中心导航
+                        </h2>
+                        <ul>
+                            <dl class="item">
+                                <dt data-col="1" class="@(Model != null?"selected":"")"><a class="title" href="/Help">帮助中心 </a></dt>
+                                <dd style="display: block;">
+                                    <ul>
+                                        @foreach (var item in HelpList)
+                                        {
+                                        <li>
+                                            &nbsp; <a data-id="4" href="/help/@item.Id" class="@(item == Model?"cur":"")">
+                                                @item.Title
+                                            </a>
+                                        </li>
+                                        }
+                                    </ul>
+                                </dd>
+                            </dl>
+                            <dl class="item">
+                                <dt data-col="1" class="@(Model == null?"selected":"")"><a class="title" href="/Friend">友情链接 </a></dt>
+                            </dl>
+                        </ul>
+                    </div>
+                </th>
+                <td class="longTableTd">
+                    <div class="longSideCon">
+                        <div class="longSideConTitle">
+                            @if (Model != null)
+                            {
+                                @Model.Title
+                            }
+                            else
+                            {
+                                <span class="fr mr30">
+                                    友情链接<a href="tencent://message/?uin=todo" style="font-size:14px;"> 申请加入&gt;</a>
+                                </span>
+                            }
+
+                        </div>
+                        <div class="f14 textContent c666">
+                            @if (Model != null)
+                            {
+                            @Html.Raw(Model.Description)
+                            }
+                            else if(links!=null && links.Any())
+                            {
+                                foreach (var item in links)
+                                { 
+                                <nobr>
+                                    <a target="_blank" href="@item.LinkUrl" title="@item.LinkName">
+                                        @item.LinkName
+                                    </a>&nbsp;&nbsp;
+                                </nobr>
+                                }
+                            }
+                            @*<nobr>
+            <a target="_blank" href="http://www.agoil.cn" title="阿果石油网">
+                阿果石油网
+            </a>&nbsp;&nbsp;
+        </nobr>
+
+
+        <nobr>
+            <a target="_blank" href="http://www.cnpcjob.com" title="阿果石油英才网">
+                阿果石油英才网
+            </a>&nbsp;&nbsp;
+        </nobr>
+
+
+        <nobr>
+            <a target="_blank" href="http://bbs.agoil.cn" title="阿果石油论坛">
+                阿果石油论坛
+            </a>&nbsp;&nbsp;
+        </nobr>
+
+
+        <nobr>
+            <a target="_blank" href="http://www.v-running.com/" title="石油软件网">
+                石油软件网
+            </a>&nbsp;&nbsp;
+        </nobr>
+
+
+        <nobr>
+            <a target="_blank" href="https://www.maidoc.com" title="麦档网">
+                麦档网
+            </a>&nbsp;&nbsp;
+        </nobr>
+
+
+        <nobr>
+            <a target="_blank" href="http://www.sanyuedoc.com/" title="三阅文库">
+                三阅文库
+            </a>&nbsp;&nbsp;
+        </nobr>
+
+
+        <nobr>
+            <a target="_blank" href="http://www.163wenku.com/" title="163文库">
+                163文库
+            </a>&nbsp;&nbsp;
+        </nobr>*@
+
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

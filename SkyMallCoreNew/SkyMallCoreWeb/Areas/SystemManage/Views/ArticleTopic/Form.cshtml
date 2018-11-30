@@ -1,0 +1,246 @@
+﻿@{
+    ViewBag.Title = "类别查看";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
+}
+
+<script type="text/javascript" src="/js/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/js/ueditor/ueditor.all.js"></script>
+<script>
+    var ue = initUeditor();
+    var keyValue = $.request("keyValue");
+    var audit = $.request("audit");
+    //if (keyValue.length > 0) {
+    //    $("#ConfigCode").prop("disabled", "disabled");
+    //}
+    $(".topicfiled").hide();
+
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SystemManage/ArticleTopic/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    var data = result.data;
+                    $("#Member").text(result.member);
+                    $("#form1").formSerialize(data);
+                    if (data.AuditMessage) {
+                        $("#AuditMessage").show();
+                    }
+                    initControl(data.ParentId);
+
+                    $("#Description").html(data.Description);
+                    $("#container").html(data.Description);
+                    ue = initUeditor();
+                }
+            });
+        }
+
+
+
+
+    });
+
+    function initControl(currentId) {
+        $("#ParentId").html("<option value=''>--请选择--</option>");
+        var url = "/SysComponent/Controll/GetArticleTopics";
+
+        $("#ParentId").bindSelect({
+            url: url,
+            id: "Code",
+            text: "Text",
+            selected: currentId
+        });
+    }
+
+    function initUeditor() {
+        return UE.getEditor('container', {
+            initialFrameWidth: 525,
+            initialFrameHeight: 300
+        });
+    }
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        var Title = $("#Title").val();
+        if (Title.length == 0) {
+            $.modalMsg("专题名称不能为空");
+            return false;
+        }
+
+        var data = $("#form1").formSerialize();
+        if (data.ParentId !== undefined) {
+            data.ParentId = data.ParentId.replace("&nbsp;", "");
+        }
+        var des = getContent('container');
+        if (des.length == 0) {
+            $.modalMsg("描述内容不能为空");
+            return false;
+        }
+        $("textarea[name='Description']").html(des);
+        data.Description = des;
+        data.ShortTitle = data.ShortTitle.replace("&nbsp;", "");
+        $.submitForm({
+            url: "/SystemManage/ArticleTopic/SubmitForm?keyValue=" + keyValue,
+            param: data,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+
+    function auditForm() {
+        if ($("#TopicStatus").val() === '0') {
+            $.modalMsg("请选择审核状态");
+            return false;
+        }
+        if ($("#TopicStatus").val() === '-2' || $("#TopicStatus").val() === '-1') {
+            console.log($("#AuditMessage").val());
+            if ($("#AuditMessage").val().length <= 0) {
+                $.modalMsg("请输入审核失败原因");
+                return false;
+            }
+        }
+        $.modalConfirm("只更新审核状态，确定要审核吗？", function (b) {
+            if (b) {
+                $.submitForm({
+                    url: "/SystemManage/ArticleTopic/AuditTopic?keyValue=" + keyValue,
+                    param: $("#form1").formSerialize(),
+                    success: function () {
+                        $.modalCloseAll();
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                });
+            }
+        });
+    }
+
+
+</script>
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">专题名称</th>
+                <td class="formValue">
+                    <input id="Title" name="Title" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">专题简述</th>
+                <td class="formValue">
+                    <textarea id="ShortTitle" name="ShortTitle" type="text" class="form-control"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">父级分类</th>
+                <td class="formValue">
+                    <select id="ParentId" name="ParentId" type="text" class="form-control">
+                        <option value="">--请选择--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr class="topicfiled">
+                <th class="formTitle">专题封面图</th>
+                <td class="formValue">
+                    <input type="hidden" value="" name="CoverUrl" id="CoverUrl" />
+                    <partial name="_FileUpload" model="@(new FileUploadModel{ControlId="CoverUrl", Id="CoverUp", ActionType= UpLoadAction.cover})" />
+                </td>
+            </tr>
+            <tr class="topicfiled">
+                <th class="formTitle">专题大图图</th>
+                <td class="formValue">
+                    <input type="hidden" value="" name="BigCoverUrl" id="BigCoverUrl" />
+                    <partial name="_FileUpload" model="@(new FileUploadModel{ControlId="BigCoverUrl", Id="BigCoverUrl", ActionType= UpLoadAction.cover})" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">上传者</th>
+                <td class="formValue">
+                    <label id="Member" name="Member">管理员</label>
+                    <input id="MemberId" name="MemberId" value="" type="hidden" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">专题描述</th>
+                <td class="formValue">
+                    <textarea id="container"></textarea>
+                    <textarea id="Description" name="Description" class="form-control" style="display: none;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">附件</th>
+                <td class="formValue">
+                    <input type="hidden" id="Attachment" name="Attachment" value="" class="form-control" />
+                    <partial name="_FileUpload" model="@(new FileUploadModel{ControlId="Attachment", Id="AttachmentUp", ActionType= UpLoadAction.package})" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">审核状态</th>
+                <td class="formValue">
+                    @*TopicStatus*@
+                    <select id="TopicStatus" name="TopicStatus" class="form-control required">
+                        @foreach (var item in EnumCommon.GetEnumList<TopicStatus>())
+                        {
+                            <option value="@item.Key">@item.Value</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">审核失败原因</th>
+                <td class="formValue">
+                    <textarea id="AuditMessage" name="AuditMessage" class="form-control" style="display:none"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排序</th>
+                <td class="formValue">
+                    <input id="SortCode" name="SortCode" type="text" class="form-control required" value="1" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="height: 35px;">选项</th>
+                <td class="formValue" style="padding-top: 1px;">
+                    <div class="ckbox">
+                        <input id="EnabledMark" name="EnabledMark" type="checkbox" checked="checked"><label for="EnabledMark">有效</label>
+                    </div>
+                </td>
+            </tr>
+            @*<tr>
+            <th class="formTitle" valign="top" style="padding-top: 11px;">
+                备注
+            </th>
+            <td class="formValue">
+                <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+            </td>
+        </tr>*@
+        </table>
+    </div>
+</form>
+
+
+@section Scripts{
+    <!-- 配置文件 -->
+    <script type="text/javascript">
+
+
+        //var desc = $("#Description").html();
+        //if (desc.length > 0) {
+        //    console.log("Description初始化");
+        //    ue.setContent(desc, false);
+        //}
+        initControl();
+        if (audit == '1') {
+            $("#form1").find('.form-control,select,input,textarea').attr('readonly', 'readonly');
+            $("#TopicStatus").removeAttr("readonly");
+            $("#AuditMessage").removeAttr("readonly");
+        }
+    </script>
+}

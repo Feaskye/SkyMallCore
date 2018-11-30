@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "会员查询";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+@section ScriptsHead{
+    
+    <style type="text/css">
+        .topPanel .search .btn-group {
+            display: -webkit-inline-box
+        }
+    </style>
+    <script>
+        $(function () {
+            //initControl();
+
+            gridList("/SystemManage/SysMember/GetGridJson",
+                $(window).height() - 240, false,
+                [
+                    { label: "主键", name: "Id", hidden: true, key: true },
+                    { label: '用户名', name: 'UserName', width: 100, align: 'left' },
+                    { label: '姓名', name: 'RealName', width: 150, align: 'left' },
+                    {
+                        label: '会员等级', name: 'UserLevel', width: 150, align: 'left', formatter: function (cellvalue) {
+                            return cellvalue == @((int)UserLevel.Common)?"普通":"vip";
+                        }
+                    },
+                    { label: '会员积分', name: 'UserScore', width: 150, align: 'left' },
+                    { label: '手机', name: 'MobilePhone', width: 150, align: 'left' },
+                    //{ label: '电话', name: 'Telephone', width: 80, align: 'left' },
+                    { label: '邮箱', name: 'Email', width: 150, align: 'left' },
+                    {
+                        label: "有效", name: "EnabledMark", width: 60, align: "center",
+                        formatter: function (cellvalue) {
+                            return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                        }
+                    },
+                    { label: '备注', name: 'Description', width: 300, align: 'left' }
+                ]);
+
+
+        });
+
+
+        function btn_add() {
+            $.modalOpen({
+                id: "Form",
+                title: "新增会员",
+                url: "/SystemManage/SysMember/Form",
+                width: "550px",
+                height: "570px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+        function btn_edit() {
+            var keyValue = $("#gridList").jqGridRowValue().Id;
+            if (!keyValue) {
+                $.modalMsg("请选择要编辑的项");
+                return;
+            }
+            $.modalOpen({
+                id: "Form",
+                title: "修改会员",
+                url: "/SystemManage/SysMember/Form?keyValue=" + keyValue,
+                width: "550px",
+                height: "570px",
+                callBack: function (iframeId) {
+                    top.frames[iframeId].submitForm();
+                }
+            });
+        }
+        function btn_delete() {
+            $.deleteForm({
+                url: "/SystemManage/SysMember/DeleteForm",
+                param: { keyValue: $("#gridList").jqGridRowValue().Id },
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    //$("#layui-layer1")
+                }
+            })
+        }
+        function btn_details() {
+            var keyValue = $("#gridList").jqGridRowValue().Id;
+            if (typeof (keyValue) == "undefined") {
+                $.modalMsg("请选择会员");
+                return;
+            }
+            $.openWindow("/SystemManage/Article/Index?MemberId=" + keyValue, "_blank");
+        }
+
+        function btn_topics() {
+            var keyValue = $("#gridList").jqGridRowValue().Id;
+            if (typeof (keyValue) == "undefined") {
+                $.modalMsg("请选择会员");
+                return;
+            }
+            $.openWindow("/SystemManage/ArticleTopic/Index?MemberId=" + keyValue, "_blank");
+        }
+
+        function btn_scores() {
+            var keyValue = $("#gridList").jqGridRowValue().Id;
+            if (typeof (keyValue) == "undefined") {
+                $.modalMsg("请选择会员");
+                return;
+            }
+            $.openWindow("/SystemManage/SysMemScore/Index?MemberId=" + keyValue, "_blank");
+        }
+
+    </script>
+}
+<div class="topPanel">
+
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <form id="searchform">
+                        <div class="input-group">
+                            &nbsp;&nbsp;用户等级
+                            <select id="UserLevel" name="UserLevel" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                <option value="">--请选择--</option>
+                                @foreach (var kteim in EnumCommon.GetEnumList<UserLevel>())
+                                {
+                                    <option value="@kteim.Key">@kteim.Value</option>
+                                }
+                            </select>
+                            &nbsp;&nbsp;
+                            <input id="txt_keyword" type="text" class="input-small inline form-control" name="keyword" placeholder="用户名/手机/电话号" style="width: 200px;float:none;display:inline-block;">
+                            <span class="input-group-btn">
+                                <button id="btn_search" type="button" class="btn  btn-primary small-btn"><i class="fa fa-search"></i></button>
+                            </span>
+                            <div class="btn-group btntool">
+                                <a id="edit" authorize="yes" onclick="btn_edit()" class="btn  btn-primary"><i class="fa fa-pencil-square-o"></i>修改会员</a>
+                                <a id="delete" authorize="yes" onclick="btn_delete()" class="btn  btn-primary"><i class="fa fa-trash-o"></i>删除会员</a>
+                                <a id="details" authorize="yes" onclick="btn_details()" class="btn  btn-primary"><i class="fa fa-search-plus"></i>文库记录</a>
+                                <a id="topics" authorize="yes" onclick="btn_topics()" class="btn  btn-primary"><i class="fa fa-search-plus"></i>专题记录</a>
+                                <a id="scores" authorize="yes" onclick="btn_scores()" class="btn  btn-primary"><i class="fa fa-search-plus"></i>积分记录</a>
+                                <a id="add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建会员</a>
+                                <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>

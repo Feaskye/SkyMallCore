@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "用户积分记录";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+@section ScriptsHead{
+    @*<script src="~/js/select2/select2.min.js"></script>*@
+    <style type="text/css">
+        .topPanel .search .btn-group {
+            display: -webkit-inline-box
+        }
+    </style>
+    <script>
+        var requestUrl = "/SystemManage/SysMemScore/GetGridJson";
+        var memberId = $.request("MemberId");
+        if (memberId.length > 0) {
+            $("#memberId").val(memberId);
+            requestUrl = requestUrl + "?memberId=" + memberId;
+            console.log(requestUrl);
+        }
+        $(function () {
+            gridList(requestUrl,
+                $(window).height() - 240, false,
+                [
+                    { label: "主键", name: "Id", hidden: true, key: true },
+                    { label: '用户', name: 'UserName', width: 250, align: 'left' },
+                    { label: '积分', name: 'Score', width: 150, align: 'left' },
+                    {
+                        label: '积分操作类型', name: 'OperatType', width: 150, align: 'left', formatter: function (cellvalue) {
+                            return cellvalue === 0 ? "获取" : "消费";
+                        }
+                    },
+                    {
+                        label: '积分类型', name: 'ScoreTypeName', width: 150, align: 'left'
+                        //, formatter: function (cellvalue) {
+                        //    return cellvalue === 0 ? "获取" : "消费";
+                        //}
+                    },
+                    {
+                        label: "有效", name: "EnabledMark", width: 60, align: "center",
+                        formatter: function (cellvalue) {
+                            return cellvalue === 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                        }
+                    },
+                    { label: '备注', name: 'Description', width: 300, align: 'left' }
+                ]);
+
+
+            $("#SearchType").change(function () {
+                var operatType = $(this).val();
+                if (operatType.length > 0) { 
+                    initControl(operatType);
+                }
+            });
+
+        });
+
+        function initControl(type) {
+            var encode = "ScoreType";
+            if (parseInt(type) == 1) { 
+                encode = "ScoreType1";
+            }
+            $("#ScoreType").html(' <option value="">--请选择--</option>');
+            $("#ScoreType").bindSelect({
+                url: "/SysComponent/Controll/GetItemDictionary?enCode=" + encode,
+                id: "Code",
+                text: "Text"
+            });
+        }
+        
+        function btn_delete() {
+            $.deleteForm({
+                url: "/SystemManage/SysMemScore/DeleteForm",
+                param: { keyValue: $("#gridList").jqGridRowValue().Id },
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            })
+        }
+        function btn_details() {
+            var keyValue = $("#gridList").jqGridRowValue().Id;
+            if (typeof (keyValue) == "undefined") {
+                $.modalMsg("请选择记录");
+                return;
+            }
+            $.modalOpen({
+                id: "Details",
+                title: "查看记录",
+                url: "/SystemManage/SysMemScore/Details?moduleId=" + moduleId + "&keyValue=" + keyValue,
+                width: "700px",
+                height: "490px",
+                btn: null,
+            });
+        }
+
+    </script>
+}
+<div class="topPanel">
+
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <form id="searchform">
+                        <div class="input-group">
+                            <input type="hidden" value="@ViewData["MemberId"] " id="memberId" name="memberId" />
+                            @if ((ViewData["Member"] as string) != null)
+                            {
+                                @Html.Raw("&nbsp; &nbsp; 用户：" + ViewData["Member"])
+                            }
+                            &nbsp;&nbsp;操作类型
+                            <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                            <select id="SearchType" name="SearchType" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                <option value="">--请选择--</option>
+                                <option value="0">获取</option>
+                                <option value="1">消费</option>
+                            </select>
+                           </div>
+                            &nbsp;&nbsp;积分类型
+                            <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                <select id="ScoreType" name="ScoreType" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                            <input id="keyword" type="text" class="input-small inline form-control" name="keyword" placeholder="用户名" style="width: 200px;">
+                            <span class="input-group-btn">
+                                <button id="btn_search" type="button" class="btn  btn-primary small-btn"><i class="fa fa-search"></i></button>
+                            </span>
+                            <div class="btn-group btntool">
+                                @*<a id="edit" authorize="yes" onclick="btn_edit()" class="btn  btn-primary"><i class="fa fa-pencil-square-o"></i>修改记录</a>*@
+                                <a id="delete" authorize="yes" onclick="btn_delete()" class="btn  btn-primary"><i class="fa fa-trash-o"></i>删除记录</a>
+                                <a id="details" authorize="yes" onclick="btn_details()" class="btn  btn-primary"><i class="fa fa-search-plus"></i>查看记录</a>
+                                @*<a id="recoddetails" authorize="yes" onclick="btn_recoddetails()" class="btn  btn-primary"><i class="fa fa-search-plus"></i>查看记录</a>*@
+                                @*<a id="add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建记录</a>*@
+                                <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>

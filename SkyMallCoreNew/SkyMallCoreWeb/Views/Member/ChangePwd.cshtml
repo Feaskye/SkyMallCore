@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "个人资料";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+}
+<div id="Content_Panel1" style="width:100%;">
+    <form id="submitForm">
+        <div style="padding: 10px 20px; width: 100%">
+            <ul class="fl person-data-set pt30 pb30">
+
+                <li class="works-edit-item clearfix">
+                    <label class="fl person-data-label">
+                        原始密码：
+                    </label>
+                    <input name="oldpassword" type="password" id="oldpassword" class="fl bag-item-input mr5 J-member-nickname required" style="width:196px;" /><b style="color: #ff1100"></b>
+                </li>
+                <li class="works-edit-item clearfix">
+                    <label class="fl person-data-label">
+                        新密码：
+                    </label>
+                    <input name="password" type="password" id="password" class="fl bag-item-input mr5 J-member-nickname required" style="width:196px;" />
+                </li>
+                <li class="works-edit-item clearfix">
+                    <label class="fl person-data-label">
+                        确认新密码：
+                    </label>
+                    <input name="conpassword" type="password" id="conpassword" class="fl bag-item-input mr5 J-member-nickname required" style="width:196px;" />
+                </li>
+                <li class="works-edit-item clearfix">
+                    <label class="fl person-data-label">
+                        &nbsp;
+                    </label>
+                    <input type="button" name="btnSubmit" value="" id="btnSubmit" class="member-common-btn member-common-btn2" />
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <script src="/js/dialog/dialog.js"></script>
+    <script src="/js/framework-ui.js"></script>
+    <script src="/js/validate/jquery.validate.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            $("#submitForm").validate({
+                rules: {
+                    password: "required",
+                    conpassword: {
+                        equalTo: "#password"
+                    }
+                }
+            });
+
+
+            $("#btnSubmit").click(function () {
+                var $form = $('#submitForm');
+                if (!$form.IsValid()) {
+                    return false;
+                }
+                $.submitDialog({
+                    url: "/Member/ChangePwd",
+                    param: $form.formSerialize(),
+                    success: function () {
+                        $.modalAlertReload("提交成功！", "success",'/Member/Index');
+                    }
+                });
+            });
+
+        });
+    </script>
+
+}

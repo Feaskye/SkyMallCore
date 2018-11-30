@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "帮助管理";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+    var helpCodeList = EnumCommon.GetEnumList<HelpCode>();
+}
+@section ScriptsHead{
+<script>
+        $(function () {
+            gridList("/SystemManage/SysHelp/GetGridJson",
+                $(window).height() - 240, false,
+                [
+                    { label: "主键", name: "Id", hidden: true, key: true },
+                    { label: '帮助名称', name: 'Title', width: 150, align: 'left' },
+                    {
+                        label: '类型', name: 'HelpCode', width: 100, align: 'left',
+                        formatter: function (cellvalue) {
+                            switch (cellvalue) {
+                                @foreach (var item in EnumCommon.GetEnumList<HelpCode>())
+                                {
+                                    @Html.Raw($"case {item.Key}:");
+                                    @Html.Raw($" return '{item.Value}';");
+                                    @Html.Raw($"break; ");
+                                }
+                             }
+                            return cellvalue;
+                        }
+                    },
+                    {
+                        label: '描述', name: 'Description', width: 300, align: 'left'
+                    },
+                    {
+                        label: '创建时间', name: 'CreatorTime', width: 80, align: 'left',
+                        formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                    },
+                    {
+                        label: "有效", name: "EnabledMark", width: 60, align: "center",
+                        formatter: function (cellvalue) {
+                            return cellvalue === 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                        }
+                    }
+                ]);
+        });
+
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增帮助",
+            url: "/SystemManage/SysHelp/Form",
+            width: "680px",
+            height: "680px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if (keyValue === undefined) {
+            $.modalMsg("请选择要修改的行");
+            return;
+        }
+        $.modalOpen({
+            id: "Form",
+            title: "修改帮助",
+            url: "/SystemManage/SysHelp/Form?keyValue=" + keyValue,
+            width: "680px",
+            height: "680px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_delete() {
+        $.deleteForm({
+            url: "/SystemManage/SysHelp/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().Id },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Details",
+            title: "查看帮助",
+            url: "/SystemManage/SysHelp/Details?keyValue=" + keyValue,
+            width: "550px",
+            height: "620px",
+            btn: null
+        });
+    }
+</script>
+    }
+    <div class="topPanel">
+            <div class="search">
+                <table>
+                    <tr>
+                        <td>
+                            <form id="searchform">
+                                <div class="input-group">
+                                    类别
+                                    <select id="HelpCode" name="HelpCode" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;vertical-align:middle">
+                                        <option value="">--请选择--</option>
+                                        @foreach (var item in helpCodeList)
+                                        {
+                                            <option value="@item.Key">@item.Value</option>
+                                        }
+                                    </select>
+                                    <input id="txt_keyword" type="text" class="input-small form-control" name="keyword" placeholder="帮助名称/帮助编号" style="width: 200px;display:inline-block;vertical-align:middle;">
+                                    <span class="input-group-btn" style="vertical-align:middle;">
+                                        <button id="btn_search" type="button" class="btn btn-primary small-btn"><i class="fa fa-search"></i></button>
+                                    </span>
+                                    <div class="btn-group btntool" style="vertical-align:middle;display:inline-block;">
+                                        <a id="add" authorize="yes" class="btn btn-primary" onclick="btn_add()"><i class="fa fa-plus"></i>新建帮助</a>
+                                        <a id="edit" authorize="yes" onclick="btn_edit()" class="btn  btn-primary"><i class="fa fa-pencil-square-o"></i>修改帮助</a>
+                                        <a id="delete" authorize="yes" onclick="btn_delete()" class="btn  btn-primary"><i class="fa fa-trash-o"></i>删除帮助</a>
+                                        @*<a id="details" authorize="yes" onclick="btn_details()" class="btn  btn-primary"><i class="fa fa-search-plus"></i>查看帮助</a>*@
+                                        <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        
+    </div>
+    <div class="gridPanel">
+        <table id="gridList"></table>
+        <div id="gridPager"></div>
+    </div>

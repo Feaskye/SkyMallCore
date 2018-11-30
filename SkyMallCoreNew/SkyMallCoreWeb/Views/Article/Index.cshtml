@@ -1,0 +1,243 @@
+﻿@model ArticleSearchView
+@{
+    ViewData["Title"] = "文章列表";
+    var CateList = ViewBag.CateList as List<ListItem>;
+    var Cate = ViewBag.CateInfo as ListItem;
+    //var parentId = Cate==null?null:(Cate.ParentId ?? Cate.Code);
+    var hotArticle = ViewBag.HotArticle as List<ArticleDetailView>;
+    }
+
+    @section HScripts{
+<link href="/web/css/listpage.css" rel="stylesheet" />
+}
+<div style="float: left">
+    <div class="sidebar l" style="width: 218px; margin-right: 10px; margin-left: 0px;">
+        <input name="ctl00$Content$hiddenCategoryID" type="hidden" id="Content_hiddenCategoryID" value="61" />
+        <div class="mod1" style="margin-bottom: 10px;">
+            <div class="inner">
+                <div class="hd">
+                    热门推荐
+                </div>
+                <div class="tb">
+                    <table width="100%">
+                        <tbody>
+                            @foreach (var item in hotArticle)
+                            {
+                                <tr>
+                                    <td> <img class="@BusinessHelper.GetArticleFileType(item.ResourceType)" src="/web/images/s.gif" style="margin-top: 2px; margin-right: 2px;" alt="@item.Title" /> <a href="@Url.Action("Detail", "Article", new { aid = item.Id })" title="@item.Title" target="_blank"> @item.Title</a> </td>
+                                </tr>
+                            }
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input name="ctl00$Content$hiddenbcount" type="hidden" id="Content_hiddenbcount" value="4625" />
+    <div id="listmain" style="width: 972px; float: right;">
+        <div class="camTitle">
+            <div class="camNavA" style="position: relative;">
+                <a class="selected"> @Cate.Text <span style="font-size: 12px; color: #555; font-weight: normal;">(共<span style="color: #ff6600">@Model.Articles.TotalCount</span> 份)</span></a>
+                <div class="listan">
+                    @*<li class="tw"><a href="/c-00011-1-0-0-0-0-0-9-0-0.html" alt="图文模式" class="hov"></a></li>
+                    <li class="tp"><a href="/c-00011-1-0-0-0-0-0-9-0-1.html" alt="大图模式"></a></li>
+                    <li class="wz"><a href="/c-00011-1-0-0-0-0-0-9-0-2.html" alt="文本模式"></a></li>*@
+                </div>
+                <span style="display: none"> <span id="Content_LabelDuration">用时:234ms</span></span>
+            </div>
+        </div>
+        <div class="list_m">
+            <div class="mod">
+                <div>
+                    <form id="bookform" action="@Context.Request.Path" method="get">
+                        <input id="categoryId" name="categoryId" type="hidden" value="@Model.CategoryId" />
+                        @Html.HiddenFor(w => w.ParentCategoryId)
+                        @Html.HiddenFor(w => w.Keyword)
+                        @Html.HiddenFor(w => w.Copyright)
+                        @Html.HiddenFor(w => w.ResourceType)
+                        @Html.HiddenFor(w => w.OnShelfDays)
+
+                        <dl class="farea">
+                            <dt>
+                                资源分类：
+                            </dt>
+                            <dd>
+                                <a href="javascript:;" sdata="" class="pcate @(Model.ParentCategoryId.IsEmpty() ? "selected" : "")">全部</a>
+                                @foreach (var item in CateList)
+                                {
+                                    <a href="javascript:;" sdata="@item.Code" class="pcate @(item.Code == Model.ParentCategoryId ? "selected" : "")"> @item.Text</a>
+                                }
+                            </dd>
+                        </dl>
+                        <dl class="farea">
+                            <dt>
+                                二级分类：
+                            </dt>
+                            <dd>
+                                <a href="#" class="cate @(Model.CategoryId.IsEmpty() ? "selected" : "")">全部</a>
+                                @{
+                                    var currChilds = CateList.FirstOrDefault().Childs;
+                                    if (CateList.Any(w => w.Code == Model.ParentCategoryId))
+                                    {
+                                        currChilds = CateList.FirstOrDefault(w => w.Code == Model.ParentCategoryId).Childs;
+                                    }
+                                    foreach (var item in currChilds)
+                                    {
+                                    <a href="javascript:;" sdata="@item.Code" class="cate @(item.Code == Model.CategoryId ? "selected" : "")"> @item.Text</a>
+                                        }
+                                    }
+                            </dd>
+                        </dl>
+                        <dl class="farea">
+                            <dt>
+                                版权状况：
+                            </dt>
+                            <dd>
+                                <a href="javascript:;" class="copyright@(Model.Copyright==null?" selected":"")" sdata="">全部</a>
+                                @foreach (var item in ViewBag.CopyrightList as List<ListItem>)
+                                {
+                                    <a href="javascript:;" class="copyright@(item.Code == (Model.Copyright+"") ? " selected" : "")" sdata="@item.Code">@item.Text</a>
+                                }
+                            </dd>
+                        </dl>
+                        <dl class="farea hide">
+                            <dt>
+                                积分要求：
+                            </dt>
+                            <dd>
+                                <span>全部</span>
+                                <a href="javascript:;" class="sharetype selected" sdata="" >共享分</a>
+                                @*<a href="/c-00011-1-0-0-13-0-0-9-0-0.html">现金</a>*@
+                            </dd>
+                        </dl>
+                        <dl class="farea">
+                            <dt>
+                                资源格式：
+                            </dt>
+                            <dd>
+                                <a href="javascript:;" class="resourcetype @(Model.ResourceType.IsEmpty()?"selected":"")" sdata="">不限</a>
+                                @foreach (var item in ViewBag.ResourceTypeList as List<ListItem>)
+                                {
+                                    <a href="javascript:;" class="resourcetype @(item.Code == Model.ResourceType ? "selected" : "")" sdata="@item.Code">@item.Text</a>
+                                }
+                            </dd>
+                        </dl>
+                        <dl class="farea">
+                            <dt>
+                                上架时间：
+                            </dt>
+                            <dd>
+                                <a href="javascript:;" class="timerange @(Model.OnShelfDays == null?"selected":"")" sdata="">不限</a>
+                                <a href="javascript:;" sdata="3"  class="timerange @(Model.OnShelfDays.HasValue && Model.OnShelfDays.Value==3?"selected":"")">三天内</a>
+                                <a href="javascript:;" sdata="7"  class="timerange @(Model.OnShelfDays.HasValue && Model.OnShelfDays.Value==7?"selected":"")">一周内</a>
+                                <a href="javascript:;" sdata="30"  class="timerange @(Model.OnShelfDays.HasValue && Model.OnShelfDays.Value==30?"selected":"")">一个月内</a>
+                                <a href="javascript:;" sdata="365"  class="timerange @(Model.OnShelfDays.HasValue && Model.OnShelfDays.Value==365?"selected":"")">一年内</a>
+                            </dd>
+                        </dl>
+                    </form>
+                </div>
+            </div>
+            <div class="zt_list_ls">
+                <div class="doc-list" monkey="docList">
+                    <ul>
+                        @foreach (var item in Model.Articles)
+                        {
+                            var itemUrl = Url.Action("Detail", "Article", new { aid = item.Id });
+                            <li>
+                                <div class="doc-list-img">
+                                    <a href="@itemUrl" title="@item.Title" target="_blank"> <img alt="@item.Title" src="@item.CoverUrl" onerror="this.src='/web/images/d_pdf.png'" /> </a>
+                                </div>
+                                <div class="doc-list-title">
+                                    <h3> <img alt="@item.Title" class="@item.ResourceType" src="/web/images/s.gif" /><a href="@itemUrl" title="@item.Title" target="_blank">@item.Title </a></h3>
+                                </div>
+                                <div class="doc-list-intro ellipsis wordwrap">
+                                    简介：@item.ShortTitle
+                                </div>
+                                <div class="doc-list-info">
+                                    <div class="price ticket">
+                                        下载积分：
+                                        <span>@item.RequireAmount</span> 积分
+                                    </div>
+                                    <div class="time">
+                                        上传时间：@item.CreatorTime.ToDateString()
+                                    </div>
+                                    <div class="page">
+                                        页数：
+                                        <strong>@item.PageCount</strong>
+                                    </div>
+                                    <div class="author" style="display: none">
+                                        上传人：
+                                        <strong>@item.MemberId</strong>
+                                    </div>
+                                </div>
+                                <div class="doc-list-comment">
+                                    <div class="read">
+                                        @(item.ReadCount)人已阅读
+                                    </div>
+                                    <div>
+                                        <img src="/web/images/score_1.gif" title="资源得分4.0" />
+                                        <img src="/web/images/score_1.gif" title="资源得分4.0" />
+                                        <img src="/web/images/score_1.gif" title="资源得分4.0" />
+                                        <img src="/web/images/score_1.gif" title="资源得分4.0" />
+                                        <img src="/web/images/score_0.gif" title="资源得分4.0" />(
+                                        <b id="docValueCount-2"> 4 </b>星级)
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        </ul>
+                </div>
+                <partial name="_PagerPartial" model="Model.Articles" />
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{ 
+
+    <script type="text/javascript">
+        $(function () {
+            //按钮点击触发
+            $(".pcate").click(function () {
+                $("#ParentCategoryId").val($(this).attr("sdata"));
+                $("#bookform").submit();
+            });
+
+            $(".cate").click(function () {
+                $("#categoryId").val($(this).attr("sdata"));
+                $("#bookform").submit();
+            });
+
+            $(".copyright").click(function () {
+                $("#Copyright").val($(this).attr("sdata"));
+                $("#bookform").submit();
+            });
+
+            $(".sharetype").click(function () {
+                //$("#Copyright").val($(this).attr("sdata"));
+                $("#bookform").submit();
+            });
+
+            $(".resourcetype").click(function () {
+                $("#ResourceType").val($(this).attr("sdata"));
+                $("#bookform").submit();
+            });
+
+            $(".timerange").click(function () {
+                $("#OnShelfDays").val($(this).attr("sdata"));
+                $("#bookform").submit();
+            });
+
+
+
+
+
+
+        });
+
+
+
+        function timeRange(day) { 
+            //$().submit();
+        }
+    </script>
+}

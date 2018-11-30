@@ -1,0 +1,135 @@
+﻿@model FileUploadModel
+@{
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
+}
+<script>
+    //var showMultiple = $.request("ShowMultiple");
+    ////if (keyValue.length > 0) {
+    ////    $("#ConfigCode").prop("disabled", "disabled");
+    ////}
+    //$(function () {
+    //    $("#Type").bindSelect()
+    //    if (!!keyValue) {
+    //        $.ajax({
+    //            url: "/SystemManage/SkyVoice/GetFormJson",
+    //            data: { keyValue: keyValue },
+    //            dataType: "json",
+    //            async: false,
+    //            success: function (data) {
+    //                $("#form1").formSerialize(data);
+    //            }
+    //        });
+    //    }
+    //});
+
+</script>
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;margin-left: 20px;">
+        <table class="form">
+            <tr>
+                <td colspan="2" height="50px">
+                    <div class="block" id="show_list_files">
+                    </div>
+                    <div class="block" style="display:none;" id="hide_uploaded">
+                        <input id="hide_uploadedfiles" type="hidden" />
+                    </div>
+                    <div id="kartik-file-errors"></div>
+                    <div id="kartik-upload-progress"></div>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <input id="txt_upload_inputfile" name="txt_upload_inputfile" @(Model.ShowMultiple ? "multiple" : "") type="file" />
+                </td>
+                <td class="formValue" style="text-align:right">
+                    <button type="button" id="btn_fileUpload" class="btn btn-primary" title="保存">上传</button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</form>
+@*js文件有扩展
+    progressContainer：'#sdsdf'  扩展Container
+*@
+<script src="~/js/bootstrap/fileinput/fileinput.js"></script>
+<link href="~/js/bootstrap/fileinput/fileinput.min.css" rel="stylesheet" />
+<script src="~/js/bootstrap/fileinput/locale-zh.js"></script>
+<script>
+    var uploadUrl = '/SysComponent/Controll/UploadFiles';
+    $(document).on('ready', function () {
+        var $filecontrol = $("#txt_upload_inputfile");
+        var $listtip_files = $("#show_list_files");
+
+
+        $filecontrol.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: uploadUrl, //上传的地址
+            allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
+            showUpload: false, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            dropZoneEnabled: false,
+            browseClass: "btn btn-primary", //按钮样式
+            mainClass: "input-group-lg",
+            elErrorContainer: '#kartik-file-errors',
+            progressContainer: '#kartik-upload-progress',
+            showPreview: false,
+            enctype: 'multipart/form-data',
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            uploadExtraData: {
+                ownid: '12345',
+            },
+            fileuploaded: $filecontrol.on("fileuploaded", function (event, data, previewId, index) {
+                var res = data.response;
+                if (res == null) {
+                    $.modalMsg("上传失败");
+                    return;
+                }
+                var result = res.data;
+                if (res.state == "success") {
+                    $("#hide_uploadedfiles").val(result.file);
+                }
+                else {
+                    $.modalMsg(res.data.message);
+                }
+            }),
+            fileerror: $filecontrol.on('fileerror', function (event, data, msg) {
+                console.log("Upload failed");
+            })
+        });
+
+        $("#btn_fileUpload").click(function () {
+            $filecontrol.fileinput("upload");
+        });
+
+        $filecontrol.change(function () {
+            console.log("change:" + $(this).prop('files').length);
+            if ($(this).prop('files').length > 0) {
+                $listtip_files.html('');
+                $.each($(this)[0].files, function (i, file) {
+                    $listtip_files.append('<p><span class="file-input-name">' + file.name + '</span></p>');
+                });
+            }
+        });
+        $(".fileinput-remove-button").click(function () {
+            $listtip_files.html('');
+        });
+
+
+
+        $(".btn-file span").removeClass("hidden-xs");
+    });
+
+    function submitForm() {
+        var uploadedfiles = $("#hide_uploadedfiles").val();
+        if (uploadedfiles.length == 0) {
+            $.modalMsg("请选择文件并上传！");
+            return false;
+        }
+        $.modalClose();
+        return uploadedfiles;
+    }
+
+
+</script>

@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "找回密码";
+}
+
+<!--登录部分开始-->
+<div class="regmain">
+    <div class="main_con">
+        <div class="main_con_l" style="padding-top: 10px; padding-left: 50px;  text-align: left;">
+            <form id="submitForm">
+                <table border="0" cellspacing="0" cellpadding="0" style="line-height:30px;">
+                    <tbody>
+                        <tr>
+                            <th height="40" align="right" style="width:120px">
+                                用户名：
+                            </th>
+                            <td height="40">
+                                <span class="bd_2">
+                                    <input name="UserName" type="text" id="UserName" class="main_text em_foc" placeholder="输入用户名" />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th height="40" align="right">
+                                Emial：
+                            </th>
+                            <td height="40">
+                                <span class="bd_2">
+                                    <input name="email" type="text" id="email" class="main_text" />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="50">
+                                &nbsp;
+                            </td>
+                            <td height="50">
+                                <input type="button" name="btnLogin" value="" id="btnLogin" class="sub3" />&nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+
+
+        <div class="main_con_r reg" style="padding-right: 0px; padding-left: 100px; padding-top: 10px;">
+            <div class="side">
+                <div class="other">
+
+                    <div class="login">
+                        还不是石油文库用户？ <a id="A1" style="display: inline" class="blue bold" href="/reg">
+                            立即注册
+                        </a>
+                    </div>
+                    @*<div>
+                        或者使用合作网站帐号一键登录
+                    </div>
+                    <ul class="fix outer_sites">
+                        暂无
+
+                        <li style="display: none">
+                            <a href="javascript:void(0)" style="cursor: pointer" onclick="toQzoneLogin()"
+                               id="qqLink"><b class="qq_ico"></b>QQ</a>
+                        </li>
+
+                        <li style="display: none"><a href="#" id="xnLink"><b class="xn_ico"></b>人人网</a></li>
+                        <li style="display: none"><a href="#" id="tweiboLink"><b class="tweibo_ico"></b>腾讯微博</a></li>
+                        <li style="display: none"><a href="#" id="kaixinLink"><b class="kaixin_ico"></b>开心网</a></li>
+                        <li style="display: none"><a href="#" id="feixinLink"><b class="feixin_ico"></b>飞信</a></li>
+                        <li style="display: none"><a href="#" id="msnLink"><b class="msn_ico"></b>MSN</a></li>
+                    </ul>
+                </div>*@
+               
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="pop_flag">
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            $("#btnLogin").click(function () {
+                var isValid = checkLogin("UserName","email");
+                if (isValid) {
+                    var data = {
+                        __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val(),
+                        userName: $("#UserName").val(),
+                        email: $("#email").val()
+                    };
+                    $.post("/Login/ForgetPass", data, function (result) {
+                        if (result.state === "success") {
+                            alert("提交成功");
+                            location.href = result.data;
+                        }
+                        else {
+                            alert(result.message);
+                        }
+                    },"json");
+                }
+            });
+
+            $("#submitForm").keydown(function (e) {
+                if (e.keyCode === 13) {
+                    $("#btnLogin").trigger("click"); //处理事件
+                    return false;
+                }
+            });
+
+
+
+        });
+
+
+
+
+        // 登陆时的客户端校验
+        function checkLogin(uid, pid) {
+            // 用户名 空校验
+            var oUser = document.getElementById(uid);
+            if (oUser) {
+                if (oUser.value === "") {
+                    alert("请输入用户名！");
+                    oUser.focus();
+                    return false;
+                }
+            }
+
+            // 密码 空校验 长度校验
+            var oPwd = document.getElementById(pid);
+            if (oPwd) {
+                if (oPwd.value === "") {
+                    alert("请输入邮箱！");
+                    oPwd.focus();
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+
+
+    </script>
+
+}

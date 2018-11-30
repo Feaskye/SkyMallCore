@@ -1,0 +1,448 @@
+﻿@{
+    ViewData["Title"] = "首页";
+    var TodayArticles = (ViewBag.TodayArticles as List<ArticleDetailView>) ?? new List<ArticleDetailView>();
+    var NewArticles = (ViewBag.NewArticles as List<ArticleDetailView>) ?? new List<ArticleDetailView>();
+    var hotTopics = (ViewBag.HotTopics as List<ListItem>) ?? new List<ListItem>();
+    var tradeScores = (ViewBag.TradeScores as List<MemScoreDetailView>) ?? new List<MemScoreDetailView>();
+    var bestCates = (ViewBag.BestCates as List<ArticleCateDetailView>) ?? new List<ArticleCateDetailView>();
+    var hotPPT = (ViewBag.HotPPT as List<ArticleDetailView>) ?? new List<ArticleDetailView>();
+    var newPPT = (ViewBag.NewPPT as List<ArticleDetailView>) ?? new List<ArticleDetailView>();
+    var homeCarousels = (ViewBag.HomeCarousels as List<HelpDetailView>) ?? new List<HelpDetailView>();
+    var announcements = (ViewBag.Announcements as List<NewsDetailView>) ?? new List<NewsDetailView>();
+    var friendLinks = ViewBag.FriendLinks as List<LinkDetailView>;
+}
+
+@section HScripts
+    {
+    <link href="/web/css/new/home_v1.css" rel="stylesheet" />
+    <link href="/web/css/_index.css" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            background-color: #fff;
+        }
+
+        .line {
+            padding: 0px 10px 0px 5px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="/web/JS/MSClass.js"></script>
+    <script type="text/javascript" src="/web/js/artDialog-5.0.3/artDialog.min.js"></script>
+    <link href="/web/js/artDialog-5.0.3/skins/default.css" rel="stylesheet" />
+    <style>
+        .top_bg {
+            background-color: #f5f5f5;
+        }
+
+        .nav_bg {
+            background-color: #00a2ca;
+        }
+
+        .nav li a {
+            background-color: #00a2ca;
+        }
+
+        .nav #conAll0 a {
+            background-color: #00a2ca;
+        }
+
+        .nav #conAll0:hover a {
+            background-color: #00a2ca;
+        }
+
+        .nav li a:Hover {
+            background-color: #0095bb;
+        }
+
+        .nav li.over a {
+            background-color: #0095bb;
+        }
+
+        .nav #conAll0:hover a:hover {
+            background-color: #0095bb;
+        }
+
+        .nav #conAll0.over a {
+            background-color: #0095bb;
+        }
+
+        .nav #conAll0:hover a {
+            background-color: #0095bb;
+        }
+
+        .topupload {
+            background-color: #ff6500;
+        }
+
+            .topupload:hover {
+                background-color: #ff3300;
+            }
+    </style>
+    <script type="text/javascript" src="/web/scripts/ScrollText.js"></script>
+
+    <script type="text/javascript" src="/web/scripts/jquery.nav.js"></script>
+
+}
+
+
+<script type="text/javascript">
+    var uid = "0";
+    var scorename = "下载积分";
+    var adcount = @homeCarousels.Count;
+</script>
+
+
+<!--banner-->
+<div class="banner_bg">
+    <div class="banner_box">
+        <div class="banner">
+            <!-- 代码 开始 -->
+            <div id="inner">
+                <div class="hot-event">
+                    <div class="switch-nav">
+                        <a href="#" onclick="return false;" class="prev"><span class="hide-clip">上一个</span></a><a href="#" onclick="return false;" class="next"><span class="hide-clip">下一个</span></a>
+                    </div>
+                    @foreach (var item in homeCarousels)
+                    {
+                        <div class="event-item" style="display: @(homeCarousels.IndexOf(item)==0?"block":"none");">
+                            <a target="_blank" href="@item.ResourceUrl"
+                               class="Pbanner">
+                                <img src="@item.CoverUrl" class="photo" alt="@item.Title" />
+                            </a>
+                            <div class="Hidden">
+                            </div>
+                        </div>
+                    }
+                    <div class="switch-tab">
+                        @foreach (var item in homeCarousels)
+                        {
+                            <a href="#" onclick="return false;" class="@(homeCarousels.IndexOf(item)==0?"current":"")">
+                                @(homeCarousels.IndexOf(item) + 1)
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                $('#inner').nav({ t: 4000, a: 1000 });
+            </script>
+
+            <!-- 代码 结束 -->
+        </div>
+        <div class="right relative nipic-main-aside">
+            <div class="home-login-box" id="J_homeLoginBox">
+                <div class="left avatar-frame" id="avaterbox" onclick="javascript: onavaterClick();" >
+                    <div class="avatar-frame-block png24">
+                    </div>
+                        <img src="@(CoreContextProvider.CurrentMember==null?"/web/images/noavatar_small.gif":CoreContextProvider.CurrentMember.HeadIcon)" alt="无头像"
+                             class="avatar-img" id="user-avatar-img" onerror="this.src='/web/images/noavatar_small.gif'">
+                </div>
+                <div id="home-login-info" class="home-login-info">
+                    <p>
+                        <span class="font-tahoma">@(CoreContextProvider.CurrentMember == null ? "Hi" : CoreContextProvider.CurrentMember.Account)</span>，您好！
+                    </p>
+                    @if (CoreContextProvider.CurrentMember == null)
+                    {
+                        <a target="_self" href="/login" title="登录" class="inline-block simple-btn simple-btn1">登录</a> <a target="_self" href="/reg" title="注册" class="inline-block simple-btn simple-btn2">注册</a>
+                    }
+                </div>
+
+            </div>
+            <div class="hr-line">
+            </div>
+            <div class="nipic-huitu-show margin1">
+                <div class="huitu-hd">
+                    <h2 class="left f16 font-yahei bold">网站通知</h2>
+                    <a href="/news" title="更多" class="right more-huitu-task">更多&gt;&gt;</a>
+                </div>
+                <div class="relative huitu-task-box-wrap listscroll">
+                    <div class="huitu-task-box">
+                        <ul class="left huitu-task-list" id="listmarquee" style="height: 138px; overflow: hidden;">
+                            @foreach (var item in announcements)
+                            {
+                                <li class="left huitu-task-item listpro">
+                                    <div class="huitu-task-nameleft">
+                                        <a title="@item.Title" href="/news/detail?nid=@item.Id"
+                                           target="_blank">
+                                            @item.Title
+                                        </a>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="absolute huitu-task-shadow bg-png8">
+                    </div>
+                </div>
+                <dl class="to-find-commerical ">
+                    <dt class="left huitu-pic-show">
+                        <p>
+                            当前已有<b>@ViewBag.TotalBooks</b>份资源
+                        </p>
+                        <a href="/flexpaper/addbook">
+                            <img src="/web/images/up.gif" alt="上传资源" width="171" height="44">
+                        </a>
+                    </dt>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<!--banner end-->
+
+<div class="home_jrm">
+    <div class="home_jrd">
+        <div class="jrd_title">
+            <h3><font color="#ff6333">今日</font>特别推荐</h3>
+            <h4></h4>
+        </div>
+        <div class="jrd_view">
+            @foreach (var item in TodayArticles)
+            {
+                <li>
+                    <a href="@Url.Action("Detail", "Article", new { aid = item.Id })" target="_blank">
+                        <img onerror="this.src='/web/images/90x80_no.gif'"
+                             alt="@item.Title" src="@(item.CoverUrl.IsEmpty()?"/web/images/90x80_no.png":item.CoverUrl)" />
+                        <span class="p">@item.ReadCount</span>
+                    </a>
+                    <a title="@item.Title" href="@Url.Action("Detail", "Article", new { aid = item.Id })" target="_blank">@item.Title</a>
+                </li>
+            }
+
+        </div>
+    </div>
+
+    <div class="home_rmz">
+        <div class="rmz_title">
+            <h3><font color="#ff6333">热门</font>专题</h3>
+            <span class="more"><a href="/topics" target="_blank">更多>></a></span>
+        </div>
+        <div class="rmz_view">
+            <!--精品专题-->
+            @foreach (var item in hotTopics)
+            {
+                <dt>
+                    <a target="_blank" href="/topics/detail/@item.Code" title="@item.Text">
+                        @if (hotTopics.IndexOf(item) == 0)
+                        {
+                            <img src="@(item.PicUrl.IsEmpty()?"/web/images/sc.gif":item.PicUrl)" width="217" height="150" onerror="this.src='/web/images/sc.gif'">
+                        }
+                        else
+                        {
+                            @item.Text
+                        }
+                    </a>
+                </dt>
+            }
+            @*<dd><a target="_blank" href="g-9.html" title="储量与资源量评估">储量与资源量评估</a></dd>
+
+                <dd><a target="_blank" href="g-7.html" title="沉积相及相关资料汇总">沉积相及相关资料汇总</a></dd>
+
+                <dd><a target="_blank" href="g-17.html" title="沉积盆地">沉积盆地</a></dd>
+
+                <dd><a target="_blank" href="g-16.html" title="薄片检定">薄片检定</a></dd>
+
+                <dd><a target="_blank" href="g-15.html" title="李传亮文库">李传亮文库</a></dd>
+
+                <dd><a target="_blank" href="g-10.html" title="沉积动力学">沉积动力学</a></dd>
+
+                <dd><a target="_blank" href="g-8.html" title="鄂尔多斯东缘煤层气、致密砂岩气立体体勘探">鄂尔多斯东缘煤层气、致密砂岩气立体体...</a></dd>*@
+
+            <!--精品专题 end-->
+        </div>
+        <div class="rmz_line"></div>
+        <div class="rmnews">
+            <ul class="trade-list" id="listcontent">
+                @foreach (var item in tradeScores)
+                {
+                    <li class="ellipsis">
+                        <a>
+                            @item.Member
+                        </a> <span style="color:Blue">@item.ScoreTypeName</span> @(item.OperatType == 0 ? "获取" : "消费")<span style="color: #ff3d00">@item.Score </span>@(item.ScoreTypeName)积分
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="home_zx">
+        <div class="zx_title">
+            <a class="flou1"></a>
+            <h3><font color="#ff6333">最新</font>上传资源</h3>
+            <div class="zx_r more"><a href="/article/Index" target="_blank">更多>></a></div>
+        </div>
+        <div class="zx_view">
+            @foreach (var item in TodayArticles)
+            {
+                <li>
+                    <a href="@Url.Action("Detail", "Article", new { aid = item.Id })" target="_blank">
+                        <img onerror="this.src='/web/images/d_pdf.png'" alt="@item.Title" src="@(item.CoverUrl.IsEmpty()?"/web/images/d_pdf.png":item.CoverUrl)" />
+                        <span class="@item.ResourceType"></span>
+                    </a>
+                    <a title="@item.Title" href="@Url.Action("Detail", "Article", new { aid = item.Id })" target="_blank" class="links">@item.Title</a>
+                </li>
+            }
+        </div>
+    </div>
+    <div class="center_line"></div>
+    <div class="blank17"></div>
+
+    <div class="home_tj">
+        <div class="ttop">
+            <a class="flou2"></a>
+            <div class="title"><font color="#ff6333">最新</font>精品推荐</div>
+            <div class="tuijtag">
+                @{
+                    foreach (var item in bestCates)
+                    {
+                        var index = bestCates.IndexOf(item);
+
+                        <li class="sd0@((bestCates.IndexOf(item) == 0?"1":"2"))" id="tj0@(bestCates.IndexOf(item)+1)">
+                            <a href="/Article/Index?cid=@item.Id" target="_blank">
+                                @item.Title
+                            </a>
+                        </li>
+                        @if (index > 0 || index < bestCates.Count - 1)
+                        {
+                            <span class="line">|</span>
+                        }
+                    }
+                }
+            </div>
+        </div>
+
+        @foreach (var item in bestCates)
+        {
+            var index = bestCates.IndexOf(item);
+            <div class="tj_view @(index>0?"hidden_v1":"")" id="tj00@(index+1)">
+                <ul>
+                    @foreach (var article in item.ArticleDetails)
+                    {
+                        <li>
+                            <a href="/Article/Detail?aid=@article.Id" target="_blank">
+                                <img onerror="this.src='/web/images/d_pdf.png'"
+                                     alt="@article.Title" src="@(article.CoverUrl.IsEmpty()?"/web/images/d_pdf.png":article.CoverUrl)" />
+                                <span class="pdf"></span>
+                            </a>
+                            <a title="@article.Title" href="/Article/Detail?aid=@article.Id" target="_blank">
+                                @article.Title
+                            </a>
+
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        }
+
+    </div>
+
+
+    <div class="center_line"></div>
+    <div class="blank17"></div>
+    <div class="home_jp">
+        <div class="jp_title">
+            <h3 class="sd01" id="s01"><a class="flou3"></a><font color="#ff6333">精品</font><font color="#595959">PPT推荐</font></h3>
+            <span class="line">|</span>
+            <h3 class="sd02" id="s02"><font color="#ff6333">今日</font><font color="#595959">更新PPT18</font></h3>
+            <h4></h4>
+        </div>
+        <div class="jp_view" id="x01">
+            @foreach (var item in hotPPT)
+            {
+                <li>
+                    <a href="/Article/Detail?aid=@item.Id" target="_blank">
+                        <img onerror="this.src='/web/images/90x80_no.gif'"
+                             alt="@item.Title" src="@(item.CoverUrl.IsEmpty()?"/web/images/90x80_no.gif":item.CoverUrl)" />
+                        <span class="@item.ResourceType"></span>
+                    </a>
+                    <a title="@item.Title" href="/Article/Detail?aid=@item.Id" target="_blank">
+                        @item.Title
+                    </a>
+
+                </li>
+            }
+        </div>
+        <div class="jp_view hidden_v1" id="x02">
+
+
+            @foreach (var item in newPPT)
+            {
+                <li>
+                    <a href="/Article/Detail?aid=@item.Id" target="_blank">
+                        <img onerror="this.src='/web/images/90x80_no.gif'"
+                             alt="@item.Title" src="@(item.CoverUrl.IsEmpty()?"/web/images/90x80_no.gif":item.CoverUrl)" />
+                        <span class="@item.ResourceType"></span>
+                    </a>
+                    <a title="@item.Title" href="/Article/Detail?aid=@item.Id" target="_blank">
+                        @item.Title
+                    </a>
+                </li>
+            }
+        </div>
+    </div>
+    <div class="center_line"></div>
+    <div class="blank17"></div>
+
+</div>
+<script type="text/javascript" src="/web/js/home.js"></script>
+<!--link-->
+
+<div class="home_link">
+    <div class="link_title">
+        <h3><font color="#ff6333">友情</font>链接</h3>
+        <div class="link_nav">
+            <li class="sd01" id="m01">合作伙伴</li>
+            <span>|</span><li class="sd02" id="m02">最新资源</li>
+        </div>
+        <div class="link_r"><a title="sitemap" href="/sitemapxml" target="_blank" class="mapsm">SITEMAP</a> <font color="#e4e4e4">|</font> <a href="tencent://message/?uin=@ConfigManager.SysConfiguration.SiteQQ" class="more">申请互换友链>></a></div>
+    </div>
+    <div class="link_con" id="c01">
+        @foreach (var item in friendLinks)
+        {
+            <li>
+                <nobr><a target="_blank" href="@item.LinkUrl">@item.LinkName</a></nobr>
+            </li>
+        }
+    </div>
+    <div class="link_con hidden_v1" id="c02">
+        @foreach (var item in NewArticles)
+        {
+            <li>
+                <a target="_blank" href="@Url.Action("Detail", "Article", new { aid = item.Id })"
+                   title="@item.Title">@item.Title</a>
+            </li>
+        }
+    </div>
+</div>
+<!--end link-->
+@section Scripts{
+    <script type="text/javascript">
+        window.onload = function () {
+            var scrollup = new ScrollText("listcontent");
+            scrollup.LineHeight = 28;
+            scrollup.Amount = 1;
+            scrollup.Start();
+            var SDmodel = new scrollDoor();
+            SDmodel.sd(["m01", "m02"], ["c01", "c02"], "sd01", "sd02");
+
+            SDmodel.sd(["s01", "s02"], ["x01", "x02"], "sd01", "sd02");
+            //SDmodel.sd(["tj01","tj02","tj03","tj04","tj05","tj06"],
+            //["tj001","tj002","tj003","tj004","tj005","tj006"], "sd01", "sd02");
+
+
+        }
+
+
+        function onavaterClick()
+        {
+            @(CoreContextProvider.CurrentMember==null? Html.Raw(""):Html.Raw("location.href='/Member/Index';"))
+        }
+
+
+    </script>
+
+}

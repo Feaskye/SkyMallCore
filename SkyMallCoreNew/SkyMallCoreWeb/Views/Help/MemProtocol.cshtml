@@ -1,0 +1,27 @@
+﻿@model HelpDetailView
+@{
+    ViewData["Title"] = "MemProtocol";
+}
+
+<div class="regmain">
+    <div class="main_con" style="padding:10px 20px">
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td align="left" class="newscontent" colspan="2" style="line-height: 24px;" valign="top">
+                       @(Html.Raw(Model.Description))
+                    </td>
+                </tr>
+                <tr>
+                    <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2">
+                        &nbsp;
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

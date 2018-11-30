@@ -1,0 +1,230 @@
+﻿@{
+    ViewBag.Title = "文库专题";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+<link href="~/js/select2/select2.min.css" rel="stylesheet" />
+<script src="~/js/select2/select2.min.js"></script>
+<script>
+    $(function () {
+        var requestUrl = "/SystemManage/Article/GetGridJson";
+        var memberId = $.request("MemberId");
+        if (memberId.length > 0) {
+            $("#memberId").val(memberId);
+            requestUrl = requestUrl + "?memberId=" + memberId;
+        }
+
+        initControl();
+
+        gridList("/SystemManage/ArticleTopic/GetGridJson",
+            $(window).height() - 220, false, [
+                { label: "主键", name: "Id", hidden: true, key: true },
+                { label: '专题名称', name: 'Title', width: 150, align: 'left' },
+                {
+                    label: '专题副标题', name: 'ShortTitle', width: 150, align: 'left',
+                    formatter: function (cellvalue) {
+                        return (cellvalue ? (cellvalue.substr(0, 20) + "...") : "");
+                    }
+                },
+                {
+                    label: '作者', name: 'MemberName', width: 100, align: 'left',
+                    formatter: function (cellvalue) {
+                        return cellvalue ? cellvalue : "系统管理员";
+                    }
+                },
+                {
+                    label: '封面图', name: 'CoverUrl', width: 80, align: 'left', formatter: function (cellvalue) {
+                        return (cellvalue) ? "<img src='" + cellvalue + "' style='width:35px;height:35px;' />" : "";
+                    }
+                },
+                {
+                    label: '大图', name: 'BigCoverUrl', width: 80, align: 'left', formatter: function (cellvalue) {
+                        return (cellvalue) ? "<img src='" + cellvalue + "' style='width:35px;height:35px;' />" : "";
+                    }
+                },
+                { label: '阅读量', name: 'ReadCount', width: 100, align: 'left' },
+                {
+                    label: '父级', name: 'Category', width: 100, align: 'left',
+                    formatter: function (cellvalue) {
+                        return cellvalue ? cellvalue : "顶级类别";
+                    }
+                },
+                {
+                    label: '审核状态', name: 'TopicStatus', width: 100, align: 'left', formatter: function (cellvalue) {
+
+                        if (cellvalue === @((int)TopicStatus.UnAudit)) {
+                            return "待审核";
+                        }
+                        if (cellvalue === @((int)TopicStatus.Audited)) {
+                            return "审核通过";
+                        }
+                        if (cellvalue === -1) {
+                            return "审核失败";
+                        }
+                        return cellvalue;
+                    }},
+                {
+                    label: '创建时间', name: 'CreatorTime', width: 80, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                },
+                {
+                    label: "有效", name: "EnabledMark", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                { label: '备注', name: 'Description', width: 300, align: 'left' }
+            ]);
+
+
+        //$("#CateType").change(function () { 
+        //    var type = $(this).val();
+        //    if (type !== undefined && type !== '' && type !== '0') {
+        //        initControl(true);
+        //    }
+        //    else { 
+        //        initControl();
+        //    }
+        //});
+
+
+    });
+
+    function initControl() {
+        $("#ParentId").html("<option value=''>--请选择--</option>");
+        var url = "/SysComponent/Controll/GetArticleTopics";
+        $("#ParentId").bindSelect({
+            url: url,
+            id: "Code",
+            text: "Text"
+        });
+    }
+
+
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增专题",
+            url: "/SystemManage/ArticleTopic/Form",
+            width: "650px",
+            height: "570px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Form",
+            title: "修改专题",
+            url: "/SystemManage/ArticleTopic/Form?keyValue=" + keyValue,
+            width: "650px",
+            height: "570px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_delete() {
+        $.deleteForm({
+            url: "/SystemManage/ArticleTopic/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().Id },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Details",
+            title: "查看专题",
+            url: "/SystemManage/ArticleTopic/Details?keyValue=" + keyValue,
+            width: "650px",
+            height: "620px",
+            btn: null,
+        });
+    }
+
+    function btn_audit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Form",
+            title: "修改专题",
+            url: "/SystemManage/ArticleTopic/Form?audit=1&keyValue=" + keyValue,
+            width: "650px",
+            height: "570px",
+            btn: ['审核', '关闭'],
+            callBack: function (iframeId) {
+                top.frames[iframeId].auditForm();
+            }
+        });
+    }
+
+
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建专题分类</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li><a id="audit" authorize="yes" onclick="btn_audit()"><i class="fa fa-pencil-square-o"></i>审核专题</a></li>
+                <li><a id="edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>查看专题/修改顶级</a></li>
+                <li><a id="delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除专题</a></li>
+                @*<li><a id="Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看专题</a></li>*@
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <form id="searchform">
+                        <div class="input-group">
+                            <input type="hidden" value="@ViewData["MemberId"] " id="memberId" name="memberId" />
+                            @if ((ViewData["Member"] as string) != null)
+                            {
+                                <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                    &nbsp;&nbsp;用户：@Html.Raw(ViewData["Member"])
+                                    &nbsp; &nbsp;
+                                </div>
+                            }
+                            &nbsp; 父级
+                            <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                <select id="ParentId" name="ParentId" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                            &nbsp;&nbsp;
+                            状态
+                            <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                <select id="TopicStatus" name="TopicStatus" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                    <option value="">--请选择--</option>
+                                    @foreach (var item in EnumCommon.GetEnumList<TopicStatus>())
+                                    {
+                                        <option value="@item.Key">@item.Value</option>
+                                    }
+                                </select>
+                            </div>
+                            <input id="keyword" name="keyword" type="text" class="form-control" placeholder="专题名称" style="width: 200px;">
+                            <span class="input-group-btn">
+                                <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>

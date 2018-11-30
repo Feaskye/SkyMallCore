@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SystemManage/SysDuty/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+    function initControl() {
+        $("#OrganizeId").bindSelect({
+            url: "/SystemManage/SysOrganize/GetTreeSelectJson",
+        });
+    }
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        $.submitForm({
+            url: "/SystemManage/SysDuty/SubmitForm?keyValue=" + keyValue,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">归属组织</th>
+                <td class="formValue">
+                    <select id="OrganizeId" name="OrganizeId" class="form-control required">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">岗位名称</th>
+                <td class="formValue">
+                    <input id="FullName" name="FullName" type="text" class="form-control required" placeholder="请输入岗位名称" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">岗位编号</th>
+                <td class="formValue">
+                    <input id="EnCode" name="EnCode" type="text" class="form-control required" placeholder="请输入岗位编号" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">显示顺序</th>
+                <td class="formValue">
+                    <input id="SortCode" name="SortCode" type="text" class="form-control required" placeholder="请输入显示顺序" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="height: 35px;">选项</th>
+                <td class="formValue" style="padding-top: 1px;">
+                    <div class="ckbox">
+                        <input id="AllowEdit" name="AllowEdit" type="checkbox"><label for="AllowEdit">允许编辑</label>
+                    </div>
+                    <div class="ckbox">
+                        <input id="AllowDelete" name="AllowDelete" type="checkbox"><label for="AllowDelete">允许删除</label>
+                    </div>
+                    <div class="ckbox">
+                        <input id="EnabledMark" name="EnabledMark" type="checkbox" checked="checked"><label for="EnabledMark">有效</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" valign="top" style="padding-top: 5px;">备注
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

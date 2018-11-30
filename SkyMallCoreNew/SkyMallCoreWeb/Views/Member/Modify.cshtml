@@ -1,0 +1,182 @@
+﻿@model MemberDetailView
+@{
+    ViewBag.Title = "个人资料";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+}
+@section HScripts{
+    <script src="/js/dialog/dialog.js"></script>
+    <script src="/js/framework-ui.js"></script>
+}
+<form id="submitForm">
+    <ul class="fl person-data-set pt30 pb30">
+        <li class="works-edit-item clearfix">
+            <label class="fl person-data-label">
+                帐号：
+            </label><span class="font-tahoma">
+                <span id="Content_txtUserName" class="aspNetDisabled" style="color:#EB0064;">@Model.UserName</span>
+            </span>
+        </li>
+
+        <li class="works-edit-item clearfix" id="email">
+            <label class="fl person-data-label">
+                邮箱：
+            </label>
+            <span id="Content_txtEmail2" MaxLength="100">@Model.Email</span>
+            &nbsp; <a href="/member/ChangeEmail" style="color:#ff1100;">设置>></a>
+        </li>
+
+        <li class="works-edit-item clearfix formValue">
+            <label class="fl person-data-label">
+                昵称：
+            </label>
+            @if (string.IsNullOrWhiteSpace(Model.NickName))
+            {
+                <input name="NickName" type="text" value="@Model.NickName" maxlength="25" id="NickName" class="fl bag-item-input mr5 J-member-nickname required" />
+            }
+            else
+            {
+                <input name="NickName" type="text" value="@Model.NickName" maxlength="25" id="NickName" disabled="disabled" class="aspNetDisabled fl bag-item-input mr5 J-member-nickname" />
+            }
+        </li>
+
+        <li class="works-edit-item clearfix formValue">
+            <label class="fl person-data-label">
+                手机：
+            </label>
+            <input name="MobilePhone" type="text" maxlength="25" id="MobilePhone" class="fl bag-item-input mr5 J-member-nickname required isMobile" value="@Model.MobilePhone" />
+        </li>
+        <li class="works-edit-item clearfix formValue">
+            <label class="fl person-data-label">
+                单位名称：
+            </label>
+            <input name="Company" type="text" id="Company" class="fl bag-item-input mr5 J-member-nickname" value="@Model.Company" />
+        </li>
+        <li class="works-edit-item clearfix formValue" style="padding-bottom: 0px; margin-bottom: 0px;">
+            <label class="fl person-data-label">
+                简介：
+            </label>
+            <textarea name="Description" rows="2" cols="20" id="Description" maxlength="200" class="fl bag-item-input mr5 J-member-nickname" style="width: 500px; height: 40px;">@Model.Description</textarea>
+        </li>
+        <li class="works-edit-item clearfix formValue">
+            <label class="fl person-data-label">
+                性别：
+            </label>
+            <span id="Content_rdoGender" class="mr3 mb2" style="display:inline-block;width:150px;">
+                <input id="Content_rdoGender_0" type="radio" name="rdGender" value="true" @(Model.Gender?"checked=checked":"") />
+                <label for="Content_rdoGender_0">男</label>
+                <input id="Content_rdoGender_1" type="radio" name="rdGender" value="false" @(Model.Gender?"":"checked=checked") />
+                <label for="Content_rdoGender_1">女</label>
+            </span>
+        </li>
+        <li class="works-edit-item clearfix formValue">
+            <label class="fl person-data-label">
+                城市：
+            </label>
+            <select name="Province" id="Province" class="chengshi_select" data="@Model.Province">
+                <option value="">-请选择-</option>
+            </select>
+            <select name="City" id="City" class="chengshi_select" data="@Model.City">
+                <option value="">-请选择-</option>
+
+            </select>
+            &nbsp;
+        </li>
+        <li class="works-edit-item clearfix formValue">
+            <label class="fl person-data-label">
+                身份：
+            </label>
+            <select name="Position" id="Position" class="chengshi_select diccode" diccode="position" style="width: 155px;" data="@Model.Position"></select>
+        </li>
+        <li class="works-edit-item clearfix formValue">
+            <label class="fl person-data-label">
+                QQ：
+            </label>
+            <input name="QQ" type="text" maxlength="50" id="QQ" value="@Model.QQ" class="fl bag-item-input mr5 J-member-nickname" style="width: 500px;" />
+        </li>
+        <li class="works-edit-item clearfix">
+            <label class="fl person-data-label">
+                &nbsp;
+            </label>
+            <input type="button" name="btnModify" value="" id="btnModify" class="member-common-btn member-common-btn2" />
+        </li>
+    </ul>
+</form>
+@section Scripts{
+    <script src="/js/validate/jquery.validate.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btnModify").click(function () {
+                var $form = $('#submitForm');
+                if (!$form.IsValid()) {
+                    return false;
+                }
+                var data = $form.formSerialize();
+                var gender = $("input[name='rdGender']:checked").val();
+                data.Gender = gender;
+                console.log(data);
+                $.submitDialog({
+                    url: "/Member/Modify",
+                    param: data,
+                    success: function () {
+                        $.modalAlertReload("提交成功！", "success");
+                    }
+                });
+            });
+            
+
+
+            GetCategory($('#Province'),'','@Model.Province');
+
+        function GetCategory($obj, parentId, currentId) {
+            $obj.selectBindData({
+                url: "/SysComponent/Controll/GetArea?parentId=" + parentId,
+                id: "id",
+                text: "text",
+                selected: currentId,
+                callback: function () {
+                    $obj.change(function () {
+                        parentId = $(this).val();
+                        if ($(this).attr("id") === "Province") {
+                            $('#City').html('');
+                            GetCategory($('#City'), parentId,'@Model.City');
+                        }
+                    });
+                }
+            });
+
+        }
+
+
+
+            //var $province = $("#Province");
+            //loadArea($province, "");
+            //$province.change(function () {
+            //    loadArea($("#City"), $province.val());
+            //});
+
+            //function loadArea($selObj, parentId) {
+            //    $.getJSON("/SysComponent/Controll/GetArea?parentId=" + parentId, function (result) {
+            //        $selObj.html("<option value=''>-请选择-</option>");
+
+            //        if (result.length > 0) {
+            //            $.each(result, function (i, data) {
+            //                if ($selObj.attr("data") === data.id) {
+            //                    $selObj.append("<option value='" + data.id + "' selected='selected' >" + data.text + "</option>");
+            //                }
+            //                else {
+            //                    $selObj.append("<option value='" + data.id + "'>" + data.text + "</option>");
+            //                }
+            //            });
+            //        }
+            //    });
+            //}
+
+
+
+
+        });
+    </script>
+
+
+}

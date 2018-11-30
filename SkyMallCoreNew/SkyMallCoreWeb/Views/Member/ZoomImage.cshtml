@@ -1,0 +1,139 @@
+﻿@model ZoomImageView
+@{
+    ViewBag.Title = "上传头像";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+}
+@*https://www.cnblogs.com/artech/p/upload-files-in-asp-net-core.html*@
+<form id="submitForm" action="/member/zoomimage" method="post" onsubmit="return validForm();" enctype="multipart/form-data">
+    <div class="container">
+        <div class="imageBox">
+            <div class="thumbBox"></div>
+            <div class="spinner" style="display: none">Loading...</div>
+        </div>
+        <div class="action">
+            <div class="new-contentarea tc">
+                <a href="javascript:void(0)" class="upload-img">
+                    <label for="upload-file">上传图像</label>
+                </a>
+                <input type="file" class="" name="upload-file" id="upload-file" />
+            </div>
+            <input type="submit" name="btnSubmit" value="保存" id="btnSubmit" class="Btnsty_peyton" />
+            <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+">
+            <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-">
+        </div>
+        <div class="cropped"></div>
+    </div>
+    <input name="ImageData" type="hidden" id="Content_hiddenImageData" />
+</form>
+
+
+@section Scripts{
+    @*<script src="/web/FlexPaper/JS/jquery1.9.0.min.js"></script>*@
+    <script src="/web/FlexPaper/JS/autoNumeric.js"></script>
+    <link href="/web/FlexPaper/ZoomImage/style.css" rel="stylesheet" />
+    <script src="/web/FlexPaper/ZoomImage/cropbox.js"></script>
+    <script src="/js/dialog/dialog.js"></script>
+    <script src="/js/framework-ui.js"></script>
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+        <script type="text/javascript">
+            $.modalAlert('@Html.Raw(Model.ErrorMessage)');
+        </script>
+    }
+    <script type="text/javascript">
+            function validForm() {
+                if ($("input[type='file']")[0].files.length === 0) {
+                    $.modalAlert("请选择头像文件！");
+                    return false;
+                }
+                return true;
+            }
+        $(window).load(function () {
+            var options =
+            {
+                thumbBox: '.thumbBox',
+                spinner: '.spinner',
+                imgSrc: '@(Model.HeadIcon)?n=' + Math.random() //'http://qzapp.qlogo.cn/qzapp/101305645/5750B82B97D68B33031B3BCD2BBA0BCC/100'
+            };
+            var cropper = $('.imageBox').cropbox(options);
+            $('#upload-file').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    options.imgSrc = e.target.result;
+                    cropper = $('.imageBox').cropbox(options);
+                    //cropper.imageBox.attr({ "background-size": "203.843px 203.843px", "background-position": "98.0787px 98.0787px", "background-repeat": "no-repeat" });
+                    //console.log(cropper.imageBox);
+                };
+                reader.readAsDataURL(this.files[0]);
+                fileSize = this.files[0].size;
+                fileName = this.value;
+                //this.files = [];
+            });
+            $('#btnCrop').on('click', function () {
+                var img = cropper.getDataURL();
+                $('.cropped').html('');
+                document.getElementById("Content_hiddenImageData").value = img;
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:180px;margin-top:4px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:128px;margin-top:4px; box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:64px;margin-top:4px; box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+            });
+
+            $(".imageBox").on("mouseup", function () {
+                var img = cropper.getDataURL();
+                $('.cropped').html('');
+                document.getElementById("Content_hiddenImageData").value = img;
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:180px;margin-top:4px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:128px;margin-top:4px; box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:64px;margin-top:4px; box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+            });
+
+            //$('#Content_Button3').on('click', function () {
+            //    //var img = cropper.getDataURL();
+            //    //console.log(img);
+            //    //$('.cropped').html('');
+            //    //document.getElementById("Content_hiddenImageData").value = img;
+
+            //    if ($("input[type='file']")[0].files.length == 0) {
+            //        $.modalAlert("请选择图像文件！");
+            //        return;
+            //    }
+            //    $("#submitForm").submit();
+
+
+            //});
+
+
+
+            $('#btnZoomIn').on('click', function () {
+                cropper.zoomIn();
+                //console.log(cropper);
+                //console.log(cropper.image);
+                //console.log(cropper.image.width());
+                var img = cropper.getDataURL();
+                $('.cropped').html(''); document.getElementById("Content_hiddenImageData").value = img;
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:180px;margin-top:4px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:128px;margin-top:4px; box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:64px;margin-top:4px; box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+
+            });
+            $('#btnZoomOut').on('click', function () {
+                cropper.zoomOut();
+                var img = cropper.getDataURL();
+                $('.cropped').html(''); document.getElementById("Content_hiddenImageData").value = img;
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:180px;margin-top:4px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:128px;margin-top:4px; box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+                $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:64px;margin-top:4px; box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+
+            });
+
+            setTimeout(function () {
+                if (options.imgSrc) {
+                    $(".imageBox").trigger("mouseup");
+                }
+            }, 800);
+
+
+        });
+
+    </script>
+}

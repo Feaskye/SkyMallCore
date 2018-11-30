@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "新闻编辑";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
+}
+
+<script type="text/javascript" src="/js/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/js/ueditor/ueditor.all.js"></script>
+<script>
+   
+    var ue = initUeditor();
+  
+
+    var keyValue = $.request("keyValue");
+    //if (keyValue.length > 0) {
+    //    $("#ConfigCode").prop("disabled", "disabled");
+    //}
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SystemManage/News/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                    $("#Description").html(data.Description);
+
+                    $("#container").html(data.Description);
+                    ue = initUeditor();
+                }
+            });
+        }
+    });
+
+    function initUeditor() {
+        return UE.getEditor('container', {
+            initialFrameWidth: 525,
+            initialFrameHeight: 300
+        });
+    }
+
+    function initControl() {
+        $("#CategoryId").bindSelect({
+            url: "/SysComponent/Controll/GetNewsCates",
+            id: "Code",
+            text: "Text"
+        });
+    }
+
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+
+        var Title = $("#Title").val();
+        if (Title.length === 0) {
+            $.modalMsg("新闻名称不能为空");
+            return false;
+        }
+
+        var des = getContent('container');
+        if (des.length === 0) {
+            $.modalMsg("内容不能为空");
+            return false;
+        }
+        $("textarea[name='Description']").html(des);
+        var data = $("#form1").formSerialize();
+        data.Description = des;
+        $.submitForm({
+            url: "/SystemManage/News/SubmitForm?keyValue=" + keyValue,
+            param: data,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+</script>
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">新闻名称</th>
+                <td class="formValue">
+                    <input id="Title" name="Title" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">新闻分类</th>
+                <td class="formValue">
+                    <select id="CategoryId" name="CategoryId" type="text" class="form-control"></select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">新闻简述</th>
+                <td class="formValue">
+                    <textarea id="ShortTitle" name="ShortTitle" class="form-control"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="vertical-align:top">新闻内容</th>
+                <td class="formValue">
+                    <textarea id="container"></textarea>
+                    <textarea id="Description" name="Description" style="display: none;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">排序</th>
+                <td class="formValue">
+                    <input id="SortCode" name="SortCode" type="text" class="form-control required" value="1" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="height: 35px;">选项</th>
+                <td class="formValue" style="padding-top: 1px;">
+                    <div class="ckbox">
+                        <input id="EnabledMark" name="EnabledMark" type="checkbox" checked="checked"><label for="EnabledMark">有效</label>
+                    </div>
+                </td>
+            </tr>
+            @*<tr>
+                    <th class="formTitle" valign="top" style="padding-top: 11px;">
+                        备注
+                    </th>
+                    <td class="formValue">
+                        <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+                    </td>
+                </tr>*@
+        </table>
+    </div>
+</form>
+
+
+@section Scripts{
+    <!-- 配置文件 -->
+    <script type="text/javascript">
+
+
+                //var desc = $("#Description").html();
+                //if (desc.length > 0) {
+                //    console.log("Description初始化");
+                //    ue.setContent(desc, false);
+                //}
+        initControl();
+    </script>
+}

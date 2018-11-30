@@ -1,0 +1,578 @@
+﻿@model ArticlePageView
+@{
+    ViewData["Title"] = "文章详细";
+    if (Model != null)
+    {
+        ViewData["Title"] = Model.ArticleDetail.Title;
+    }
+}
+
+@section HScripts{
+    <link href="/web/css/BookReport.css" rel="stylesheet" />
+    <link href="/web/css/listpage.css" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            background: url(/web/images/step_bg.png);
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/web/css/view/read.css">
+    <style type="text/css">
+        .mainpart {
+            margin: auto;
+            width: 1200px;
+            *width: 1200px;
+            position: relative;
+        }
+
+        .commonbox1 .box {
+            padding: 10px 0px;
+            height: 164px;
+            width: 710px;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        #preview_tips {
+            visibility: visible;
+            overflow: hidden;
+            width: 700px;
+            height: 540px;
+            z-index: 10000;
+            position: absolute;
+            left: 40%;
+            margin-left: -200px;
+            top: 5px;
+            background: #fff;
+            padding: 5px;
+        }
+
+        .preview_tips2 {
+            visibility: visible;
+            overflow: hidden;
+            background-color: #F9F9F9;
+            border: 2px solid #dadbdf;
+            width: 400px;
+            height: 240px;
+            z-index: 10000;
+            position: absolute;
+            left: 100px;
+            margin-left: -200px;
+            top: 155px;
+            background: #fff;
+            padding: 5px;
+        }
+
+        #preview_tips .pre_title {
+            height: 30px;
+            line-height: 30px;
+            text-indent: 11px;
+            font-size: 14px;
+            font-weight: 700;
+            width: 390px;
+            text-align: left;
+            color: #333;
+            border-bottom: 1px solid #dadbdf;
+        }
+
+        #preview_tips ul {
+            font-family: 宋体;
+            color: #585858;
+            font-size: 13px;
+            padding: 12px;
+        }
+
+            #preview_tips ul li {
+                text-align: left;
+            }
+
+                #preview_tips ul li a {
+                    text-decoration: underline;
+                    color: #f60;
+                }
+
+                    #preview_tips ul li a:hover {
+                        color: #e00;
+                    }
+
+        #preview_tips .pre_button {
+            text-align: center;
+            position: absolute;
+            bottom: 29px;
+            left: 95px;
+        }
+
+            #preview_tips .pre_button a {
+                cursor: pointer;
+                position: absolute;
+                left: 0px;
+                bottom: 10px;
+                display: block;
+                width: 216px;
+                height: 32px;
+                line-height: 32px;
+                border: 1px solid #FFB38C;
+                font-size: 16px;
+                color: #e00;
+                font-weight: 700;
+                text-decoration: none;
+                margin: 0 auto;
+            }
+
+                #preview_tips .pre_button a:hover {
+                    background-position: 0 -32px;
+                }
+
+        .input-tit {
+            color: #727272;
+            font-size: 24px;
+            font-weight: 700;
+            padding-left: 80px;
+        }
+    </style>
+    <link href="/web/js/artDialog-5.0.3/skins/default.css" rel="stylesheet" />
+    <script language="JavaScript" type="text/javascript" src="/web/css/view/swfobject.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/web/css/view/view-mini.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/web/css/view/encoder.js"></script>
+    <style type="text/css">
+        .Content_tvMenus_0 {
+            text-decoration: none;
+        }
+    </style>
+}
+<input type="hidden" id="dp" value="@Model.ArticleDetail.AttachmentImage" />
+<div class="content" style="margin-top: -10px">
+    <div class="readshop" id="readshop" style="position: relative; left:0px; width: 100%; z-index: 1;">
+        <div class="mainpart" style="min-width: 720px;">
+            <ul class="shop1" style="min-width: 300px; padding-right: 10px;">
+                <table>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+                <li class="mark" id="bookmark">
+                    @*<a href="javascript:Mark();">添加书签</a>*@
+                </li>
+                </td>
+                <td>
+                    @*<input type="button" class="btn_sc" onclick="popFolder();return false;" value="收藏" style="display:none;" />&nbsp;*@
+                </td>
+                </tr>
+                </table>
+            </ul>
+            <ul class="shop3">
+                <li class="paging">
+                    <input type="button" title="上一页" class="no-prev" id="prePageButton" disabled="" />
+                </li>
+                <li class="text">
+                    <input type="text" id="pageNumInput" />
+                </li>
+                <li class="text" style="padding-top: 2px; font-size: 15px;">/&nbsp;@Model.ArticleDetail.PageCount</li>
+                <li class="paging" style="margin-left: 10px">
+                    <input type="button" title="下一页" class="nextsmall" id="nextPageButton" />
+                </li>
+            </ul>
+            <ul class="shop2" style="padding: 0px 10px;">
+                <li title="放大" class="zoomb" id="zoomInButton" disabled="false"></li>
+                <li title="缩小" class="no-zooms" id="zoomOutButton" disabled="true"></li>
+                <li title="全屏显示" class="fullscreen" id="frscreen"></li>
+            </ul>
+            <ul class="shop4">
+                <li class="btns">
+                    @*<span style="color: #666">下载费用：</span>*@
+                    <span style="color: #ff1100;">
+                        <b style="font-size: 14px;">@Model.ArticleDetail.RequireAmount</b> 下载积分
+                    </span> &nbsp;
+                    <input type="button" class="btndown1" onclick="window.location.href='/article/down/@(Model.ArticleDetail.Id)';return false;" value="下载资源" />
+                    @*<input type="button" class="btndownvip" onclick="window.location.href='/UserManage/Recharge.aspx?f=0';return false;" value="加入VIP" />*@
+                </li>
+            </ul>
+        </div>
+        <!--end mainpart-->
+    </div>
+    @*<div class="nav_ui_view">
+        <a href="index.html">
+            <img src="/web/images/home.gif" width="16" height="16" align="absmiddle" alt="首页" /> @ConfigManager.SysConfiguration.SiteName
+        </a>
+        <span>&nbsp;&gt;&nbsp;</span>
+        <a href="/cate">资源分类</a>
+        <span>&nbsp;&gt;&nbsp;</span>
+        <a todo parentid href="/Article/Index?cid=@Model.ArticleDetail.CategoryId">@Model.ArticleDetail.Category</a>
+        <span>&nbsp;&gt;&nbsp;</span>
+        <a href="/Article/Index?cid=@Model.ArticleDetail.CategoryId">@Model.ArticleDetail.Category</a>
+        <span>&nbsp;&gt;&nbsp;</span>@Model.ArticleDetail.Title
+    </div>*@
+    <form>
+        <div class="aspNetHidden">
+            <input type="hidden" name="Content_tvMenus_ExpandState" id="Content_tvMenus_ExpandState" value="" />
+            <input type="hidden" name="Content_tvMenus_SelectedNode" id="Content_tvMenus_SelectedNode" value="" />
+            <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+            <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+            <input type="hidden" name="Content_tvMenus_PopulateLog" id="Content_tvMenus_PopulateLog" value="" />
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTE2Njk2MjQ1MGQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgEFFWN0bDAwJENvbnRlbnQkdHZNZW51c0osyDc+o8yjuRHl64S6KQynbj7Ni/pgJjOKrENKNWaG" />
+        </div>
+        @*<script type="text/javascript">var theForm = document.forms['form1']; if (!theForm) { theForm = document.form1; } function __doPostBack(eventTarget, eventArgument) { if (!theForm.onsubmit || (theForm.onsubmit() != false)) { theForm.__EVENTTARGET.value = eventTarget; theForm.__EVENTARGUMENT.value = eventArgument; theForm.submit(); } }</script>*@
+        
+        <script type="text/javascript">function TreeView_PopulateNodeDoCallBack(context, param) { WebForm_DoCallback(context.data.treeViewID, param, TreeView_ProcessNodeData, context, TreeView_ProcessNodeData, false); } var Content_tvMenus_Data = null;</script>
+        
+        @*<script type="text/javascript">if (typeof (Sys) === 'undefined') throw new Error('ASP.NET Ajax 客户端框架未能加载。');</script>*@
+        
+        @*<script type="text/javascript">Sys.WebForms.PageRequestManager._initialize('ctl00$Content$ScriptManager1', 'form1', ['tctl00$Content$UpdatePanel1', 'Content_UpdatePanel1', 'tctl00$Content$UpdatePanel3', 'Content_UpdatePanel3'], [], [], 90, 'ctl00');</script>*@
+        <div class="mainpart" id="mainpart" style="position:relative; z-index:1;">
+            <div class="layout02" id="layout02">
+                <div class="boxleft" id="boxleft">
+                    <div class="commonbox2" id="box1">
+                        <div class="doctopic">
+                            <h1 title="@Model.ArticleDetail.Title">
+                                <img alt="" style="margin-top: 2px" src="/web/images/s.gif" class="@Model.ArticleDetail.ResourceType" />@Model.ArticleDetail.Title
+                            </h1>
+                        </div>
+                        <!--end documenttopic-->
+                    </div>
+                    <!--end commonbox2-->
+                    <div class="page_view" id="pageContainer" oncontextmenu="return false">
+                        <script language="javascript">$(document).ready(function () { initPage(); $("#loading").hide(); });</script>
+                        <!--end documenttopic-->
+                    </div>
+                    <div id="outer_page_more" style="margin-bottom:20px;background-color:#FFF; overflow:hidden;">
+                        <div class="inner_page_more" id="page_more" style="width: 917px; overflow:hidden;border:solid 1px #ccc;box-shadow:0 1px 5px #ccc; height: 260px; line-height: 30px;">
+                            <div id="html-reader-go-more" class="banner-wrap more-btn-banner" style="padding-top: 40px; width: 920px; position:relative;">
+                                <div id="loading" style="text-align:center;width: 920px; padding-bottom:100px; font-size: 18px; line-height:40px;">
+                                    <img src="/web/images/loading.gif" alt="" />
+                                    <br /> 文档加载中……请稍候！
+                                    <br />
+                                    <a href="@Context.Request.QueryString" style="color:blue;text-decoration:underline;">如果长时间未打开，您也可以点击刷新试试。</a>
+                                </div>
+                                <p style="text-align: center; font-size: 18px;">
+                                    <span id="ftip">下载文档到电脑，查找使用更方便</span>
+                                </p>
+                                <p style="text-align: center; font-size: 14px;">
+                                    <b></b>
+                                    <span>
+                                        <b style="color: #ff0000"> @Model.ArticleDetail.RequireAmount</b> 下载积分
+                                    </span> &nbsp;&nbsp;
+                                    <span class="fcff">@(Model.ArticleDetail.DownloadCount)人已下载</span>
+                                </p>
+                                <p style="text-align: center; padding-top: 10px;">
+                                    <table style="margin:0px auto;">
+                                        <tr>
+                                            <td>
+                                                <a href="javascript:;" onclick="DownLoad()" class="ui-bz-btn-senior banner-download" style="padding: 5px 35px; font-size: 15px; text-decoration: none">
+                                                    <b style="color: #fff">下载</b>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                &nbsp;&nbsp;
+                                                @*<a href="/UserManage/Recharge.aspx?f=0" class="ui-bz-btn-senior2 banner-download" style="padding: 5px 35px; font-size: 15px; text-decoration: none">
+                                        <b style="color: #fff">加入VIP</b>
+                                    </a>*@
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p>
+                                <p id="ntip" style="text-align: center; padding-top: 30px;">
+                                    <div id="ntip2" class="banner-more-btn" style="text-align: center; display:block; width: 250px; margin:0px auto;" onclick="showmorepage()">
+                                        <span class="moreBtn goBtn" style="text-align: center">
+                                            <span>
+                                                还剩
+                                                <span id="spanpage"></span>页未读，
+                                            </span>
+                                            <span class="fc2e">继续阅读</span>
+                                        </span>
+                                    </div>
+                                </p>
+                                <p class="down-arrow goBtn"></p>
+                            </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="b_tl"></div>
+                    <div class="b_tr"></div>
+                    <div class="b_br"></div>
+                    <div class="b_bl"></div>
+                    <div class="b_t"></div>
+                    <div class="b_r"></div>
+                    <div class="b_b"></div>
+                    <div class="b_l"></div>
+
+                    <div class="works-manage-box shenshu">
+                        @*<a href="javascript:jubao()" title="举报" class="fLeft works-manage-item works-manage-report" style="display:none;">
+                            <span class="inline-block ico ">
+                                <img src="/web/images/jubao.jpg" alt="举报" />
+                            </span>
+                            <br /> 举报
+                        </a>
+                        <a href="/UserManage/CopyrightAppeal.aspx?bid=60" title="版权申诉" class="fLeft works-manage-item works-manage-report" target="_blank" style="display:none;">
+                            <span class="inline-block ico">
+                                <img src="/web/images/bang_tan.gif" width="18" alt="版权申诉">
+                            </span>
+                            <br> 版权申诉
+                        </a>*@
+                        <a class="fLeft" style="display:block; padding-top:17px; padding-left:20px;font-size:14px;">word格式文档无特别注明外均可编辑修改；预览文档经过压缩，下载后原文更清晰！ </a>
+                        <a href="/article/down/@Model.ArticleDetail.Id" title="点击进入下载" class="fr hover-none works-manage-download">
+                            <em class="mr5">立即下载</em>
+                            <span class="download-ico2 ico inline-block vertical-middle"></span>
+                        </a>
+                        <input type="hidden" value="1332" id="tu_id" />
+                    </div>
+                    <dl class="works-intro gray2 cl pb10" style="border-bottom: none; padding-bottom: 0">
+                        <dt class="fl">关&nbsp;键&nbsp;词：</dt>
+                        <dd class="fl wordwrap c666">@Model.ArticleDetail.Keyword </dd>
+                    </dl>
+                    <dl class="works-intro gray2 ">
+                        <dt class="fl">资源描述：</dt>
+                        <dd class="fLeft wordwrap">@Html.Raw(Model.ArticleDetail.Description)</dd>
+                    </dl>
+                    <div class="works-intro gray2 c666">
+                        <span class=" notice-ico">
+                            <img src="/web/images/bang_tan.gif" style="padding-left: 24px; vertical-align: middle" />
+                        </span>&nbsp; @(ConfigManager.SysConfiguration.SiteName)所有资源均是用户自行上传分享，仅供网友学习交流，未经上传用户书面授权，请勿作他用。
+                    </div>
+                    <!--ta的资源-->
+                    <div class="mt10 related-pic-box" id="brandlist" style="height: 418px;">
+                        <div class="works-comment-hd">
+                            ta的资源
+                            @*<a href="u-1.html" class="fr" style="font-size: 12px; font-weight: normal" hidefocus="true" target="_blank">更多&gt;&gt;</a>*@
+                        </div>
+                        <div id="related-pic-list" class="related-pic-list cl" style="padding-left:12px; padding-right:0px;">
+                            <ul>
+                                @foreach (var item in Model.AboutArticles as List<ArticleDetailView>)
+                                {
+                                    var typeImage = "90x80_no.gif";
+                                    if (item.ResourceType == "swf")
+                                    {
+                                        typeImage = "d_video.gif";
+                                    }
+                                    else if (item.ResourceType == "pdf")
+                                    {
+                                        typeImage = "d_pdf.png";
+                                    }
+                                    <li>
+                                        <a href="@Url.Action("Detail","Article", new { aid = item.Id })" target="_parent" title="@item.Title">
+                                            <img src='@item.CoverUrl' alt="@item.Title" onerror="this.src='/web/images/@typeImage'" /> @item.Title
+                                        </a>
+                                    </li>
+                                }
+                                @*
+                    <li>
+                        <a href="p-2234.html" target="_parent" title="《油藏工程》教学视频李传亮主讲-03">
+                            <img src='FlexPaper/FileRoot/2016-5/8/b358fae5-73be-4bd2-9be5-45c074b34911/1.jpg' alt="《油藏工程》教学视频李传亮主讲-03" onerror="this.src='/web/images/d_vedio.png'" /> 《油藏工程》教学视频李传亮主讲-03
+                        </a>
+                    </li>*@
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt10 related-pic-box" id="Div1" style="height: 418px;">
+                        <div class="works-comment-hd"> 猜你喜欢 </div>
+                        <div id="related-pic-list" class="related-pic-list cl" style="padding-left:12px; padding-right:0px;">
+                            <ul>
+                                @foreach (var item in Model.LikeArticles as PagedList<ArticleDetailView>)
+                                {
+                                    var typeImage = "90x80_no.gif";
+                                    if (item.ResourceType == "swf")
+                                    {
+                                        typeImage = "d_video.gif";
+                                    }
+                                    else if (item.ResourceType == "pdf")
+                                    {
+                                        typeImage = "d_pdf.png";
+                                    }
+                                    <li>
+                                        <a href="@Url.Action("Detail","Article", new { aid = item.Id })" target="_parent" title="@item.Title">
+                                            <img src='@item.CoverUrl' alt="@item.Title" onerror="this.src='/web/images/@typeImage'" /> @item.Title
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <!--评论区-->
+                    @*<div id="Content_UpdatePanel1" style="display:none;">
+                        <div class="mt10 works-comment">
+                            <div class="works-comment-hd">
+                                <span class="red font-tahoma"> 0</span>条评论
+                            </div>
+                            <ul class="works-comment-list"></ul>
+                            <div class="work-comment-more clearfix">
+                                <textarea name="content" placeholder="请输入评论内容" class="J_Comment_Content P_shuru" onclick="alert('请先登录！');window.location.href='/login'"></textarea>
+                                <p class="P_pinglun pt20 pb20">
+                                    还可以输入
+                                    <span class="red1" id="name_word">200</span>字符
+                                    <input type="button" class="P_pinglun_bottom" onclick="alert('请先登录！');window.location.href='/login'" />
+                                </p>
+                                <p class="pinglun_wu"> 暂无评论，赶快抢占沙发吧。</p>
+                                <ul class="pinglun_ul clearfix"></ul>
+                            </div>
+                        </div>
+                    </div>*@
+                    <!--评论区-->
+                    <div class="mt10 works-comment">
+                        <div class="works-comment-hd">
+                            <span class="font-tahoma">
+                                关于本文
+                            </span>
+                        </div>
+                        <div style="line-height: 25px; padding: 10px 20px;">
+                            本文标题：@Model.ArticleDetail.Title
+                            <br /> 链接地址：
+                            <a href="@Url.Action("Detail","Article", new { aid = Model.ArticleDetail.Id })">@(ConfigManager.SysConfiguration.SiteDomain + Url.Action("Article", "Detail", new { aid = Model.ArticleDetail.Id }))</a>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="boxright" id="boxright">
+                    <div class="fr detail-aside" id="Div11" style="width:270px;">
+                        <div class="box hot-keywords mt10" style="width: 268px;" id="relatebox0">
+                            <div class="boxHd" style="padding-bottom: 0px;">
+                                <div class="fl nt-ico mr5 ml13 ico" style="margin-top: 3px;"></div>
+                                <h2 class="fl font-normal font16 font-yahei" style="font-size: 16px; font-weight: 100; margin-left: 0px; margin-top: 3px; font-family: 微软雅黑"> 当前资源信息</h2>
+                            </div>
+                            <div id="Div2" class="author-works-list bgF" style="overflow: hidden; padding:10px 10px; ">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <dt class="author-avatar-box fl">
+                                                <a class="author-avatar" title="@Model.ArticleDetail.Member" href="javascript:;">
+                                                    <img src="@(Model.ArticleDetail.Member=="admin"?"/web/images/noavatar_small.gif":Model.Member.HeadIcon)" onerror="this.src='/web/images/noavatar_small.gif'" alt="@Model.ArticleDetail.Member" />
+                                                </a>
+                                            </dt>
+                                        </td>
+                                        <td>
+                                            <div class="author-name fl w100 ellipsis">
+                                                <a>@Model.ArticleDetail.Member</a>
+                                            </div>
+                                            <div class="author-level-bar">
+                                                <span class="mr5 author-grade author-grade5" title="会员等级"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="fl" style="width: 240px;">
+                                    <p class="kh_cpZl"> 昵称： @Model.Member.NickName</p>
+                                    <p class="kh_cpZl"> 类型： 共享资源</p>
+                                    <p class="kh_cpZl"> 格式： @Model.ArticleDetail.ResourceType</p>
+                                    <p class="kh_cpZl"> 大小： @((Model.ArticleDetail.ResourceSize / 1024.00).ToString("0.00"))KB</p>
+                                    <p class="kh_cpZl"> 上传时间： @Model.ArticleDetail.CreatorTime.ToDateString()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box hot-keywords mt10" style="height: 380px; overflow: hidden;" id="relatebox">
+                            <div class="boxHd" style="padding-bottom: 0px;">
+                                <div class="fl keywords-ico mr5 ml13 ico"></div>
+                                <h2 class="fl font-normal font16 font-yahei" style="font-size: 16px; font-weight: 100; margin-left: 0px; margin-top: 3px; font-family: 微软雅黑"> 相关资源</h2>
+                            </div>
+                            <div id="author-works-list" class="author-works-list bgF" style="height: 314px; overflow: auto">
+                                @foreach (var item in Model.AboutArticles)
+                                {
+                                    <li>
+                                        <img alt="@item.Title" class="@item.ResourceType" src="/web/images/s.gif" />
+                                        <a target="_parent" href="@Url.Action("Detail","Article",new{aid=item.Id })" title="@item.Title">@item.Title</a>
+                                    </li>
+                                }
+                            </div>
+                        </div>
+                        @*<div class="box hot-keywords mt10" id="box3" style="overflow:hidden; width:268px;display:none;">
+                            <div class="boxHd" style="border: none;padding-bottom: 0px;">
+                                <div class="fl keywords-ico mr5 ml13 ico"></div>
+                                <h2 class="fl font-normal font16 font-yahei" style="font-size: 16px; font-weight: 100; margin-left: 0px; margin-top: 3px; font-family: 微软雅黑"> 相关搜索</h2>
+                            </div>
+                            <div class="hot-keywords-list">
+                                <a target="_blank" href="/search.html?p=0&q=%e9%85%b8%e5%8c%96" class="tag-item ico" title="酸化" hidefocus="true">
+                                    <span class="ico">
+                                        <em> 酸化</em>
+                                    </span>
+                                </a>
+                                <a target="_blank" href="/search.html?p=0&q=%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86" class="tag-item ico" title="基础知识" hidefocus="true">
+                                    <span class="ico">
+                                        <em> 基础知识</em>
+                                    </span>
+                                </a>
+                                <input name="ctl00$Content$hiddenCategoryID" type="hidden" id="Content_hiddenCategoryID" value="604" />
+                            </div>
+                        </div>*@
+                        <div class="ad268 mt10">
+                            <div style="height: 250px; margin: auto; overflow:hidden; text-align: center;display:none">
+                                <a target="_blank" href='/ADMiddle.aspx?t=tLXYhryTlEg='>
+                                    @*<img src="FileUpload/Images/fba700a3-1844-4069-bfe7-160ada8c9950.jpg" width='250' height='250' alt="广告招租-6" />*@
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end boxright-->
+                <!--end layout01-->
+            </div>
+        </div>
+        <!--end mainpart-->
+    </form>
+</div>
+@*<script type="text/javascript">var Content_tvMenus_ImageArray = new Array('', '', '', '/WebResource.axd?d=x6878-b5yJjGL0pCsoFYWY9LKovOQB109pnsnpXWYAOKQgF8f1i7p2lTAW9HV0NPVLg057-U6g5Q21Zgcg4MF7g7lmd-_3xxhzjF6Ny3_k4WXiej621n_L-G43WjfYPg0&t=634776841276709129', '/WebResource.axd?d=gIcXQdiBBxZFJWN3hCgh6Ixh9fIx0va0JQ6vmiJqNQz9e7Li7k92k1MgbDQC50QEXgyt8EmylcwiybwqMQot7HHEgMAcObqdpUo2kMLTDaMj6QmTiQdEOS9IMDuhrV340&t=634776841276709129', '/WebResource.axd?d=i6pjUyaZ37IY95WADAy0kpK8X7KlIsef93d8STl4XTQM5LUeZHYXGwtngwgIal9R_zPdP6kAQiOOHAbLa3c3STksdU0Z_XOzAWRQboyYRtlI45DZShdHZ3l08TjFK0PC0&t=634776841276709129');</script>
+<script type="text/javascript">
+    WebForm_InitCallback(); var Content_tvMenus_Data = new Object(); Content_tvMenus_Data.images = Content_tvMenus_ImageArray; Content_tvMenus_Data.collapseToolTip = "折叠 {0}"; Content_tvMenus_Data.expandToolTip = "展开 {0}"; Content_tvMenus_Data.expandState = theForm.elements['Content_tvMenus_ExpandState']; Content_tvMenus_Data.selectedNodeID = theForm.elements['Content_tvMenus_SelectedNode']; (function () {
+        for (var i = 0; i
+            < 6; i++) { var preLoad = new Image(); if (Content_tvMenus_ImageArray[i].length > 0) preLoad.src = Content_tvMenus_ImageArray[i]; }
+    })(); Content_tvMenus_Data.lastIndex = 0; Content_tvMenus_Data.populateLog = theForm.elements['Content_tvMenus_PopulateLog']; Content_tvMenus_Data.treeViewID = 'ctl00$Content$tvMenus'; Content_tvMenus_Data.name = 'Content_tvMenus_Data';
+</script>*@
+@*<div style="display: none" id="Div3">
+    <iframe src="/BookRead.aspx?id=60" frameborder="0" style="width: 0px; height: 0px"></iframe>
+</div>*@
+<script type="text/javascript" src="/web/js/artDialog-5.0.3/artDialog.min.js"></script>
+<script type="text/javascript" src="/web/js/view2.js"></script>
+<script type="text/javascript">$(document).ready(function () { $("#spanpage").text(leftfilecount); window.setTimeout(function () { try { if (BookMarkPage == 1) { $(this).scrollTop(120); } else { Viewer._GotoPage(BookMarkPage); } } catch (e) { } }, 200); if (defaultShowPage > 0) { $("#outer_page_more").show(); } else { $("#outer_page_more").hide(); } });</script>
+<div id="jubao" class="jubao" style="display: none;">
+    <div class="jubaoTitle"> 举报类型</div>
+    <ul>
+        <li style="text-align: center; height: 50px; margin-top: 10px;">
+            <input type="hidden" id="hidTypeID" />
+            <input type="button" onclick="saveJuBao()" value="提 交" />&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" onclick="$('#jubao').hide();" value="取 消" />
+        </li>
+    </ul>
+</div>
+<div id="jubaoResponse" class="jubao" style="display: none;">
+    <div class="jubaoTitle"> 提示</div>
+    <ul>
+        <li>
+            <h4 style="text-align: center; color: rgb(83, 136, 35);"></h4>
+        </li>
+        <li style="text-align: center; height: 50px; margin-top: 10px;">
+            <input type="button" onclick="$('#jubaoResponse').hide();" value="关 闭" />
+        </li>
+    </ul>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        Encoder.EncodeType = "entity"; var nodecode = '0001500006'; var adhtml = ""; var adarray = Encoder.htmlDecode(adhtml); initWidth(); var product_id = "@Model.ArticleDetail.Id"; var product_code = "@Model.ArticleDetail.Id"; var mtp = @Model.ArticleDetail.OnlinePageCount; var fCount = @Model.ArticleDetail.PageCount; var stp = 1; var lmt = @Model.ArticleDetail.PageCount; var ForceFreepage = parseInt('500'); if (lmt > ForceFreepage) lmt = ForceFreepage; var mhs = 595 * 501; var mhi = new Array("342774"); var mhls = new Array("0"); var mfvs = new Array("0"); var sw = 595; var sh = 501; var IsDealSwfSize = sw > 0; var minwidth = 920; var BookMarkPage = parseInt('1'); var adpagecount = parseInt("2"); var defaultShowPage = parseInt("3"); var defaultShowPage2 = defaultShowPage; var leftfilecount = fCount - defaultShowPage; if (leftfilecount
+            < 0) leftfilecount = 0; var scorename = "下载积分"; var LimitText = '0'; var LimitButtonText = '现在购买'; var DocScoreDownLoad = parseFloat('0'); var ReadLimitDays = "365"; var bookrelArray = ""; var url_root = "/"; var goumaiico = '/web/images/xiazai_1.gif'; var lmtext = '';
+        lmtext = '<div class="inner_page_more" id = "page_more" style = "width:930px; height:260px; line-height:30px;" > '
+                    + '<div id = "html-reader-go-more" class="banner-wrap more-btn-banner" style = "padding-top:40px; width:930px;" > '
+                        + '<p style = "text-align:center;font-size:18px;" > 亲，很抱歉，此页已超出免费预览范围啦！<br />如果喜欢就下载吧，价低环保！</p ><p style="text-align:center;font-size:14px;">'
+                        + '<b></b><span><b style="color:#ff0000">@(Model.ArticleDetail.RequireAmount)</b> 下载积分</span>' + '&nbsp;&nbsp;<span class="fcff">@(Model.ArticleDetail.DownloadCount)人已下载</span>'
+                        + '</p><p style="text-align:center; padding-top:30px;">'
+                        + '<a href="javascript:;" onclick="DownLoad()" class="ui-bz-btn-senior banner-download" style="padding:5px 35px; font-size:15px; text-decoration:none">'
+                        + '<b style="color:#fff">立即下载</b></a>'
+                        + '&nbsp;&nbsp;&nbsp;<a href="UserManage/Recharge.aspx?f=0" class="ui-bz-btn-senior2 banner-download" style="padding:5px 35px; font-size:15px; text-decoration:none">'
+                        + '<b style="color:#fff">加入VIP</b></a>'
+            + '</p></div ></div > ';
+        var curtotalpage = defaultShowPage;
+        function showmorepage() {
+                            var from = curtotalpage + 1; var leftcount = ((mtp - curtotalpage)
+                                < defaultShowPage ? mtp : (curtotalpage + defaultShowPage)); Viewer._pageCount = leftcount; for (var i = from; i <= leftcount; i++) { Viewer._Addpage(i); curtotalpage += 1; } leftfilecount = mtp - (curtotalpage); Viewer.InitAD_left(); Viewer._dfsp = curtotalpage; if (leftfilecount <= 0) { $("#ftip").text("最后一页预览完了！喜欢就下载吧，查找使用更方便"); $("#ntip2").hide(); $("#ntip").hide(); } var st = ($(this).scrollTop()); $(this).scrollTop(st + 1); $("#spanpage").text(fCount - curtotalpage);
+        }
+        function showmoretopage(to) {
+            var from = curtotalpage + 1; var leftcount = ((mtp - curtotalpage)
+                < defaultShowPage ? mtp : (curtotalpage + defaultShowPage)); if (to > leftcount) leftcount = to; Viewer._pageCount = leftcount; for (var i = from; i <= leftcount; i++) { Viewer._Addpage(i); curtotalpage += 1; } leftfilecount = mtp - (curtotalpage); Viewer.InitAD_left(); Viewer._dfsp = curtotalpage; if (leftfilecount <= 0) { $("#ftip").text("最后一页预览完了！喜欢就下载吧，查找使用更方便"); $("#ntip2").hide(); $("#ntip").hide(); } var st = ($(this).scrollTop()) - 2; $(this).scrollTop(st + 1); setTimeout("adss()", 100); $("#spanpage").text(fCount - curtotalpage);
+        }
+        function adss() {
+            var st = ($(this).scrollTop()) - 2; $(this).scrollTop(st);
+        }
+    </script>
+    <script type="text/javascript">
+        var operateType = 1; var uid = "0"; var DocID = "@Model.ArticleDetail.Id"; var zw = 595; var zh = 501; var zrate = (zw == 0 || zh == 0) ? 1 : (zh / zw); var isplay = 0; var width = "830"; var height = getClientHeight(); if (height < 560) height = 560; height = ('False' == 'True' ? 570 : height); var scorename = "下载积分"; var params = {};
+    </script>
+    <script>$(function () { $("#jubao input[type='radio']").click(function () { $("#hidTypeID").val($(this).val()); }); }); function jubao() { var userid = '0'; if (userid != "" && userid != undefined && userid != "0") { $("#jubao").show(); } else { alert("请登录!"); window.location.href = '/login'; } } function saveJuBao() { var bookid = '60'; var type = $("#hidTypeID").val(); if (type != "" && type != undefined && bookid != "" && bookid != undefined) { $.ajax({ type: "post", url: "View.aspx/JuBao", data: "{bookid: '" + bookid + "', type: '" + type + "' }", contentType: "application/json; charset=utf-8", dataType: "json", success: function (data) { $("#jubao").hide(); $("#jubaoResponse").show(); if (data.d != "0") { $("#jubaoResponse h4").html("您的举报提交成功"); } else { $("#jubaoResponse h4").html("您的举报提交失败"); } } }); } else { alert("请选择投诉类型或者数据错误请刷新重试!"); } } $(function () { $(document).bind("contextmenu", function (e) { return false; }); });</script>
+    <script type="text/javascript">var fileType = "-1"; initFileType();</script>
+}

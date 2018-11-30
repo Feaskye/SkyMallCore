@@ -1,0 +1,258 @@
+﻿@{
+    ViewBag.Title = "文库列表";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/js/select2/select2.min.css" rel="stylesheet" />
+<script src="~/js/select2/select2.min.js"></script>
+<style type="text/css">
+    .ui-jqgrid tr.jqgrow td {
+        /* jqGrid cell content wrap  */
+        white-space: normal !important;
+        height: auto;
+    }
+</style>
+<script>
+    var requestUrl = "/SystemManage/Article/GetGridJson";
+    var memberId = $.request("MemberId");
+    if (memberId.length > 0) {
+        $("#memberId").val(memberId);
+        requestUrl = requestUrl + "?memberId=" + memberId;
+    }
+
+    $(function () {
+        gridList(requestUrl,
+            $(window).height() - 220, false, [
+                { label: "主键", name: "Id", hidden: true, key: true },
+                { label: '文库名称', name: 'Title', width: 150, align: 'left' },
+                {
+                    label: '文库副标题', name: 'ShortTitle', width: 100, align: 'left', formatter: function (cellvalue) {
+                        return (cellvalue ? (cellvalue.substr(0, 20) + "...") : "");
+                    }
+                },
+                {
+                    label: '封面图', name: 'CoverUrl', width: 100, align: 'left', formatter: function (cellvalue) {
+                        return (cellvalue) ? "<img src='" + cellvalue + "' style='width:50px;height:50px;' />" : "";
+                    }
+                },
+                { label: '阅读量', name: 'ReadCount', width: 50, align: 'left' },
+                { label: '在线查看页数', name: 'OnlinePageCount', width: 100, align: 'left' },
+                { label: '总页数', name: 'PageCount', width: 50, align: 'left' },
+                //{ label: '阅读量', name: 'ReadCount', width: 100, align: 'left' },
+                { label: '作者', name: 'Member', width: 100, align: 'left' },
+                
+                //{
+                //    label: '描述', name: 'Description', width: 100, align: 'left'
+                //},
+                {
+                    label: '分类', name: 'Category', width: 100, align: 'left'
+                },
+                {
+                    label: '创建时间', name: 'CreatorTime', width: 80, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                },
+                {
+                    label: '状态', name: 'BookStatus', width: 80, align: 'left',
+                    formatter: function (cellvalue) {
+
+                        if (cellvalue === 0) {
+                            return "待审核";
+                        }
+                        if (cellvalue == 1) {
+                            return "审核通过";
+                        }
+                        if (cellvalue == -1) {
+                            return "审核失败";
+                        }
+                        if (cellvalue == -2) {
+                            return "重复资源";
+                        }
+                        if (cellvalue == -3){
+                            return "已下架";
+                        }
+                    }
+                },
+                {
+                    label: "有效", name: "EnabledMark", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+               
+            ]);
+
+
+    });
+
+    function initControl(cateobjId, currentId, parentId) {
+        $("#" + cateobjId).html("<option value=''>--请选择--</option>");
+        if (parentId === undefined) {
+            parentId = "";
+        }
+        $("#" + cateobjId).bindSelect({
+            url: "/SysComponent/Controll/GetArticleCates?parentId=" + parentId,
+            id: "Code",
+            text: "Text",
+            selected: currentId,
+            callback: function () { 
+                if (cateobjId !== "CategoryId") {
+                    $("#" + cateobjId).change(function () {
+                        var parentId = $(this).val();
+                        initControl("CategoryId", $("#CategoryId").val(), parentId);
+                    });
+                }
+            }
+        });
+    }
+
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增文库",
+            url: "/SystemManage/Article/Form",
+            width: "650px",
+            height: "570px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+            , btn: null
+        });
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Form",
+            title: "查看文库",
+            url: "/SystemManage/Article/Form?keyValue=" + keyValue,
+            width: "650px",
+            height: "570px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+            , btn: null
+        });
+    }
+
+    function btn_audit() {
+        var detai = $("#gridList").jqGridRowValue();
+        console.log(detai);
+        if (detai.BookStatus === "审核通过") {
+            $.modalAlert("该文库已审核通过，不能再审核");
+            return;
+        }
+
+        var keyValue = detai.Id;
+        $.modalOpen({
+            id: "Form",
+            title: "修改文库",
+            url: "/SystemManage/Article/Form?audit=1&keyValue=" + keyValue,
+            width: "650px",
+            height: "570px",
+            btn: ['审核', '关闭'],
+            callBack: function (iframeId) {
+                top.frames[iframeId].auditForm();
+            }
+        });
+    }
+
+    function btn_delete() {
+        $.deleteForm({
+            url: "/SystemManage/Article/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().Id },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        $.modalOpen({
+            id: "Details",
+            title: "查看文库",
+            url: "/SystemManage/Article/Details?keyValue=" + keyValue,
+            width: "650px",
+            height: "620px",
+            btn: null,
+        });
+    }
+</script>
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            @*<a id="add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建文库</a>*@
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li><a id="audit" authorize="yes" onclick="btn_audit()"><i class="fa fa-pencil-square-o"></i>审核文库</a></li>
+                <li><a id="edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>查看文库</a></li>
+                <li><a id="delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除文库</a></li>
+                @*<li><a id="details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看文库</a></li>*@
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+        <script>$('.toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <form id="searchform">
+                        <div class="input-group">
+                            <input type="hidden" value="@ViewData["MemberId"] " id="memberId" name="memberId" />
+                            @if ((ViewData["Member"] as string) != null)
+                            {
+                                <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                    &nbsp;&nbsp;用户：@Html.Raw(ViewData["Member"])
+                                </div>
+                            }
+                            &nbsp;&nbsp;
+                            父级分类
+                            <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                <select id="ParentIdCategoryId" name="ParentIdCategoryId" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                            &nbsp;&nbsp;
+                            二级分类
+                            <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                <select id="CategoryId" name="CategoryId" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                            &nbsp;&nbsp;
+                            状态
+                            <div class="input-small" style="width: 100px;float:none;display:inline-block;">
+                                <select id="BookStatus" name="BookStatus" class="input-small inline form-control" style="width: 100px;float:none;display:inline-block;">
+                                    <option value="">--请选择--</option>
+                                    <option value="0">待审核</option>
+                                    <option value="1">审核通过</option>
+                                    <option value="-2">重复资源</option>
+                                    <option value="-3">已下架</option>
+                                </select>
+                            </div>
+                            <input id="keyword" name="keyword" type="text" class="form-control" placeholder="文库名称" style="width: 200px;">
+                            <span class="input-group-btn">
+                                <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
+@section Scripts{ 
+    <script type="text/javascript">
+        initControl("ParentIdCategoryId", $("#ParentCategoryId").val());
+    </script>
+
+
+}

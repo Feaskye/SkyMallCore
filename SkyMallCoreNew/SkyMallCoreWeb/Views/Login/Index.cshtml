@@ -1,0 +1,182 @@
+﻿@{
+    ViewBag.Title = "登录";
+}
+
+<!--登录部分开始-->
+<div class="regmain">
+    <div class="main_con">
+        <div class="main_con_l" style="padding-top: 10px; padding-left: 50px;  text-align: left;">
+            <form action="/Login/CheckLogin" id="submitForm">
+                <table border="0" cellspacing="0" cellpadding="0" style="line-height:30px;">
+                    <tbody>
+                        <tr>
+                            <th height="40" align="right" style="width:120px">
+                                账号：
+                            </th>
+                            <td height="40">
+                                <span class="bd_2">
+                                    <input name="UserName" type="text" id="UserName" class="main_text em_foc" placeholder="输入用户名" />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th height="40" align="right">
+                                密码：
+                            </th>
+                            <td height="40">
+                                <span class="bd_2">
+                                    <input name="password" type="password" id="password" class="main_text" />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr id="trverifier">
+                            <th height="40" align="right">
+                                验证码：
+                            </th>
+                            <td height="40" style="line-height: 30px;">
+                                <span class="bd_2">
+                                    <input name="code" type="text" id="code" class="main_text" maxlength="4" name="loginpwd" style="width: 60px;" />&nbsp;
+                                    <img src="/SysComponent/Controll/GetAuthCode" align="middle" id="imgcode" style="cursor:pointer; height: 28px; width: 80px; " />
+                                    <a id="switchCode" style="text-decoration:underline;">看不清？换一个</a>
+                                </span>&nbsp;&nbsp;<span id="Content_RequiredFieldValidator5" style="color:#FF1100;display:none;">请输入验证字符!</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th height="30" align="right">
+                                &nbsp;
+                            </th>
+                            <td height="30">
+                                <label>
+                                    <input id="remday" type="checkbox" name="remday" /><label for="Content_autologin">当日自动登录</label>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="50">
+                                &nbsp;
+                            </td>
+                            <td height="50">
+                                <input type="button" name="btnLogin" value="" id="btnLogin" class="sub" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a style=" line-height: 28px;" id="wj_pas" href="/forgetpass">忘记密码?</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+
+
+        <div class="main_con_r reg" style="padding-right: 0px; padding-left: 100px; padding-top: 10px;">
+            <div class="side">
+                <div class="other">
+
+                    <div class="login">
+                        还不是@(ConfigManager.SysConfiguration.SiteName)用户？ <a id="A1" style="display: inline" class="blue bold" href="/reg">
+                            立即注册
+                        </a>
+                    </div>
+                    
+                </div>
+                @*<script>
+
+                    function toQzoneLogin() {
+                        var A = window.open("oauth/QQlogin.aspx", "TencentLogin");
+                    }
+                    function toWeiboLogin() {
+                        var A = window.open("oauth/sinalogin.aspx", "Weibologin");
+                    }
+                </script>*@
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="pop_flag">
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () { 
+          
+            $("#btnLogin").click(function () {
+                var isValid = checkLogin("UserName","password");
+                if (isValid) {
+                    var remday = $("#remday").prop("checked");
+                    var data = { ReturnUrl:'@(Context.Request.Query["ReturnUrl"])',userName: $("#UserName").val(), password: $("#password").val(), code: $("#code").val(), remday: remday};
+                    $.post("/Login/CheckLogin", data, function (result) {
+                        if (result.state === 1) {
+                            alert("登陆成功");
+                            location.href = result.data;
+                        }
+                        else { 
+                            alert(result.message);
+                            $("#switchCode").trigger("click");
+                        }
+                    },"json");
+                }
+            });
+
+            $("#submitForm").keydown(function (e) {
+                if (e.keyCode === 13) {
+                    $("#btnLogin").trigger("click"); //处理事件
+                    return false;
+                }
+            });
+
+
+
+        });
+
+
+      
+
+        // 登陆时的客户端校验
+        function checkLogin(uid, pid) {
+            // 用户名 空校验
+            var oUser = document.getElementById(uid);
+            if (oUser) {
+                if (oUser.value === "") {
+                    alert("请输入用户名！");
+                    oUser.focus();
+                    return false;
+                }
+            }
+
+            // 密码 空校验 长度校验
+            var oPwd = document.getElementById(pid);
+            if (oPwd) {
+                if (oPwd.value === "") {
+                    alert("请输入密码！");
+                    oPwd.focus();
+                    return false;
+                }
+            }
+            
+            var code = document.getElementById("code");
+            if (code) {
+                if (code.value === "") {
+                    alert("请输入验证码！");
+                    code.focus();
+                    return false;
+                }
+                if (code.value.length < 4) { 
+                    alert("验证码长度不足4位！");
+                    code.focus();
+                    return false;
+                }
+            }
+
+            
+
+
+            return true;
+        }
+
+
+        
+    </script>
+
+}

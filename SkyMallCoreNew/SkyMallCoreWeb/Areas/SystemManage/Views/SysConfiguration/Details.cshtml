@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Areas/SystemManage/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        $("#Type").bindSelect()
+        $.ajax({
+            url: "/SystemManage/SysConfiguration/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+                $("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                $("#form1").find('div.ckbox label').attr('for', '');
+            }
+        });
+    });
+
+</script>
+
+<form id="form1">
+    <div style="margin-bottom: 0px; border-radius: 0px;" class="alert alert-warning alert-dismissable">
+        <strong>注意：</strong>&nbsp;配置内容请认真填写
+    </div>
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">配置名称</th>
+                <td class="formValue">
+                    <input id="ConfigName" name="ConfigName" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">配置编码</th>
+                <td class="formValue">
+                    <input id="ConfigCode" name="ConfigCode" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">配置值</th>
+                <td class="formValue">
+                    <input id="ConfigValue" name="ConfigValue" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" style="height: 35px;">选项</th>
+                <td class="formValue" style="padding-top: 1px;">
+                    <div class="ckbox">
+                        <input id="EnabledMark" name="EnabledMark" type="checkbox" checked="checked"><label for="EnabledMark">有效</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" valign="top" style="padding-top: 11px;">
+                    备注
+                </th>
+                <td class="formValue">
+                    <textarea id="Description" name="Description" class="form-control" style="height: 60px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">创建人员</th>
+                <td class="formValue">
+                    <input id="CreatorUserId" name="CreatorUserId" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+
+                <th class="formTitle">创建时间</th>
+                <td class="formValue">
+                    <input id="CreatorTime" name="CreatorTime" type="text" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">修改人员</th>
+                <td class="formValue">
+                    <input id="LastModifyUserId" name="LastModifyUserId" type="text" class="form-control" />
+                </td>
+
+            </tr>
+            <tr>
+                <th class="formTitle">修改时间</th>
+                <td class="formValue">
+                    <input id="LastModifyTime" name="LastModifyTime" type="text" class="form-control" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
