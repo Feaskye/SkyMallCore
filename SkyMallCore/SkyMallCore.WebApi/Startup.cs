@@ -154,7 +154,7 @@ namespace SkyMallCore.WebApi
             //app.UseMiddleware<SkyApiProviderMiddleWare>();
 
             //api authorized middleware
-            app.UseApiAuthorized();
+            //app.UseApiAuthorized();
 
             app.UseExceptionHandler(errorApp =>
             {
