@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.Services;
 using System;
 using System.Collections.Generic;

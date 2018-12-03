@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 
 namespace SkyMallCore.Respository
 {

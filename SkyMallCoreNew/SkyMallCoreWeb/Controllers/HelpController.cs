@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SkyMallCore.Services;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using SimpleMvcSitemap;

@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 
 namespace UnitTestProject1
 {

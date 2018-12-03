@@ -11,9 +11,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
     <ProjectReference Include="..\SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SkyCoreLib.Utils">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyCoreLib.Utils.Extension">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Utils.Extension.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

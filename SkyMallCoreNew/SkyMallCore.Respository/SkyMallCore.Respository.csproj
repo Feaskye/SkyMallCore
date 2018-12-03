@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkyCore.GlobalProvider\SkyCore.GlobalProvider.csproj" />
-    <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Data\SkyMallCore.Data.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
     <ProjectReference Include="..\SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj" />
@@ -23,6 +22,12 @@
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.dependencyinjection.abstractions\2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyCoreLib.Utils">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyCoreLib.Utils.Extension">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Utils.Extension.dll</HintPath>
     </Reference>
   </ItemGroup>
 

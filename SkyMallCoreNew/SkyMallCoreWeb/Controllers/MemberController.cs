@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkyCore.GlobalProvider;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.Models;
 using SkyMallCore.Services;
 using SkyMallCore.ViewModel;

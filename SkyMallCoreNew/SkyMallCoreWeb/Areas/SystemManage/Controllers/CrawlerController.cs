@@ -7,7 +7,7 @@ using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using SkyMallCore.Models;
 using SkyMallCore.Services;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCoreWeb.AppCode;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;

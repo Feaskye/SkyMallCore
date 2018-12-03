@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SkyCore.GlobalProvider;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.ViewModel;
 
 namespace SkyMallCoreWeb.Areas.SystemManage.Controllers

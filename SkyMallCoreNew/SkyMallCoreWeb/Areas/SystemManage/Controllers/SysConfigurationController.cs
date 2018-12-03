@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SkyMallCore.ViewModel;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.Services;
 using SkyMallCore.Models;
 using SkyCore.GlobalProvider;

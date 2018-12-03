@@ -70,6 +70,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.8.7" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
     <PackageReference Include="SimpleMvcSitemap" Version="3.1.0" />
+    <PackageReference Include="zkweb.system.drawing" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,8 +79,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkyCore.GlobalProvider\SkyCore.GlobalProvider.csproj" />
-    <ProjectReference Include="..\SkyCore.Logging\SkyCore.Logging.csproj" />
-    <ProjectReference Include="..\SkyMallCore.Core\SkyMallCore.Core.csproj" />
     <ProjectReference Include="..\SkyMallCore.Models\SkyMallCore.Models.csproj" />
     <ProjectReference Include="..\SkyMallCore.Services\SkyMallCore.Services.csproj" />
   </ItemGroup>
@@ -367,6 +366,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="SkyCoreLib.Logging">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyCoreLib.Utils">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="SkyCoreLib.Utils.Extension">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Utils.Extension.dll</HintPath>
+    </Reference>
     <Reference Include="UEditorNetCore">
       <HintPath>..\packages\ueditorcore\UEditorNetCore.dll</HintPath>
     </Reference>

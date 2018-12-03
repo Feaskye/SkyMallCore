@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

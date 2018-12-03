@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using SkyCore.GlobalProvider;
 using SkyMallCore.Services;
 using SkyMallCore.ViewModel;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using SkyMallCore.Models;

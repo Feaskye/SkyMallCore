@@ -1,7 +1,7 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.Models;
 using SkyMallCore.Services;
 using System.Collections.Generic;

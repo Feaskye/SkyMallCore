@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using SkyCore.GlobalProvider;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.Models;
 using SkyMallCore.Services;
 using SkyMallCore.ViewModel;

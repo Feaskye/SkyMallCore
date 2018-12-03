@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SkyCore.GlobalProvider;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.Data;
 using SkyMallCore.Services;
 using SkyMallCore.ViewModel;
@@ -25,7 +25,6 @@ namespace SkyMallCoreWeb
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                //.AddJsonFile("configsettings.json", optional: true, reloadOnChange: true)   //站点配置
                 .AddJsonFile("appsettings.json",optional:true,reloadOnChange:true)
                 .AddEnvironmentVariables();
 

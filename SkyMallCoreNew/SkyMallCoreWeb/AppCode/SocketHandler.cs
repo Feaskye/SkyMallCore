@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using Microsoft.Extensions.Logging;
 using SkyCore.GlobalProvider;
 

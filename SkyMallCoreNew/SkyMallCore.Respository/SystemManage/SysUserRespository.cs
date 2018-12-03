@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SkyMallCore.Core;
+using SkyCoreLib.Utils;
 using SkyMallCore.Data;
 using SkyMallCore.Models;
 using System;

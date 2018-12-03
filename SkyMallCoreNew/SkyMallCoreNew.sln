@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCoreWeb", "SkyMallCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Data", "SkyMallCore.Data\SkyMallCore.Data.csproj", "{DD1C6FBF-C372-43D2-90A8-63D1335C48AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Core", "SkyMallCore.Core\SkyMallCore.Core.csproj", "{100D1ED0-0411-4892-B549-A734884495FD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Respository", "SkyMallCore.Respository\SkyMallCore.Respository.csproj", "{26E83422-61AC-497C-9304-7E19ADAB55E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Models", "SkyMallCore.Models\SkyMallCore.Models.csproj", "{7513E9CB-1C18-4AF2-BF7F-2C60731C05C5}"
@@ -16,8 +14,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.Services", "SkyMallCore.Services\SkyMallCore.Services.csproj", "{593556FC-4038-4579-B6D5-DDF777FF0CB1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyMallCore.ViewModel", "SkyMallCore.ViewModel\SkyMallCore.ViewModel.csproj", "{C20E9EDB-2A07-4173-B5AB-924EF0644996}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyCore.Logging", "SkyCore.Logging\SkyCore.Logging.csproj", "{83C93DA1-F761-4F8A-B8F8-3FCD847D291F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyCore.GlobalProvider", "SkyCore.GlobalProvider\SkyCore.GlobalProvider.csproj", "{A9DF79C0-D5AA-471B-9CA8-B3F034870D03}"
 EndProject
@@ -41,10 +37,6 @@ Global
 		{DD1C6FBF-C372-43D2-90A8-63D1335C48AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD1C6FBF-C372-43D2-90A8-63D1335C48AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD1C6FBF-C372-43D2-90A8-63D1335C48AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{100D1ED0-0411-4892-B549-A734884495FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{100D1ED0-0411-4892-B549-A734884495FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{100D1ED0-0411-4892-B549-A734884495FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{100D1ED0-0411-4892-B549-A734884495FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26E83422-61AC-497C-9304-7E19ADAB55E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26E83422-61AC-497C-9304-7E19ADAB55E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26E83422-61AC-497C-9304-7E19ADAB55E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,10 +53,6 @@ Global
 		{C20E9EDB-2A07-4173-B5AB-924EF0644996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C20E9EDB-2A07-4173-B5AB-924EF0644996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C20E9EDB-2A07-4173-B5AB-924EF0644996}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83C93DA1-F761-4F8A-B8F8-3FCD847D291F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83C93DA1-F761-4F8A-B8F8-3FCD847D291F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83C93DA1-F761-4F8A-B8F8-3FCD847D291F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83C93DA1-F761-4F8A-B8F8-3FCD847D291F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9DF79C0-D5AA-471B-9CA8-B3F034870D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9DF79C0-D5AA-471B-9CA8-B3F034870D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9DF79C0-D5AA-471B-9CA8-B3F034870D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
