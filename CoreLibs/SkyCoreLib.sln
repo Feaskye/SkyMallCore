@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyCoreLib.Logging", "SkyCore.Logging\SkyCoreLib.Logging.csproj", "{8111955C-E884-46C3-A3B4-347DF7793714}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkyCoreLib.Utils", "SkyCoreLib.Utils\SkyCoreLib.Utils.csproj", "{C75F09D5-DA64-4005-84D7-2F8616394385}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8111955C-E884-46C3-A3B4-347DF7793714}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8111955C-E884-46C3-A3B4-347DF7793714}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8111955C-E884-46C3-A3B4-347DF7793714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75F09D5-DA64-4005-84D7-2F8616394385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75F09D5-DA64-4005-84D7-2F8616394385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75F09D5-DA64-4005-84D7-2F8616394385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75F09D5-DA64-4005-84D7-2F8616394385}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
