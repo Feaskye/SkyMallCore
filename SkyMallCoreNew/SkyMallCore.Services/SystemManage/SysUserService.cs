@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SkyMallCore.Core;
+using SkyMallCore.Data;
 using SkyMallCore.Models;
 using SkyMallCore.Respository;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SkyMallCore.Services
@@ -114,8 +113,18 @@ namespace SkyMallCore.Services
         /// <param name="services"></param>
         public static void AddBusinessService(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddDataRespository(configuration);
+            //基类
+            services.AddScoped<ISkyMallDbContext, SkyMallDBContext>();
+            services.AddScoped(typeof(IRespositoryBase<>), typeof(RespositoryBase<>));
 
+            //Respository
+            var scopedRespositorys = Reflector.GetScopedList(typeof(AuditedRespository<>).Assembly)
+                .Where(w => w.Interface.Name.EndsWith("Respository")).ToList();
+            scopedRespositorys.ForEach(item =>
+            {
+                services.AddScoped(item.Interface, item.Class);
+            });
+            //Services
             var scopedServices = Reflector.GetScopedList(typeof(ServiceFactory).Assembly).
                 Where(w => w.Interface.Name.EndsWith("Service")).ToList();
             scopedServices.ForEach(item =>

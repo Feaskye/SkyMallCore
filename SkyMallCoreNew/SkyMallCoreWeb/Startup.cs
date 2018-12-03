@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SkyCore.GlobalProvider;
 using SkyMallCore.Core;
+using SkyMallCore.Data;
 using SkyMallCore.Services;
 using SkyMallCore.ViewModel;
 using SkyMallCoreWeb.AppCode;
@@ -49,8 +51,15 @@ namespace SkyMallCoreWeb
                 logging.AddDebug();
             });
 
+
+            services.AddDbContext<SkyMallDBContext>(options => options
+           //options.UseLazyLoadingProxies()//在您访问导航属性时，会从数据源自动加载相关实体。   
+           //                               //大型项目考虑弃用UseLazyLoadingProxies，只使用Include按需加载即可
+           .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //注册业务服务
             services.AddBusinessService(Configuration);
+
+            
             //用户认证注册
             services.UserAuthenConfig();
 
