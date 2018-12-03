@@ -1,5 +1,5 @@
 ﻿
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public class TreeViewModel
     {

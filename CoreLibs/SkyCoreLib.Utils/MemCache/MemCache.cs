@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public class MemCache : IMemCache
     {
