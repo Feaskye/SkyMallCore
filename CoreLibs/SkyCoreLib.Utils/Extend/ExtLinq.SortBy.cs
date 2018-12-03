@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public static partial class ExtLinq
     {

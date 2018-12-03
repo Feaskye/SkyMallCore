@@ -6,7 +6,7 @@ using System.DrawingCore.Imaging;
 using System.IO;
 using System.Text;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public class VerifyCode
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     /// <summary>
     /// DES加密、解密帮助类

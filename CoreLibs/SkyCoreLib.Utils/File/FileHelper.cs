@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 using System.Web;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public class FileHelper
     {

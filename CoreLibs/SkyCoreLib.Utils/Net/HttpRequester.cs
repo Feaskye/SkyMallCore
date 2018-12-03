@@ -9,7 +9,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public class HttpRequester
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public class ExtList<T> : IEqualityComparer<T> where T : class, new()
     {

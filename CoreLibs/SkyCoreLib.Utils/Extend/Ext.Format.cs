@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public static partial class Ext
     {

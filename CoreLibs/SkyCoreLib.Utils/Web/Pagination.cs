@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     /// <summary>
     /// 分页信息

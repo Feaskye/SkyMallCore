@@ -1,7 +1,7 @@
 ﻿
 using System.Data;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public static class ExtTable
     {

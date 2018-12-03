@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public static class TreeQuery
     {

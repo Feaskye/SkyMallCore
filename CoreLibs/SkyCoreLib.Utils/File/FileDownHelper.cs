@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public static class FileDownHelper
     {

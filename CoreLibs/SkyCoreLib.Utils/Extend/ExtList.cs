@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
     public static class ExtList
     {

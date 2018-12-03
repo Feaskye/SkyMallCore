@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace SkyMallCore.Core
+namespace SkyCoreLib.Utils
 {
      public static class XmlSerialize
     {
