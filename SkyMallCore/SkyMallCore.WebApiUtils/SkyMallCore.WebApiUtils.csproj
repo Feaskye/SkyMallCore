@@ -6,7 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0" />
-    <PackageReference Include="newtonsoft.json" Version="11.0.2" />
+    <PackageReference Include="newtonsoft.json" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SkyCoreLib.Utils.Extension">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Utils.Extension.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

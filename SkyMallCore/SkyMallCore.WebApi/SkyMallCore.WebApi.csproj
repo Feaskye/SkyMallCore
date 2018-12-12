@@ -37,4 +37,10 @@
     <ProjectReference Include="..\SkyMallCore.WebApiUtils\SkyMallCore.WebApiUtils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="SkyCoreLib.Utils.Extension">
+      <HintPath>..\packages\skycorelibs\SkyCoreLib.Utils.Extension.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
