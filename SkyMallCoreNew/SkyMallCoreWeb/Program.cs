@@ -21,6 +21,7 @@ namespace SkyMallCoreWeb
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureLogging(builder=>builder.AddFile())
+                .UseUrls("http://*:55863")
                 .UseStartup<Startup>()
                 .Build();
     }
