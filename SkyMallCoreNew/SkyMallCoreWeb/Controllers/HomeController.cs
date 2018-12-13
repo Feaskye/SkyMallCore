@@ -34,8 +34,6 @@ namespace SkyMallCoreWeb.Controllers
             [FromServices]IHelpService helpService,[FromServices]INewsService newsService
             ,[FromServices]ILinkService linkService, [FromServices]IArticleCategoryService articleCategoryService)
         {
-           
-
             ViewBag.TodayArticles = _ArticleService.GetTopArticles(ArticleTopEnum.HotArticle, 10);
             ViewBag.NewArticles = _ArticleService.GetTopArticles(ArticleTopEnum.NewArticle, 10);
 

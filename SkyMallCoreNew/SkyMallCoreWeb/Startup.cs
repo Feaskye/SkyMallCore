@@ -75,10 +75,12 @@ namespace SkyMallCoreWeb
             services.AddHostedService<SysConfigService>();
 
             services.AddCoreProvider();
+
+            IOCContainer.Register(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifetime)
         {
             app.UseCoreContextProvider(); 
 
@@ -136,6 +138,11 @@ namespace SkyMallCoreWeb
                     );
 
             });
+
+
+            //程序停止调用函数
+            appLifetime.ApplicationStopped.Register(() => { IOCContainer.Dispose(); });
+
         }
 
         

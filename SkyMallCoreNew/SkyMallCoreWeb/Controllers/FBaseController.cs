@@ -114,13 +114,13 @@ namespace SkyMallCoreWeb.Controllers
                     switch (readType)
                     {
                         case ReadType.News:
-                            CoreContextProvider.GetService<INewsService>().ClientRead(id);
+                            CoreContextProvider.GetService<INewsService>(true).ClientRead(id);
                             break;
                         case ReadType.Topic:
-                            CoreContextProvider.GetService<IArticleTopicService>().ClientRead(id);
+                            CoreContextProvider.GetService<IArticleTopicService>(true).ClientRead(id);
                             break;
                         case ReadType.Article:
-                            CoreContextProvider.GetService<IArticleService>().ClientRead(id);
+                            CoreContextProvider.GetService<IArticleService>(true).ClientRead(id);
                             break;
                     }
                 });

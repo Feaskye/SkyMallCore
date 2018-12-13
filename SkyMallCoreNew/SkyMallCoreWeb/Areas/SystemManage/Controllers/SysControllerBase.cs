@@ -46,7 +46,7 @@ namespace SkyMallCoreWeb.Areas
             Task.Factory.StartNew(()=> {
                 try
                 {
-                    var logService = CoreContextProvider.GetService<SkyMallCore.Respository.ISysLogRespository>();
+                    var logService = CoreContextProvider.GetService<SkyMallCore.Respository.ISysLogRespository>(true);
                     logService.OperatLog(sysLog);
                 }
                 catch

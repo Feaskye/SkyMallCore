@@ -82,7 +82,7 @@ namespace SkyMallCore.Respository
             System.Threading.Tasks.Task.Factory.StartNew(() => {
                 try
                 {
-                    var logService = CoreContextProvider.GetService<ISysLogRespository>();
+                    var logService = CoreContextProvider.GetService<ISysLogRespository>(true);
                     logService.OperatLog(sysLog);
                 }
                 catch (Exception ex)

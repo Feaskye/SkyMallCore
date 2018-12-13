@@ -163,13 +163,17 @@ namespace SkyCore.GlobalProvider
             return GetService<ILogger>();
         }
         
-        public static T GetService<T>()
+        /// <summary>
+        /// 获取服务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="isNewThread">是否是新线程</param>
+        /// <returns></returns>
+        public static T GetService<T>(bool isNewThread = false)
         {
-            //放入字典集合，一次请求同一Service重复利用
-            var typeName = typeof(T).Name;
-            return (T)_serviceDictionary.GetOrAdd(typeName, w => ServiceProvider.GetService<T>());
-            //可考虑
-            //return (T)HttpContext.RequestServices.GetService(typeof(T));
+            if(isNewThread)
+                return ServiceProvider.GetService<T>();
+            return IOCContainer.Create<T>();
         }
 
 
