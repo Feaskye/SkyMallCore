@@ -13,7 +13,7 @@ dotNet Core Demo, Create a Cross Platform WebApp System!</br>
 3：旨在促进.Net Core跨平台学习交流，提高开发效率4：.Net Core Mvc + EFCore 等技术，该项目仍会继续完善！</br>
 
 部署文档：
-<a href="http://note.youdao.com/noteshare?id=c93cc0f2767ec231dccd3c50bca8a1d8&sub=D59C40A0B9234C0D9EC11AC117B75785">Linux部署Dockerfile dotnetcore项目</a>
+<a href="http://note.youdao.com/noteshare?id=c93cc0f2767ec231dccd3c50bca8a1d8&sub=D59C40A0B9234C0D9EC11AC117B75785">Linux部署Dockerfile dotnetcore项目</a> | 
 <a href="http://note.youdao.com/noteshare?id=9c79f868418abe9ce62a82b9155a7636&sub=F11DB9DC1AF1458AA6CBF302F15DB919">Docker命令</a>
 
 
